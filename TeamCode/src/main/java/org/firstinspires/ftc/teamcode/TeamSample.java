@@ -8,6 +8,7 @@ public class TeamSample extends OpMode{
     @Override
     public void init() {
         telemetry.addData("Start-up", ": Hello!");
+        telemetry.addData("This is a test", "Initiation");
     }
 
     @Override
