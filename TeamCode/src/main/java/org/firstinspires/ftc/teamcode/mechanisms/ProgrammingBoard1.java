@@ -47,7 +47,9 @@ public class ProgrammingBoard1 {
             motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         }
     }
-
+    public int returnSquare(int in){
+        return (in * in);
+    }
     public void setServoPos(double pos){
         servo.setPosition(pos);
     }
