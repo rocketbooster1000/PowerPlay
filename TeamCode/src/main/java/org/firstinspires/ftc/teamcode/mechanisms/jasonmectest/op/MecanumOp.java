@@ -25,6 +25,8 @@ public class MecanumOp extends OpMode {
     }
 
     double inputAngle(double x, double y){
+        x = x * Math.sqrt(1 - y * y / 2);
+        y = y * Math.sqrt(1 - x * x / 2);
         return (Math.toDegrees(Math.atan(y / x)));
     }
     @Override
