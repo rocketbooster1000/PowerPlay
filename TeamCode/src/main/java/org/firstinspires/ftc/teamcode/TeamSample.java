@@ -10,10 +10,9 @@ public class TeamSample extends OpMode{
     public void init() {
         telemetry.addData("Start-up", ": Hello!");
         telemetry.addData("This is a test", "Initiation");
+        //code here will be run ONCE when the init button is pressed
     }
-    /**
-     * javadoc comment example
-     */
+
     @Override
     public void loop() {
         boolean gamepadPressed = (gamepad1.left_stick_x != 0) && (gamepad1.left_stick_y != 0);
@@ -21,5 +20,6 @@ public class TeamSample extends OpMode{
             telemetry.addData("Left y: ", gamepad1.left_stick_y);
             telemetry.addData("Left x: ", gamepad1.left_stick_x);
         }
+        //code here will be run repeatedly (about 50 times per second) once the play buttuon is pressed
     }
 }
