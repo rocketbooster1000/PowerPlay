@@ -1,4 +1,10 @@
-package org.firstinspires.ftc.teamcode.mechanisms.jasonmectest.op;
+/*
+* This class contains all computations required for a mecanum drive
+* The motorValues() method modifies the class members to their correct values based on mecanum drive condition
+* the inputMagnitude() method takes the distance of a joystick
+* the inputAngle() method gets the angle of a joystick at a certain time
+ */
+package org.firstinspires.ftc.teamcode.opmodes.mecanumopmodes;
 
 public class MecMath {
     double frontLeft;
@@ -6,9 +12,10 @@ public class MecMath {
     double backLeft;
     double backRight;
     public void motorValues(double rotation, double speed, double deg){
+        //note about deg
+        //0 is straight forward, 90 is to the left, 180 is backwards, 270 is to the right
 
-
-        deg += 45; //due to mecanum having rollers 45 degrees offset, we change the deg to reflect this and this shifts the cordinate plane
+        deg += 45; //mecanum 45 degree roller offset
 
 
         //Y axis is frontRight and backLeft
@@ -32,11 +39,14 @@ public class MecMath {
 
     }
     public static double inputMagnitude(double x, double y){
+        //convert cartesian to unit circle cords
         x = x * Math.sqrt(1 - y * y / 2);
         y = y * Math.sqrt(1 - x * x / 2);
         return (Math.sqrt(x * x + y * y));
     }
-    public static double inputDirection(double x, double y){
+    public static double inputAngle(double x, double y){
+        x = x * Math.sqrt(1 - y * y / 2);
+        y = y * Math.sqrt(1 - x * x / 2);
         return (Math.toDegrees(Math.atan(y / x)));
     }
 }
