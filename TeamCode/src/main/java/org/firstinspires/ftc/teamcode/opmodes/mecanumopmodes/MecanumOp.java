@@ -13,11 +13,11 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.mechanisms.jasonmectest.mech.ProgrammingBoard2;
+import org.firstinspires.ftc.teamcode.mechanisms.jasonmectest.mech.MecMath;
 
 @TeleOp()
 public class MecanumOp extends OpMode {
     ProgrammingBoard2 board = new ProgrammingBoard2();
-    MecMath mec = new MecMath();
     double rotation;
     double drivePower;
     double angle;
@@ -28,7 +28,9 @@ public class MecanumOp extends OpMode {
         board.init(hardwareMap);
     }
 
+
     //remaps cords to circular instead of square, finds distance to center
+    /*
     double inputMagnitude(double x, double y){
         x = x * Math.sqrt(1 - y * y / 2);
         y = y * Math.sqrt(1 - x * x / 2);
@@ -36,13 +38,16 @@ public class MecanumOp extends OpMode {
         //replaced by the MechMath static methods
     }
 
+
     //takes the angle
+
     double inputAngle(double x, double y){
         x = x * Math.sqrt(1 - y * y / 2);
         y = y * Math.sqrt(1 - x * x / 2);
         return (Math.toDegrees(Math.atan(y / x)));
         //replaced by the MechMath static methods
     }
+    */
 
     @Override
     public void loop(){
@@ -51,9 +56,8 @@ public class MecanumOp extends OpMode {
         rotation = powerModifier * gamepad1.right_stick_x;
         drivePower = powerModifier * MecMath.inputMagnitude(gamepad1.left_stick_x, gamepad1.left_stick_y);
         angle = MecMath.inputAngle(gamepad1.left_stick_x, gamepad1.left_stick_y) + heading;
+        telemetry.addData("Heading: ", heading);
 
-        //determines each motor power value, sets motor to that value
-        mec.motorValues(rotation, drivePower, angle);
-        board.allMotorSpeeds(mec.frontLeft, mec.frontRight, mec.backLeft, mec.backRight);
+        board.setMecanumPower(rotation, drivePower, angle);
     }
 }

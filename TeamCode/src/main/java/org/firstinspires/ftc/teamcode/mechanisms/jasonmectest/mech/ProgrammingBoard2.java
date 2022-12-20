@@ -21,8 +21,8 @@ public class ProgrammingBoard2 {
 
     private IMU imu;
     private YawPitchRollAngles mecanumOrientation; //new object/class member to retrieve heading
-    //Parameters for an orthagonal expansion hub mounting
-    IMU.Parameters mecanumParameters = new IMU.Parameters(
+    //Parameters for an orthogonal expansion hub mounting
+    private IMU.Parameters mecanumParameters = new IMU.Parameters(
             new RevHubOrientationOnRobot(
                     RevHubOrientationOnRobot.LogoFacingDirection.UP,
                     RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
@@ -43,11 +43,21 @@ public class ProgrammingBoard2 {
         imu.initialize(mecanumParameters);
         mecanumOrientation = imu.getRobotYawPitchRollAngles(); //setting up the object/class member
     }
+
     public void allMotorSpeeds(double frontLeft, double frontRight, double backLeft, double backRight){
         frontLeftMotor.setPower(frontLeft);
         frontRightMotor.setPower(frontRight);
         backLeftMotor.setPower(backLeft);
         backRightMotor.setPower(backRight);
+    }
+
+    public void setMecanumPower(double rotation, double power, double angle){
+        double[] motorArraySpeeds = MecMath.returnMotorValues(rotation, power, angle);
+
+        frontLeftMotor.setPower(motorArraySpeeds[0]);
+        frontRightMotor.setPower(motorArraySpeeds[1]);
+        backLeftMotor.setPower(motorArraySpeeds[2]);
+        backRightMotor.setPower(motorArraySpeeds[3]);
     }
 
     public double getHeadingDeg(){
