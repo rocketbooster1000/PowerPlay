@@ -1,16 +1,20 @@
 package org.firstinspires.ftc.teamcode.mechanisms;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.robotcore.internal.android.dx.dex.file.ValueEncoder;
 
 public class ProgrammingBoard1 {
     private DigitalChannel touchSensor;
     private DcMotor motor;
     private double ticksPerRevolution;
     private Servo servo;
+    private ValueEncoder encoder;
 
     public void init(HardwareMap hwMap){
         touchSensor = hwMap.get(DigitalChannel.class, "touch_sensor");
@@ -22,6 +26,7 @@ public class ProgrammingBoard1 {
         ticksPerRevolution = motor.getMotorType().getTicksPerRev();
         servo = hwMap.get(Servo.class, "servo");
         servo.setDirection(Servo.Direction.FORWARD);
+        encoder = hwMap.get(ValueEncoder.class, "Encoder");
     }
 
     public boolean touchSensorPressed(){

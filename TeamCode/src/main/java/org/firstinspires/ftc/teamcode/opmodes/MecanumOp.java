@@ -7,13 +7,13 @@
  */
 
 
-package org.firstinspires.ftc.teamcode.opmodes.mecanumopmodes;
+package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.mechanisms.jasonmectest.mech.ProgrammingBoard2;
 import org.firstinspires.ftc.teamcode.mechanisms.jasonmectest.mech.MecMath;
+import org.firstinspires.ftc.teamcode.mechanisms.jasonmectest.mech.ProgrammingBoard2;
 
 @TeleOp()
 public class MecanumOp extends OpMode {
@@ -26,6 +26,7 @@ public class MecanumOp extends OpMode {
     @Override
     public void init(){
         board.init(hardwareMap);
+        telemetry.addData("Initiation", " Complete");
     }
 
 

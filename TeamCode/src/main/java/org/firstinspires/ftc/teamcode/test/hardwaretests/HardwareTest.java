@@ -3,7 +3,7 @@
 * Not to be used as robot code
  */
 
-package org.firstinspires.ftc.teamcode.mechanisms.hardwaretests;
+package org.firstinspires.ftc.teamcode.test.hardwaretests;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;

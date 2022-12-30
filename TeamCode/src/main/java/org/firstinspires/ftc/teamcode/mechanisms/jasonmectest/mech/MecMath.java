@@ -7,6 +7,8 @@
  */
 package org.firstinspires.ftc.teamcode.mechanisms.jasonmectest.mech;
 
+import org.firstinspires.ftc.teamcode.Constants;
+
 public class MecMath {
     //double frontLeft;
     //double frontRight;
@@ -50,11 +52,11 @@ public class MecMath {
         double frontRightPower = yPower;
         double backLeftPower = yPower;
         if (Math.abs(yPower) < Math.abs(xPower)){
-            frontRightPower += rotation * 0.29;
-            backLeftPower -= rotation * 0.29;
+            frontRightPower += (rotation * Constants.ROTATION_CONSTANT);
+            backLeftPower -= (rotation * Constants.ROTATION_CONSTANT);
         } else {
-            frontLeftPower += rotation * 0.29;
-            backRightPower -= rotation * 0.29;
+            frontLeftPower += (rotation * Constants.ROTATION_CONSTANT);
+            backRightPower -= (rotation * Constants.ROTATION_CONSTANT);
         }
         double[] motorValues = {frontLeftPower, frontRightPower, backLeftPower, backRightPower};
         return motorValues;
