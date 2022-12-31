@@ -7,18 +7,20 @@ package org.firstinspires.ftc.teamcode.mechanisms.jasonmectest.mech;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
+import org.firstinspires.ftc.teamcode.Constants;
 
 public class ProgrammingBoard2 {
-    private DcMotor frontLeftMotor;
-    private DcMotor frontRightMotor;
-    private DcMotor backLeftMotor;
-    private DcMotor backRightMotor;
+    private DcMotorEx frontLeftMotor;
+    private DcMotorEx frontRightMotor;
+    private DcMotorEx backLeftMotor;
+    private DcMotorEx backRightMotor;
 
     private IMU imu;
     private YawPitchRollAngles mecanumOrientation; //new object/class member to retrieve heading
@@ -31,14 +33,14 @@ public class ProgrammingBoard2 {
     );
 
     public void init(HardwareMap hwMap){
-        frontLeftMotor = hwMap.get(DcMotor.class, "Front_Left");
-        frontRightMotor = hwMap.get(DcMotor.class, "Front_Right");
-        backLeftMotor = hwMap.get(DcMotor.class, "Back_Left");
-        backRightMotor = hwMap.get(DcMotor.class, "Back_Right");
-        frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontLeftMotor = hwMap.get(DcMotorEx.class, "Front_Left");
+        frontRightMotor = hwMap.get(DcMotorEx.class, "Front_Right");
+        backLeftMotor = hwMap.get(DcMotorEx.class, "Back_Left");
+        backRightMotor = hwMap.get(DcMotorEx.class, "Back_Right");
+        frontLeftMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        frontRightMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        backLeftMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        backRightMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -56,16 +58,20 @@ public class ProgrammingBoard2 {
         backRightMotor.setPower(backRight);
     }
 
-    public void setMecanumPower(double rotation, double power, double angle){
-        double[] motorArraySpeeds = MecMath.returnMotorValues(rotation, power, angle);
+    public void setMecanumPower(double rotation, double strafe, double forwardPower, double heading, double scalar){
+        double [] motorArraySpeeds = Constants.returnMotorValues(rotation, strafe, forwardPower, heading, scalar);
 
-        frontLeftMotor.setPower(motorArraySpeeds[0]);
-        frontRightMotor.setPower(motorArraySpeeds[1]);
-        backLeftMotor.setPower(motorArraySpeeds[2]);
-        backRightMotor.setPower(motorArraySpeeds[3]);
+        frontLeftMotor.setPower(motorArraySpeeds[Constants.MECANUM_FRONT_LEFT_MOTOR]);
+        frontRightMotor.setPower(motorArraySpeeds[Constants.MECANUM_FRONT_RIGHT_MOTOR]);
+        backLeftMotor.setPower(motorArraySpeeds[Constants.MECANUM_BACK_LEFT_MOTOR]);
+        backRightMotor.setPower(motorArraySpeeds[Constants.MECANUM_BACK_RIGHT_MOTOR]);
     }
 
     public double getHeadingDeg(){
         return mecanumOrientation.getYaw(AngleUnit.DEGREES);
+    }
+
+    public void resetYaw(){
+        imu.resetYaw();
     }
 }

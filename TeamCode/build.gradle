@@ -26,4 +26,8 @@ android {
 dependencies {
     implementation project(':FtcRobotController')
     annotationProcessor files('lib/OpModeAnnotationProcessor.jar')
+    //implement dependency for ftc lib and corresponding open cv library
+    //or it could be in the build.dependencies.gradle file someone figure this out
+    implementation 'org.ftclib.ftclib:vision:2.0.1' // vision
+    implementation 'org.ftclib.ftclib:core:2.0.1' // core
 }

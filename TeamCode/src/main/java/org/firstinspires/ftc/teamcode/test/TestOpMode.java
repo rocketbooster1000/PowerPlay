@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode.test;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp()
+@Disabled
 public class TestOpMode extends OpMode{
     RobotLocation robotLocation = new RobotLocation(0, 0, 0);
     double inverseTurn;

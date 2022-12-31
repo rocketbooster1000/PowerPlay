@@ -12,16 +12,13 @@ package org.firstinspires.ftc.teamcode.opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.mechanisms.jasonmectest.mech.MecMath;
 import org.firstinspires.ftc.teamcode.mechanisms.jasonmectest.mech.ProgrammingBoard2;
 
 @TeleOp()
 public class MecanumOp extends OpMode {
     ProgrammingBoard2 board = new ProgrammingBoard2();
-    double rotation;
-    double drivePower;
-    double angle;
-    double powerModifier = 1;
     double heading;
     @Override
     public void init(){
@@ -49,16 +46,19 @@ public class MecanumOp extends OpMode {
         //replaced by the MechMath static methods
     }
     */
+    @Override
+    public void start(){
+        board.resetYaw();
+    }
 
     @Override
     public void loop(){
-        //finds the inputs from gamepad
-        heading = board.getHeadingDeg();
-        rotation = powerModifier * gamepad1.right_stick_x;
-        drivePower = powerModifier * MecMath.inputMagnitude(gamepad1.left_stick_x, gamepad1.left_stick_y);
-        angle = MecMath.inputAngle(gamepad1.left_stick_x, gamepad1.left_stick_y) + heading;
-        telemetry.addData("Heading: ", heading);
-
-        board.setMecanumPower(rotation, drivePower, angle);
+        board.setMecanumPower(
+                gamepad1.right_stick_x,
+                gamepad1.left_stick_x,
+                gamepad1.left_stick_y,
+                board.getHeadingDeg(),
+                Constants.DRIVE_POWER_MODIFIER
+        );
     }
 }
