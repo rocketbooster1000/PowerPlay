@@ -6,26 +6,23 @@
 * b) take the opposite of rotation as a workaround for potential logic issues in the MecMath class
  */
 
-
 package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Constants;
-import org.firstinspires.ftc.teamcode.mechanisms.jasonmectest.mech.MecMath;
-import org.firstinspires.ftc.teamcode.mechanisms.jasonmectest.mech.ProgrammingBoard2;
+import org.firstinspires.ftc.teamcode.mechanisms.jasonmectest.mech.DriveTrain;
 
 @TeleOp()
 public class MecanumOp extends OpMode {
-    ProgrammingBoard2 board = new ProgrammingBoard2();
+    DriveTrain board = new DriveTrain();
     double heading;
     @Override
     public void init(){
         board.init(hardwareMap);
         telemetry.addData("Initiation", " Complete");
     }
-
 
     //remaps cords to circular instead of square, finds distance to center
     /*
