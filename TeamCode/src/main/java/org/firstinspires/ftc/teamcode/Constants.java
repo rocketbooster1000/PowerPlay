@@ -48,7 +48,11 @@ public class Constants {
                 return 0;
             }
         }
-        return (Math.toDegrees(Math.atan(cords[1] / cords[0])) - 90);
+        double deg = (Math.toDegrees(Math.atan(cords[1] / cords[0])) - 90);
+        if (x < 0){
+            return deg + 180;
+        }
+        return deg;
     }
 
     public static double[] returnMecanumValues(double rotation, double strafe, double forward, double heading, double scalePower){
