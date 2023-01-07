@@ -55,10 +55,10 @@ public class TeleOpFull extends OpMode {
         driveTrain.init(hardwareMap);
         slide.init(hardwareMap);
         claw.init(hardwareMap);
-        claw.release();
+
+        wantToGrab = false;
 
         aAlreadyPressed = false;
-        wantToGrab = false;
         downAlreadyPressed = false;
         leftAlreadyPressed = false;
         upAlreadyPressed = false;
@@ -86,7 +86,7 @@ public class TeleOpFull extends OpMode {
 
     @Override
     public void loop(){
-        driveTrain.setMecanumPower(
+        driveTrain.drive(
                 gamepad1.right_stick_x,
                 gamepad1.left_stick_x,
                 gamepad1.left_stick_y,
@@ -108,6 +108,7 @@ public class TeleOpFull extends OpMode {
 
         if (gamepad1.dpad_down && !downAlreadyPressed){
             slide.setSlidePosition(Constants.GROUND_POSITION);
+            claw.release();
             junctionLevel = SlideLevels.GROUND;
             telemetry.addData("Level: ", junctionLevel);
         }
@@ -162,7 +163,6 @@ public class TeleOpFull extends OpMode {
                 }
                 telemetry.addData("Claw Level: ", level);
             }
-            rightBumperAlreadyPressed = gamepad1.right_bumper;
 
             if (gamepad1.left_bumper && !leftBumperAlreadyPressed) {
                 switch (level) {
@@ -184,8 +184,9 @@ public class TeleOpFull extends OpMode {
                 }
                 telemetry.addData("Claw Leve: ", level);
             }
-            leftBumperAlreadyPressed = gamepad1.left_bumper;
         }
+        leftBumperAlreadyPressed = gamepad1.left_bumper;
+        rightBumperAlreadyPressed = gamepad1.right_bumper;
 
         if (gamepad1.b && !bAlreadyPressed){
             if (slide.getSlidePosition() < Constants.RED_ZONE){
@@ -199,6 +200,8 @@ public class TeleOpFull extends OpMode {
             slide.setLinearSlideMotorPositionMode();
             telemetry.addData("Slide Mode: ", "Presets");
         }
+
+
     }
 
     @Override

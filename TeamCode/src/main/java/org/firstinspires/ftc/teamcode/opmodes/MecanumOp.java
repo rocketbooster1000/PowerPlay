@@ -14,10 +14,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.mechanisms.jasonmectest.mech.DriveTrain;
 
-@TeleOp()
+@TeleOp(name = "Mecanum")
 public class MecanumOp extends OpMode {
     DriveTrain board = new DriveTrain();
-    double heading;
     @Override
     public void init(){
         board.init(hardwareMap);
@@ -50,12 +49,17 @@ public class MecanumOp extends OpMode {
 
     @Override
     public void loop(){
-        board.setMecanumPower(
+
+
+        board.drive(
                 gamepad1.right_stick_x,
                 gamepad1.left_stick_x,
                 gamepad1.left_stick_y,
                 board.getHeadingDeg(),
                 Constants.DRIVE_POWER_MODIFIER
         );
+        telemetry.addData("Theoretical Heading: ", board.getHeadingDeg());
+
+
     }
 }
