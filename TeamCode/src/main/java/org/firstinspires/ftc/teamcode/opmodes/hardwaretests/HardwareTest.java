@@ -3,12 +3,11 @@
 * Not to be used as robot code
  */
 
-package org.firstinspires.ftc.teamcode.test.hardwaretests;
+package org.firstinspires.ftc.teamcode.opmodes.hardwaretests;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp()

@@ -26,8 +26,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.SlideLevels;
 import org.firstinspires.ftc.teamcode.mechanisms.Slide;
-import org.firstinspires.ftc.teamcode.mechanisms.jasonmectest.mech.DriveTrain;
 import org.firstinspires.ftc.teamcode.mechanisms.Claw;
+import org.firstinspires.ftc.teamcode.mechanisms.DriveTrain;
 
 @TeleOp(name = "drivers, pick up your controllers")
 public class TeleOpFull extends OpMode {

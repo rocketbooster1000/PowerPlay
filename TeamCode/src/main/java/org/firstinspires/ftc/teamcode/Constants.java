@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 public class Constants {
+    //drive constants
     public static final double ROTATION_CONSTANT = 0.29;
     public static final int MECANUM_MOTOR_NUMBER = 4;
     public static final int MECANUM_FRONT_LEFT_MOTOR = 0;
@@ -8,6 +9,7 @@ public class Constants {
     public static final int MECANUM_BACK_LEFT_MOTOR = 2;
     public static final int MECANUM_BACK_RIGHT_MOTOR = 3;
     public static final double DRIVE_POWER_MODIFIER = 1;
+    //slide constants
     public static final double MOTOR_SLIDE_POWER = 0.25;
     public static final int GROUND_POSITION = 0;
     public static final int LOW_POSITION = 5;
@@ -17,13 +19,15 @@ public class Constants {
     public static final int CONE_TWO = 2;
     public static final int CONE_THREE = 3;
     public static final int CONE_FOUR = 4;
-    public static final double SLIDE_SERVO_ZERO_POSITION = 0;
-    public static final double SLIDE_SERVO_ROTATED_POSITION = 1;
+    public static final int RED_ZONE = 10;
     public static final int LINEAR_SLIDE_MINIMUM = 0;
     public static final int LINEAR_SLIDE_MAXIMUM = 3;
+    public static final double SLIDE_SERVO_ZERO_POSITION = 0;
+    public static final double SLIDE_SERVO_ROTATED_POSITION = 1;
+    //claw constants
     public static final double CLAW_MIN = 0;
     public static final double CLAW_MAX = 1;
-    public static final int RED_ZONE = 10;
+
 
 
     public static double[] mapJoystick(double x, double y){
@@ -64,13 +68,10 @@ public class Constants {
         double frontRight = yPower;
         double backLeft = yPower;
         double backRight = xPower;
-        if (frontLeft > frontRight){
-            frontRight -= (rotation * ROTATION_CONSTANT);
-            backLeft += (rotation * ROTATION_CONSTANT);
-        } else {
-            frontLeft += (rotation * ROTATION_CONSTANT);
-            backRight -= (rotation * ROTATION_CONSTANT);
-        }
+        frontRight -= (rotation * ROTATION_CONSTANT);
+        backLeft += (rotation * ROTATION_CONSTANT);
+        frontLeft += (rotation * ROTATION_CONSTANT);
+        backRight -= (rotation * ROTATION_CONSTANT);
         frontLeft *= scalePower;
         frontRight *= scalePower;
         backLeft *= scalePower;

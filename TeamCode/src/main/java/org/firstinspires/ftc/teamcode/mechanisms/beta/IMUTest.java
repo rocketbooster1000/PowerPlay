@@ -6,7 +6,7 @@
  */
 
 
-package org.firstinspires.ftc.teamcode.mechanisms.jasonmectest.mech;
+package org.firstinspires.ftc.teamcode.mechanisms.beta;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.HardwareMap;

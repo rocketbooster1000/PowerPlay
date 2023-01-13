@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Constants;
-import org.firstinspires.ftc.teamcode.mechanisms.jasonmectest.mech.DriveTrain;
+import org.firstinspires.ftc.teamcode.mechanisms.DriveTrain;
 
 @TeleOp(name = "Mecanum")
 public class MecanumOp extends OpMode {

@@ -27,4 +27,9 @@ public class Claw {
         clawServoLeft.setPosition(0);
         clawServoRight.setPosition(1);
     }
+
+    public double[] getClawPositions(){
+        double[] positions = {clawServoLeft.getPosition(), clawServoRight.getPosition()};
+        return positions;
+    }
 }
