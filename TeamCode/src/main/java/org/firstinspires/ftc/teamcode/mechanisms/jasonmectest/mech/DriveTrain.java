@@ -12,11 +12,12 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
+import org.checkerframework.checker.units.qual.C;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.Constants;
 
-public class ProgrammingBoard2 {
+public class DriveTrain {
     private DcMotorEx frontLeftMotor;
     private DcMotorEx frontRightMotor;
     private DcMotorEx backLeftMotor;
@@ -27,8 +28,8 @@ public class ProgrammingBoard2 {
     //Parameters for an orthogonal expansion hub mounting
     private IMU.Parameters mecanumParameters = new IMU.Parameters(
             new RevHubOrientationOnRobot(
-                    RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                    RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
+                    RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
+                    RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD
             )
     );
 
@@ -42,9 +43,13 @@ public class ProgrammingBoard2 {
         backLeftMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         backRightMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         imu = hwMap.get(IMU.class, "imu");
         imu.initialize(mecanumParameters);
@@ -58,8 +63,8 @@ public class ProgrammingBoard2 {
         backRightMotor.setPower(backRight);
     }
 
-    public void setMecanumPower(double rotation, double strafe, double forwardPower, double heading, double scalar){
-        double [] motorArraySpeeds = Constants.returnMotorValues(rotation, strafe, forwardPower, heading, scalar);
+    public void drive(double rotation, double strafe, double forwardPower, double heading, double scalar){
+        double [] motorArraySpeeds = Constants.returnMecanumValues(rotation, strafe, forwardPower, heading, scalar);
 
         frontLeftMotor.setPower(motorArraySpeeds[Constants.MECANUM_FRONT_LEFT_MOTOR]);
         frontRightMotor.setPower(motorArraySpeeds[Constants.MECANUM_FRONT_RIGHT_MOTOR]);
@@ -74,4 +79,5 @@ public class ProgrammingBoard2 {
     public void resetYaw(){
         imu.resetYaw();
     }
+
 }
