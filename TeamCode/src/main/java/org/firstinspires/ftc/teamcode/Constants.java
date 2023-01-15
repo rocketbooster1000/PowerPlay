@@ -2,16 +2,16 @@ package org.firstinspires.ftc.teamcode;
 
 public class Constants {
     //drive constants
-    public static final double ROTATION_CONSTANT = 0.29;
-    public static final int MECANUM_MOTOR_NUMBER = 4;
-    public static final int MECANUM_FRONT_LEFT_MOTOR = 0;
+    public static final double ROTATION_CONSTANT = 0.29;//how fast will the robot turn (as a percentage)
+    public static final int MECANUM_MOTOR_NUMBER = 4; //unused, was intended for ftclib
+    public static final int MECANUM_FRONT_LEFT_MOTOR = 0; //the following four variables are for arrays
     public static final int MECANUM_FRONT_RIGHT_MOTOR = 1;
     public static final int MECANUM_BACK_LEFT_MOTOR = 2;
     public static final int MECANUM_BACK_RIGHT_MOTOR = 3;
-    public static final double DRIVE_POWER_MODIFIER = 1;
+    public static final double DRIVE_POWER_MODIFIER = 1; //how fast will the robot drive (as a percentage)
     //slide constants
-    public static final double MOTOR_SLIDE_POWER = 0.25;
-    public static final int GROUND_POSITION = 0;
+    public static final double MOTOR_SLIDE_POWER = 0.25; //how fast will the slide move (as a percentage)
+    public static final int GROUND_POSITION = 0;//folowing variables are encoder tick values
     public static final int LOW_POSITION = 5;
     public static final int MEDIUM_POSITION = 6;
     public static final int HIGH_POSITION = 7;
@@ -22,6 +22,7 @@ public class Constants {
     public static final int RED_ZONE = 10;
     public static final int LINEAR_SLIDE_MINIMUM = 0;
     public static final int LINEAR_SLIDE_MAXIMUM = 3;
+    //rotation servo
     public static final double SLIDE_SERVO_ZERO_POSITION = 0;
     public static final double SLIDE_SERVO_ROTATED_POSITION = 1;
     //claw constants
