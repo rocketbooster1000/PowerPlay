@@ -19,11 +19,13 @@ public class MecanumSlide extends OpMode {
     DriveTrain board = new DriveTrain();
     Slide slide = new Slide();
     double power;
+    boolean aAlreadyPressed;
     @Override
     public void init(){
         board.init(hardwareMap);
         slide.init(hardwareMap);
         telemetry.addData("Initiation", " Complete");
+        aAlreadyPressed = false;
     }
 
     @Override
@@ -40,7 +42,7 @@ public class MecanumSlide extends OpMode {
                 -gamepad1.right_stick_x,
                 -gamepad1.left_stick_x,
                 gamepad1.left_stick_y,
-                0,
+                board.getHeadingDeg(),
                 Constants.DRIVE_POWER_MODIFIER
         );
         telemetry.addData("Theoretical Heading: ", board.getHeadingDeg());
@@ -48,6 +50,11 @@ public class MecanumSlide extends OpMode {
         power = (gamepad1.right_trigger - gamepad1.left_trigger);
         telemetry.addData("Slide power: ", power);
         slide.setPowerNoLimitations(power);
+
+        if (gamepad1.a && !aAlreadyPressed){
+            slide.rotateServo();
+        }
+        aAlreadyPressed = gamepad1.a;
 
     }
 }

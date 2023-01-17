@@ -25,14 +25,6 @@ public class DriveTrain {
     private DcMotorEx backRightMotor;
     //This is gyro stuff or imu stuff
     private IMU imu;
-    private YawPitchRollAngles mecanumOrientation; //new object/class member to retrieve heading
-    //Parameters for an orthogonal expansion hub mounting
-    private IMU.Parameters mecanumParameters = new IMU.Parameters(
-            new RevHubOrientationOnRobot(
-                    RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
-                    RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD
-            )
-    );
 
     public void init(HardwareMap hwMap){
         //This sets up the motors it also tells us what the names of our motors are in a string format
@@ -57,8 +49,14 @@ public class DriveTrain {
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //This is gyro/imu stuff
         imu = hwMap.get(IMU.class, "imu");
-        imu.initialize(mecanumParameters);
-        mecanumOrientation = imu.getRobotYawPitchRollAngles(); //setting up the object/class member
+        imu.initialize(
+                new IMU.Parameters(
+                        new RevHubOrientationOnRobot(
+                                RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
+                                RevHubOrientationOnRobot.UsbFacingDirection.UP
+                        )
+                )
+        );
     }
     /* This is just a different way of setting power to the motors
     public void allMotorSpeeds(double frontLeft, double frontRight, double backLeft, double backRight){
@@ -79,6 +77,7 @@ public class DriveTrain {
     }
     //This gets the heading by reading the gyro
     public double getHeadingDeg(){
+        YawPitchRollAngles mecanumOrientation = imu.getRobotYawPitchRollAngles();
         return mecanumOrientation.getYaw(AngleUnit.DEGREES);
     }
     //This resets the gyro

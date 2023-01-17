@@ -24,7 +24,7 @@ public class Constants {
     public static final int LINEAR_SLIDE_MAXIMUM = 3;
     //Rotation servo
     public static final double SLIDE_SERVO_ZERO_POSITION = 0;
-    public static final double SLIDE_SERVO_ROTATED_POSITION = 1;
+    public static final double SLIDE_SERVO_ROTATED_POSITION = 0.65;
     //Claw constants
     public static final double CLAW_MIN = 0;
     public static final double CLAW_MAX = 1;
@@ -66,7 +66,7 @@ public class Constants {
     }
     //This calculates the power of the motors
     public static double[] returnMecanumValues(double rotation, double strafe, double forward, double heading, double scalePower){
-        double angle = inputAngle(strafe, forward) + 45 + heading;
+        double angle = inputAngle(strafe, forward) + 45 - heading;
         double power = inputMagnitude(strafe, forward);
         double xPower = power * Math.cos(Math.toRadians(angle));
         double yPower = power * Math.sin(Math.toRadians(angle));

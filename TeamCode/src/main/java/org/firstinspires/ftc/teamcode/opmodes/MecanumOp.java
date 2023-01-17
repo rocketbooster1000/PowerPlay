@@ -36,7 +36,7 @@ public class MecanumOp extends OpMode {
                 -gamepad1.right_stick_x,
                 -gamepad1.left_stick_x,
                 gamepad1.left_stick_y,
-                0,
+                board.getHeadingDeg(),
                 Constants.DRIVE_POWER_MODIFIER
         );
         telemetry.addData("Theoretical Heading: ", board.getHeadingDeg());
