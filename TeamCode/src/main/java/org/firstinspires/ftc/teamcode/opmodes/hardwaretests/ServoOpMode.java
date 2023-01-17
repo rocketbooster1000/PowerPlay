@@ -14,7 +14,7 @@ public class ServoOpMode extends OpMode{
 
     @Override
     public void init(){
-        servo = hardwareMap.get(Servo.class, "Claw_Servo");
+        servo = hardwareMap.get(Servo.class, "Slide_Servo");
         servoPosition = 0;
 
         dPadUpAlreadyPressed = false;
@@ -22,16 +22,26 @@ public class ServoOpMode extends OpMode{
     }
 
     @Override
-    public void loop(){
-        if (gamepad1.dpad_up && !dPadUpAlreadyPressed){
-            servoPosition += 0.1;
+    public void loop() {
+        if (servoPosition >= 0 && servoPosition <= 1) {
+            if (gamepad1.dpad_up && !dPadUpAlreadyPressed) {
+                servoPosition += 0.1;
+            }
+            if (gamepad1.dpad_down && !dPadDownAlreadyPressed) {
+                if (servoPosition != 0){
+                    servoPosition -= 0.1;
+                }
+            }
         }
-        dPadUpAlreadyPressed = gamepad1.dpad_up;
-        if (gamepad1.dpad_down && !dPadDownAlreadyPressed) {
-            servoPosition -= 0.1;
+        if (servoPosition > 1){
+            servoPosition = 1;
         }
-        dPadDownAlreadyPressed = gamepad1.dpad_down;
+        if (servoPosition < 0){
+            servoPosition = 0;
+        }
         telemetry.addData("Servo Position: ", servoPosition);
         servo.setPosition(servoPosition);
+        dPadUpAlreadyPressed = gamepad1.dpad_up;
+        dPadDownAlreadyPressed = gamepad1.dpad_down;
     }
 }
