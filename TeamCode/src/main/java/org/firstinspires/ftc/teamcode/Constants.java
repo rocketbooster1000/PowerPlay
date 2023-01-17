@@ -1,16 +1,16 @@
 package org.firstinspires.ftc.teamcode;
 
 public class Constants {
-    //drive constants
-    public static final double ROTATION_CONSTANT = 0.29;//how fast will the robot turn (as a percentage)
+    //Drive constants
+    public static final double ROTATION_CONSTANT = 0.6;//how fast will the robot turn (as a percentage)
     public static final int MECANUM_MOTOR_NUMBER = 4; //unused, was intended for ftclib
     public static final int MECANUM_FRONT_LEFT_MOTOR = 0; //the following four variables are for arrays
     public static final int MECANUM_FRONT_RIGHT_MOTOR = 1;
     public static final int MECANUM_BACK_LEFT_MOTOR = 2;
     public static final int MECANUM_BACK_RIGHT_MOTOR = 3;
-    public static final double DRIVE_POWER_MODIFIER = 1; //how fast will the robot drive (as a percentage)
-    //slide constants
-    public static final double MOTOR_SLIDE_POWER = 0.25; //how fast will the slide move (as a percentage)
+    public static final double DRIVE_POWER_MODIFIER = 0.8; //how fast will the robot drive (as a percentage)
+    //Slide constants
+    public static final double MOTOR_SLIDE_POWER = 0.1; //how fast will the slide move (as a percentage)
     public static final int GROUND_POSITION = 0;//folowing variables are encoder tick values
     public static final int LOW_POSITION = 5;
     public static final int MEDIUM_POSITION = 6;
@@ -22,26 +22,31 @@ public class Constants {
     public static final int RED_ZONE = 10;
     public static final int LINEAR_SLIDE_MINIMUM = 0;
     public static final int LINEAR_SLIDE_MAXIMUM = 3;
-    //rotation servo
+    //Rotation servo
     public static final double SLIDE_SERVO_ZERO_POSITION = 0;
     public static final double SLIDE_SERVO_ROTATED_POSITION = 1;
-    //claw constants
+    //Claw constants
     public static final double CLAW_MIN = 0;
     public static final double CLAW_MAX = 1;
 
 
-
-    public static double[] mapJoystick(double x, double y){
+    /*
+    Remaps the joystick
+    It makes the input from the joystick go from being data on a square plane to being on a circular plane */
+    static double[] mapJoystick(double x, double y){
         double m_x = x * Math.sqrt(1 - y * y / 2);
         double m_y = y * Math.sqrt(1 - x * x / 2);
         double[] converted = {m_x, m_y};
         return converted;
     }
+    //This finds r which is a distance (so r and theta work together
     public static double inputMagnitude(double x, double y){
         double[] cords = mapJoystick(x, y);
         return (Math.hypot(cords[0], cords[1]));
     }
-
+    /*
+    This finds theta which is an angle, (theta and r work together to map points)
+      */
     public static double inputAngle(double x, double y){
         double[] cords = mapJoystick(x, y);
         if (cords[0] == 0){
@@ -59,7 +64,7 @@ public class Constants {
         }
         return deg;
     }
-
+    //This calculates the power of the motors
     public static double[] returnMecanumValues(double rotation, double strafe, double forward, double heading, double scalePower){
         double angle = inputAngle(strafe, forward) + 45 + heading;
         double power = inputMagnitude(strafe, forward);

@@ -8,6 +8,10 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Constants;
 
+//if motor direction is FORWARD:
+//negative power is extend, positive is retract
+
+
 public class Slide {
     private DcMotorEx linearSlideMotor;
     private Servo slideServo;
@@ -16,9 +20,9 @@ public class Slide {
     public void init(HardwareMap hwMap){
         linearSlideMotor = hwMap.get(DcMotorEx.class, "Slide_Motor");
         linearSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        linearSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        linearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         linearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        linearSlideMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        linearSlideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         linearSlideMotor.setPower(Constants.MOTOR_SLIDE_POWER);
 
         slideServo = hwMap.get(Servo.class, "Slide_Servo");
@@ -63,6 +67,9 @@ public class Slide {
         }
     }
 
+    public void setPowerNoLimitations(double power){
+        linearSlideMotor.setPower(power * Constants.MOTOR_SLIDE_POWER);
+    }
 
 
 

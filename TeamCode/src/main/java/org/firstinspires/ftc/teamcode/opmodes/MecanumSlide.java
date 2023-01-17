@@ -10,15 +10,19 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.mechanisms.DriveTrain;
+import org.firstinspires.ftc.teamcode.mechanisms.Slide;
 
 //This makes a new drivetrain
 
-@TeleOp(name = "Mecanum")
-public class MecanumOp extends OpMode {
+@TeleOp(name = "Mecanum + Slide")
+public class MecanumSlide extends OpMode {
     DriveTrain board = new DriveTrain();
+    Slide slide = new Slide();
+    double power;
     @Override
     public void init(){
         board.init(hardwareMap);
+        slide.init(hardwareMap);
         telemetry.addData("Initiation", " Complete");
     }
 
@@ -41,6 +45,9 @@ public class MecanumOp extends OpMode {
         );
         telemetry.addData("Theoretical Heading: ", board.getHeadingDeg());
 
+        power = (gamepad1.right_trigger - gamepad1.left_trigger);
+        telemetry.addData("Slide power: ", power);
+        slide.setPowerNoLimitations(power);
 
     }
 }

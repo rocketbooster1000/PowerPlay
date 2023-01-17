@@ -6,18 +6,15 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-import org.firstinspires.ftc.teamcode.mechanisms.Claw;
-import org.firstinspires.ftc.teamcode.mechanisms.Slide;
-
-@TeleOp(name = "Slide")
-public class SlidePositions extends OpMode{
+@TeleOp(name = "Motor Directions")
+public class MotorDirection extends OpMode{
     DcMotorEx slideMotor;
     double modifier;
     double power;
     @Override
     public void init(){
         slideMotor = hardwareMap.get(DcMotorEx.class, "Slide_Motor");
-        slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        slideMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         slideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         slideMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         modifier = 0.1;

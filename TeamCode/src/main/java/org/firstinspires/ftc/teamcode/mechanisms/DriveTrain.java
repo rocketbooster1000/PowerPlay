@@ -16,12 +16,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.Constants;
 
+//This makes the drivetrain class
 public class DriveTrain {
+    //This declares/makes the motor objects
     private DcMotorEx frontLeftMotor;
     private DcMotorEx frontRightMotor;
     private DcMotorEx backLeftMotor;
     private DcMotorEx backRightMotor;
-
+    //This is gyro stuff or imu stuff
     private IMU imu;
     private YawPitchRollAngles mecanumOrientation; //new object/class member to retrieve heading
     //Parameters for an orthogonal expansion hub mounting
@@ -33,35 +35,40 @@ public class DriveTrain {
     );
 
     public void init(HardwareMap hwMap){
+        //This sets up the motors it also tells us what the names of our motors are in a string format
         frontLeftMotor = hwMap.get(DcMotorEx.class, "Front_Left");
         frontRightMotor = hwMap.get(DcMotorEx.class, "Front_Right");
         backLeftMotor = hwMap.get(DcMotorEx.class, "Back_Left");
         backRightMotor = hwMap.get(DcMotorEx.class, "Back_Right");
+        //This makes our motors run using encoders
         frontLeftMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         frontRightMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         backLeftMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         backRightMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        //This sets the motors default direction that it spins
         frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        //This makes sure that when the motors are given no input they will not do anything
         frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
+        //This is gyro/imu stuff
         imu = hwMap.get(IMU.class, "imu");
         imu.initialize(mecanumParameters);
         mecanumOrientation = imu.getRobotYawPitchRollAngles(); //setting up the object/class member
     }
-
+    /* This is just a different way of setting power to the motors
     public void allMotorSpeeds(double frontLeft, double frontRight, double backLeft, double backRight){
         frontLeftMotor.setPower(frontLeft);
         frontRightMotor.setPower(frontRight);
         backLeftMotor.setPower(backLeft);
         backRightMotor.setPower(backRight);
-    }
+    } */
 
+    //This tells the motors how fast to go
     public void drive(double rotation, double strafe, double forwardPower, double heading, double scalar){
         double [] motorArraySpeeds = Constants.returnMecanumValues(rotation, strafe, forwardPower, heading, scalar);
 
@@ -70,11 +77,11 @@ public class DriveTrain {
         backLeftMotor.setPower(motorArraySpeeds[Constants.MECANUM_BACK_LEFT_MOTOR]);
         backRightMotor.setPower(motorArraySpeeds[Constants.MECANUM_BACK_RIGHT_MOTOR]);
     }
-
+    //This gets the heading by reading the gyro
     public double getHeadingDeg(){
         return mecanumOrientation.getYaw(AngleUnit.DEGREES);
     }
-
+    //This resets the gyro
     public void resetYaw(){
         imu.resetYaw();
     }

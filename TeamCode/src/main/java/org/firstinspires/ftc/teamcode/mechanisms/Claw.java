@@ -6,30 +6,23 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.Constants;
 
 public class Claw {
-    Servo clawServoLeft;
-    Servo clawServoRight;
+    Servo clawServo;
 
     public void init(HardwareMap hwMap){
-        clawServoLeft = hwMap.get(Servo.class, "Claw_Servo_Left");
-        clawServoRight = hwMap.get(Servo.class, "Claw_Servo_Right");
-        clawServoRight.setDirection(Servo.Direction.FORWARD);
-        clawServoLeft.setDirection(Servo.Direction.REVERSE);
-        clawServoLeft.scaleRange(Constants.CLAW_MIN, Constants.CLAW_MAX);
-        clawServoRight.scaleRange(Constants.CLAW_MIN, Constants.CLAW_MAX);
+        clawServo = hwMap.get(Servo.class, "Claw_Servo");
+        clawServo.setDirection(Servo.Direction.REVERSE);
+        clawServo.scaleRange(Constants.CLAW_MIN, Constants.CLAW_MAX);
     }
 
     public void grab(){
-        clawServoLeft.setPosition(1);
-        clawServoRight.setPosition(0);
+        clawServo.setPosition(1);
     }
 
     public void release(){
-        clawServoLeft.setPosition(0);
-        clawServoRight.setPosition(1);
+        clawServo.setPosition(0);
     }
 
-    public double[] getClawPositions(){
-        double[] positions = {clawServoLeft.getPosition(), clawServoRight.getPosition()};
-        return positions;
+    public void setPosition(double position){
+        clawServo.setPosition(position);
     }
 }
