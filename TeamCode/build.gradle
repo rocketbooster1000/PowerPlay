@@ -30,4 +30,8 @@ dependencies {
     //or it could be in the build.dependencies.gradle file someone figure this out
     //implementation 'org.ftclib.ftclib:vision:2.0.1' // vision
     implementation 'org.ftclib.ftclib:core:2.0.1' // core
+
+    implementation 'org.apache.commons:commons-math3:3.6.1'
+
+    implementation 'com.acmerobotics.roadrunner:core:0.5.6'
 }
