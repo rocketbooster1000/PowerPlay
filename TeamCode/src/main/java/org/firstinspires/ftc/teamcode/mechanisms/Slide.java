@@ -18,7 +18,7 @@ public class Slide {
     private double ticksPerRevolution;
     private boolean hasBeenToldToRotate;
     public void init(HardwareMap hwMap){
-        linearSlideMotor = hwMap.get(DcMotorEx.class, "Front_Left");
+        linearSlideMotor = hwMap.get(DcMotorEx.class, "Slide_Motor");
         linearSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         linearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         linearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
