@@ -9,18 +9,20 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import org.firstinspires.ftc.teamcode.mechanisms.Claw;
 import org.firstinspires.ftc.teamcode.mechanisms.Slide;
 
-@TeleOp(name = "Slide")
+@TeleOp(group = "Hardware tests", name = "Slide")
 public class SlidePositions extends OpMode{
     DcMotorEx slideMotor;
     double modifier;
     double power;
+    boolean xAlreadyPressed;
     @Override
     public void init(){
         slideMotor = hardwareMap.get(DcMotorEx.class, "Slide_Motor");
         slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         slideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        slideMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        slideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         modifier = 0.1;
+        xAlreadyPressed = false;
     }
 
     @Override
@@ -29,5 +31,9 @@ public class SlidePositions extends OpMode{
         power *= modifier;
         telemetry.addData("Slide Power: ", power);
         slideMotor.setPower(power);
+        telemetry.addData("Position in ticks: ", slideMotor.getCurrentPosition());
+        if (gamepad1.x && !xAlreadyPressed){
+
+        }
     }
 }

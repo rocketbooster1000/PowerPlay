@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp()
+@TeleOp(group = "Hardware tests")
 public class HardwareTest extends OpMode{
     DcMotor frontLeft;
     DcMotor frontRight;

@@ -16,9 +16,12 @@ import org.firstinspires.ftc.teamcode.mechanisms.DriveTrain;
 @TeleOp(name = "Mecanum")
 public class MecanumOp extends OpMode {
     DriveTrain board = new DriveTrain();
+    boolean yAlreadyPressed;
+
     @Override
     public void init(){
         board.init(hardwareMap);
+        yAlreadyPressed = false;
         telemetry.addData("Initiation", " Complete");
     }
 
@@ -30,8 +33,6 @@ public class MecanumOp extends OpMode {
     //This is code for driving the robot
     @Override
     public void loop(){
-
-
         board.drive(
                 -gamepad1.right_stick_x,
                 -gamepad1.left_stick_x,
@@ -41,6 +42,9 @@ public class MecanumOp extends OpMode {
         );
         telemetry.addData("Theoretical Heading: ", board.getHeadingDeg());
 
-
+        if (gamepad1.y && !yAlreadyPressed){
+            board.resetYaw();
+        }
+        yAlreadyPressed = gamepad1.y;
     }
 }

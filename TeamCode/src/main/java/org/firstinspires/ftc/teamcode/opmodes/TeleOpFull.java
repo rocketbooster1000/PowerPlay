@@ -44,8 +44,11 @@ public class TeleOpFull extends OpMode {
     boolean rightBumperAlreadyPressed;
     boolean leftBumperAlreadyPressed;
     boolean bAlreadyPressed;
+    boolean leftJoystickPressed;
+    boolean rightStickPressed;
 
     double opmodeSlidePower;
+    double drivePower;
 
     SlideLevels level;
     SlideLevels junctionLevel;
@@ -66,6 +69,8 @@ public class TeleOpFull extends OpMode {
         rightBumperAlreadyPressed = false;
         leftBumperAlreadyPressed = false;
         bAlreadyPressed = false;
+        leftJoystickPressed = false;
+        rightStickPressed = false;
 
         opmodeSlidePower = 0;
 
@@ -86,14 +91,22 @@ public class TeleOpFull extends OpMode {
 
     @Override
     public void loop(){
+        if (gamepad1.right_stick_button && !rightStickPressed){
+            drivePower = Constants.SLOW_DRIVE_MODIFIER;
+        } else {
+            drivePower = Constants.DRIVE_POWER_MODIFIER;
+        }
+        rightStickPressed = gamepad1.right_stick_button;
+
         driveTrain.drive(
                 gamepad1.right_stick_x,
                 gamepad1.left_stick_x,
                 gamepad1.left_stick_y,
                 driveTrain.getHeadingDeg(),
-                Constants.DRIVE_POWER_MODIFIER
+                drivePower
         );
         telemetry.addData("Heading: ", driveTrain.getHeadingDeg());
+        telemetry.addData("Drive power: ", drivePower);
 
         if (gamepad1.a && !aAlreadyPressed){
             wantToGrab = !wantToGrab;
@@ -110,83 +123,100 @@ public class TeleOpFull extends OpMode {
             slide.setSlidePosition(Constants.GROUND_POSITION);
             claw.release();
             junctionLevel = SlideLevels.GROUND;
-            telemetry.addData("Level: ", junctionLevel);
         }
         downAlreadyPressed = gamepad1.dpad_down;
 
         if (gamepad1.dpad_left && !leftAlreadyPressed){
             slide.setSlidePosition(Constants.LOW_POSITION);
             junctionLevel = SlideLevels.JUNCTION_LOW;
-            telemetry.addData("Level: ", junctionLevel);
         }
         leftAlreadyPressed = gamepad1.dpad_left;
 
         if (gamepad1.dpad_up && !upAlreadyPressed){
             slide.setSlidePosition(Constants.MEDIUM_POSITION);
             junctionLevel = SlideLevels.JUNCTION_MEDIUM;
-            telemetry.addData("Level: ", junctionLevel);
         }
         upAlreadyPressed = gamepad1.dpad_up;
 
         if (gamepad1.dpad_right && !rightAlreadyPressed){
             slide.setSlidePosition(Constants.HIGH_POSITION);
             junctionLevel = SlideLevels.JUNCTION_HIGH;
-            telemetry.addData("Level: ", junctionLevel);
         }
         rightAlreadyPressed = gamepad1.dpad_right;
+
+        telemetry.addData("Junction Level: ", junctionLevel);
 
         if ((gamepad1.left_trigger != 0) || (gamepad1.right_trigger !=0)){
             opmodeSlidePower = gamepad1.right_trigger - gamepad1.left_trigger;
             slide.setLinearSlideMotorRunMode();
             telemetry.addData("Slide Mode: ", "Manual");
             slide.moveSlide(opmodeSlidePower);
+        } else {
+            telemetry.addData("Slide Mode: ", "Run toj position");
         }
 
-        if (!(gamepad1.left_bumper && gamepad1.right_bumper)) {
-            if (gamepad1.right_bumper && !rightBumperAlreadyPressed) {
-                switch (level) {
-                    case GROUND:
-                        slide.setSlidePosition(Constants.CONE_ONE);
-                        level = SlideLevels.CONE_ONE;
-                    case CONE_ONE:
-                        slide.setSlidePosition(Constants.CONE_TWO);
-                        level = SlideLevels.CONE_TWO;
-                    case CONE_TWO:
-                        slide.setSlidePosition(Constants.CONE_THREE);
-                        level = SlideLevels.CONE_THREE;
-                    case CONE_THREE:
-                        slide.setSlidePosition(Constants.CONE_FOUR);
-                        level = SlideLevels.CONE_FOUR;
-                    case CONE_FOUR:
-                        slide.setSlidePosition(Constants.GROUND_POSITION);
-                        level = SlideLevels.GROUND;
-                }
-                telemetry.addData("Claw Level: ", level);
-            }
-
-            if (gamepad1.left_bumper && !leftBumperAlreadyPressed) {
-                switch (level) {
-                    case GROUND:
-                        slide.setSlidePosition(Constants.CONE_FOUR);
-                        level = SlideLevels.CONE_FOUR;
-                    case CONE_FOUR:
-                        slide.setSlidePosition(Constants.CONE_THREE);
-                        level = SlideLevels.CONE_THREE;
-                    case CONE_THREE:
-                        slide.setSlidePosition(Constants.CONE_TWO);
-                        level = SlideLevels.CONE_TWO;
-                    case CONE_TWO:
-                        slide.setSlidePosition(Constants.CONE_ONE);
-                        level = SlideLevels.CONE_ONE;
-                    case CONE_ONE:
-                        slide.setSlidePosition(Constants.GROUND_POSITION);
-                        level = SlideLevels.GROUND;
-                }
-                telemetry.addData("Claw Leve: ", level);
+        if (gamepad1.right_bumper && !rightBumperAlreadyPressed) {
+            switch (level) {
+                case GROUND:
+                    slide.setSlidePosition(Constants.CONE_ONE);
+                    level = SlideLevels.CONE_ONE;
+                    break;
+                case CONE_ONE:
+                    slide.setSlidePosition(Constants.CONE_TWO);
+                    level = SlideLevels.CONE_TWO;
+                    break;
+                case CONE_TWO:
+                    slide.setSlidePosition(Constants.CONE_THREE);
+                    level = SlideLevels.CONE_THREE;
+                    break;
+                case CONE_THREE:
+                    slide.setSlidePosition(Constants.CONE_FOUR);
+                    level = SlideLevels.CONE_FOUR;
+                    break;
+                case CONE_FOUR:
+                    slide.setSlidePosition(Constants.GROUND_POSITION);
+                    level = SlideLevels.GROUND;
+                    break;
             }
         }
+
+        if (gamepad1.left_bumper && !leftBumperAlreadyPressed) {
+            switch (level) {
+                case GROUND:
+                    slide.setSlidePosition(Constants.CONE_FOUR);
+                    level = SlideLevels.CONE_FOUR;
+                    break;
+                case CONE_FOUR:
+                    slide.setSlidePosition(Constants.CONE_THREE);
+                    level = SlideLevels.CONE_THREE;
+                    break;
+                case CONE_THREE:
+                    slide.setSlidePosition(Constants.CONE_TWO);
+                    level = SlideLevels.CONE_TWO;
+                    break;
+                case CONE_TWO:
+                    slide.setSlidePosition(Constants.CONE_ONE);
+                    level = SlideLevels.CONE_ONE;
+                    break;
+                case CONE_ONE:
+                    slide.setSlidePosition(Constants.GROUND_POSITION);
+                    level = SlideLevels.GROUND;
+                    break;
+            }
+        }
+
         leftBumperAlreadyPressed = gamepad1.left_bumper;
         rightBumperAlreadyPressed = gamepad1.right_bumper;
+        telemetry.addData("Cone level: ", level);
+        telemetry.addData("Slide encoder ticks: ", slide.getSlidePosition());
+
+        if (slide.getSlidePosition() > Constants.LINEAR_SLIDE_MAXIMUM){
+            slide.setSlidePosition(Constants.LINEAR_SLIDE_MAXIMUM);
+        }
+
+        if (slide.getSlidePosition() < Constants.LINEAR_SLIDE_MINIMUM){
+            slide.setSlidePosition(Constants.LINEAR_SLIDE_MINIMUM);
+        }
 
         if (gamepad1.b && !bAlreadyPressed){
             if (slide.getSlidePosition() < Constants.RED_ZONE){
@@ -195,13 +225,6 @@ public class TeleOpFull extends OpMode {
             slide.rotateServo();
         }
         bAlreadyPressed = gamepad1.b;
-
-        if (gamepad1.left_trigger == 0 && gamepad1.right_trigger ==0){
-            slide.setLinearSlideMotorPositionMode();
-            telemetry.addData("Slide Mode: ", "Presets");
-        }
-
-
     }
 
     @Override

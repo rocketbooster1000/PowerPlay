@@ -18,12 +18,11 @@ public class Slide {
     private double ticksPerRevolution;
     private boolean hasBeenToldToRotate;
     public void init(HardwareMap hwMap){
-        linearSlideMotor = hwMap.get(DcMotorEx.class, "Slide_Motor");
+        linearSlideMotor = hwMap.get(DcMotorEx.class, "Front_Left");
         linearSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         linearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         linearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         linearSlideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        linearSlideMotor.setPower(Constants.MOTOR_SLIDE_POWER);
 
         slideServo = hwMap.get(Servo.class, "Slide_Servo");
         slideServo.setDirection(Servo.Direction.FORWARD);
@@ -34,13 +33,15 @@ public class Slide {
 
     public void setSlidePosition(int encoderPosition){
         linearSlideMotor.setTargetPosition(encoderPosition);
+        linearSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        linearSlideMotor.setPower(Constants.MOTOR_SLIDE_POWER);
     }
 
     public void moveSlide(double speed){
-        if (linearSlideMotor.getCurrentPosition() > Constants.LINEAR_SLIDE_MINIMUM && linearSlideMotor.getCurrentPosition() < Constants.LINEAR_SLIDE_MAXIMUM){
+        if (linearSlideMotor.getCurrentPosition() >= (Constants.LINEAR_SLIDE_MINIMUM - Constants.LINEAR_SLIDE_MARGIN_ERROR) && linearSlideMotor.getCurrentPosition() <= (Constants.LINEAR_SLIDE_MAXIMUM - Constants.LINEAR_SLIDE_MARGIN_ERROR)){
+            linearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             linearSlideMotor.setPower(speed * Constants.MOTOR_SLIDE_POWER);
         }
-
     }
 
     public void setLinearSlideMotorRunMode(){
@@ -71,6 +72,11 @@ public class Slide {
         linearSlideMotor.setPower(power * Constants.MOTOR_SLIDE_POWER);
     }
 
-
+    public int getTargetPos(){
+        return linearSlideMotor.getTargetPosition();
+    }
+    public int getSlidePos(){
+        return linearSlideMotor.getCurrentPosition();
+    }
 
 }

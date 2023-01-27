@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-@TeleOp(name = "Motor Directions")
+@TeleOp(group = "Hardware tests", name = "Motor Directions")
 public class MotorDirection extends OpMode{
     DcMotorEx slideMotor;
     double modifier;

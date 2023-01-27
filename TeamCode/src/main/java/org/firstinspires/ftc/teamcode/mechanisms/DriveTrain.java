@@ -52,7 +52,7 @@ public class DriveTrain {
         imu.initialize(
                 new IMU.Parameters(
                         new RevHubOrientationOnRobot(
-                                RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
+                                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
                                 RevHubOrientationOnRobot.UsbFacingDirection.UP
                         )
                 )

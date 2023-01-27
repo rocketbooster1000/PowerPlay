@@ -76,7 +76,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
  * Finally, choose the two correct parameters to define how your Hub is mounted and edit this OpMode
  * to use those parameters.
  */
-@TeleOp(name = "Sensor: IMU Orthogonal")
+@TeleOp(group ="Hardware tests", name = "Sensor: IMU Orthogonal")
 public class IMU extends LinearOpMode
 {
     // The IMU sensor object
@@ -105,7 +105,7 @@ public class IMU extends LinearOpMode
          *
          * To Do:  EDIT these two lines to match YOUR mounting configuration.
          */
-        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.RIGHT;
+        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.LEFT;
         RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.UP;
 
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);

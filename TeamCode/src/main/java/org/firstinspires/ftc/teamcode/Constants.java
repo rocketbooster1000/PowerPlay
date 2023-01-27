@@ -9,19 +9,21 @@ public class Constants {
     public static final int MECANUM_BACK_LEFT_MOTOR = 2;
     public static final int MECANUM_BACK_RIGHT_MOTOR = 3;
     public static final double DRIVE_POWER_MODIFIER = 0.8; //how fast will the robot drive (as a percentage)
+    public static final double SLOW_DRIVE_MODIFIER = 0.3; //a requested slower speed
     //Slide constants
     public static final double MOTOR_SLIDE_POWER = 0.1; //how fast will the slide move (as a percentage)
     public static final int GROUND_POSITION = 0;//folowing variables are encoder tick values
-    public static final int LOW_POSITION = 5;
-    public static final int MEDIUM_POSITION = 6;
-    public static final int HIGH_POSITION = 7;
-    public static final int CONE_ONE = 1;
-    public static final int CONE_TWO = 2;
-    public static final int CONE_THREE = 3;
-    public static final int CONE_FOUR = 4;
+    public static final int LOW_POSITION = 1000;
+    public static final int MEDIUM_POSITION = 2500;
+    public static final int HIGH_POSITION = 4400;
+    public static final int CONE_ONE = 100;
+    public static final int CONE_TWO = 200;
+    public static final int CONE_THREE = 300;
+    public static final int CONE_FOUR = 400;
     public static final int RED_ZONE = 10;
     public static final int LINEAR_SLIDE_MINIMUM = 0;
-    public static final int LINEAR_SLIDE_MAXIMUM = 3;
+    public static final int LINEAR_SLIDE_MAXIMUM = 4650;
+    public static final int LINEAR_SLIDE_MARGIN_ERROR = 10;
     //Rotation servo
     public static final double SLIDE_SERVO_ZERO_POSITION = 0;
     public static final double SLIDE_SERVO_ROTATED_POSITION = 0.65;

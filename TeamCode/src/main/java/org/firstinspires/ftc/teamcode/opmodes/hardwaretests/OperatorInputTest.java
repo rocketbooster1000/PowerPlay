@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.opmodes.hardwaretests;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp(name = "OI Test")
+@TeleOp(group = "Hardware tests", name = "OI Test")
 public class OperatorInputTest extends OpMode {
 
     
