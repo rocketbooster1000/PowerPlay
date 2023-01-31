@@ -46,6 +46,7 @@ public class TeleOpFull extends OpMode {
     boolean bAlreadyPressed;
     boolean leftJoystickPressed;
     boolean rightStickPressed;
+    boolean isFirstTimeAfterTriggerRelease;
 
     double opmodeSlidePower;
     double drivePower;
@@ -71,6 +72,7 @@ public class TeleOpFull extends OpMode {
         bAlreadyPressed = false;
         leftJoystickPressed = false;
         rightStickPressed = false;
+        isFirstTimeAfterTriggerRelease = false;
 
         opmodeSlidePower = 0;
 
@@ -151,8 +153,13 @@ public class TeleOpFull extends OpMode {
             slide.setLinearSlideMotorRunMode();
             telemetry.addData("Slide Mode: ", "Manual");
             slide.moveSlide(opmodeSlidePower);
+            isFirstTimeAfterTriggerRelease = true;
         } else {
-            telemetry.addData("Slide Mode: ", "Run toj position");
+            if (isFirstTimeAfterTriggerRelease){
+                slide.setSlidePosition(slide.getSlidePosition());
+                isFirstTimeAfterTriggerRelease = false;
+            }
+            telemetry.addData("Slide Mode: ", "Run to position");
         }
 
         if (gamepad1.right_bumper && !rightBumperAlreadyPressed) {
@@ -217,6 +224,7 @@ public class TeleOpFull extends OpMode {
         if (slide.getSlidePosition() < Constants.LINEAR_SLIDE_MINIMUM){
             slide.setSlidePosition(Constants.LINEAR_SLIDE_MINIMUM);
         }
+
 
         if (gamepad1.b && !bAlreadyPressed){
             if (slide.getSlidePosition() < Constants.RED_ZONE){

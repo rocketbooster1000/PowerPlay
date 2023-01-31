@@ -80,6 +80,15 @@ public class DriveTrain {
         YawPitchRollAngles mecanumOrientation = imu.getRobotYawPitchRollAngles();
         return mecanumOrientation.getYaw(AngleUnit.DEGREES);
     }
+
+    public void driveAuto(double magnitude, double angle, double rotation, double heading, double scalePower){
+        double[] motorArraySpeeds = Constants.returnMecanumValuesAuto(magnitude, angle, rotation, heading, scalePower);
+
+        frontLeftMotor.setPower(motorArraySpeeds[Constants.MECANUM_FRONT_LEFT_MOTOR]);
+        frontRightMotor.setPower(motorArraySpeeds[Constants.MECANUM_FRONT_RIGHT_MOTOR]);
+        backLeftMotor.setPower(motorArraySpeeds[Constants.MECANUM_BACK_LEFT_MOTOR]);
+        backRightMotor.setPower(motorArraySpeeds[Constants.MECANUM_BACK_RIGHT_MOTOR]);
+    }
     //This resets the gyro
     public void resetYaw(){
         imu.resetYaw();

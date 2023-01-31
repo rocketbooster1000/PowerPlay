@@ -1,8 +1,3 @@
-/*
-* Here is the OpMode for a mecanum drive
-* This contains all logic to make a robot centric mecanum drive work
- */
-
 package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -10,8 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.mechanisms.DriveTrain;
-
-//This makes a new drivetrain
 
 @TeleOp(name = "Mecanum")
 public class MecanumOp extends OpMode {
@@ -22,7 +15,7 @@ public class MecanumOp extends OpMode {
     public void init(){
         board.init(hardwareMap);
         yAlreadyPressed = false;
-        telemetry.addData("Initiation", " Complete");
+        telemetry.addData("Initialization ", "Complete");
     }
 
     @Override
@@ -30,7 +23,6 @@ public class MecanumOp extends OpMode {
         board.resetYaw();
     }
 
-    //This is code for driving the robot
     @Override
     public void loop(){
         board.drive(
@@ -41,10 +33,9 @@ public class MecanumOp extends OpMode {
                 Constants.DRIVE_POWER_MODIFIER
         );
         telemetry.addData("Theoretical Heading: ", board.getHeadingDeg());
-
         if (gamepad1.y && !yAlreadyPressed){
             board.resetYaw();
         }
-        yAlreadyPressed = gamepad1.y;
+
     }
 }

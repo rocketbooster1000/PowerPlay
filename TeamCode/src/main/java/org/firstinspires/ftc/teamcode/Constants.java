@@ -11,7 +11,7 @@ public class Constants {
     public static final double DRIVE_POWER_MODIFIER = 0.8; //how fast will the robot drive (as a percentage)
     public static final double SLOW_DRIVE_MODIFIER = 0.3; //a requested slower speed
     //Slide constants
-    public static final double MOTOR_SLIDE_POWER = 0.1; //how fast will the slide move (as a percentage)
+    public static final double MOTOR_SLIDE_POWER = 0.25; //how fast will the slide move (as a percentage)
     public static final int GROUND_POSITION = 0;//folowing variables are encoder tick values
     public static final int LOW_POSITION = 1000;
     public static final int MEDIUM_POSITION = 2500;
@@ -28,8 +28,14 @@ public class Constants {
     public static final double SLIDE_SERVO_ZERO_POSITION = 0;
     public static final double SLIDE_SERVO_ROTATED_POSITION = 0.65;
     //Claw constants
-    public static final double CLAW_MIN = 0;
-    public static final double CLAW_MAX = 1;
+    public static final double CLAW_MIN = 0; //release
+    public static final double CLAW_MAX = 1; //grab
+    //Auto Constants
+    public class Auto{
+        public static final double ONE_TILE_STRAFE = 3000;
+        public static final double ONE_TILE_FORWARD = 3000;
+        public static final double QUARTER_ROTATION = 1000;
+    }
 
 
     /*
@@ -72,6 +78,25 @@ public class Constants {
         double power = inputMagnitude(strafe, forward);
         double xPower = power * Math.cos(Math.toRadians(angle));
         double yPower = power * Math.sin(Math.toRadians(angle));
+        double frontLeft = xPower;
+        double frontRight = yPower;
+        double backLeft = yPower;
+        double backRight = xPower;
+        frontRight -= (rotation * ROTATION_CONSTANT);
+        backLeft += (rotation * ROTATION_CONSTANT);
+        frontLeft += (rotation * ROTATION_CONSTANT);
+        backRight -= (rotation * ROTATION_CONSTANT);
+        frontLeft *= scalePower;
+        frontRight *= scalePower;
+        backLeft *= scalePower;
+        backRight *= scalePower;
+        double[] values = {frontLeft, frontRight, backLeft, backRight};
+        return values;
+    }
+
+    public static double[] returnMecanumValuesAuto(double magnitude, double angle, double rotation, double heading, double scalePower){
+        double xPower = magnitude * Math.cos(Math.toRadians(angle + 45 - heading));
+        double yPower = magnitude * Math.sin(Math.toRadians(angle + 45 - heading));
         double frontLeft = xPower;
         double frontRight = yPower;
         double backLeft = yPower;
