@@ -101,8 +101,8 @@ public class TeleOpFull extends OpMode {
         rightStickPressed = gamepad1.right_stick_button;
 
         driveTrain.drive(
-                gamepad1.right_stick_x,
-                gamepad1.left_stick_x,
+                -gamepad1.right_stick_x,
+                -gamepad1.left_stick_x,
                 gamepad1.left_stick_y,
                 driveTrain.getHeadingDeg(),
                 drivePower
