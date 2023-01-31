@@ -47,6 +47,7 @@ public class TeleOpFull extends OpMode {
     boolean leftJoystickPressed;
     boolean rightStickPressed;
     boolean isFirstTimeAfterTriggerRelease;
+    boolean yAlreadyPressed;
 
     double opmodeSlidePower;
     double drivePower;
@@ -73,6 +74,7 @@ public class TeleOpFull extends OpMode {
         leftJoystickPressed = false;
         rightStickPressed = false;
         isFirstTimeAfterTriggerRelease = false;
+        yAlreadyPressed = false;
 
         opmodeSlidePower = 0;
 
@@ -107,6 +109,11 @@ public class TeleOpFull extends OpMode {
                 driveTrain.getHeadingDeg(),
                 drivePower
         );
+        
+        if (gamepad1.y && !yAlreadyPressed){
+            driveTrain.resetYaw();
+        }
+        
         telemetry.addData("Heading: ", driveTrain.getHeadingDeg());
         telemetry.addData("Drive power: ", drivePower);
 
