@@ -113,6 +113,7 @@ public class TeleOpFull extends OpMode {
         if (gamepad1.y && !yAlreadyPressed){
             driveTrain.resetYaw();
         }
+        yAlreadyPressed = gamepad1.y;
         
         telemetry.addData("Heading: ", driveTrain.getHeadingDeg());
         telemetry.addData("Drive power: ", drivePower);
