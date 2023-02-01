@@ -25,11 +25,11 @@ public class ServoOpMode extends OpMode{
     public void loop() {
         if (servoPosition >= 0 && servoPosition <= 1) {
             if (gamepad1.dpad_up && !dPadUpAlreadyPressed) {
-                servoPosition += 0.025;
+                servoPosition += 0.0125;
             }
             if (gamepad1.dpad_down && !dPadDownAlreadyPressed) {
                 if (servoPosition != 0){
-                    servoPosition -= 0.025;
+                    servoPosition -= 0.0125;
                 }
             }
         }

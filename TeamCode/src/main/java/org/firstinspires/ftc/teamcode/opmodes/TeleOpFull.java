@@ -31,10 +31,12 @@ import org.firstinspires.ftc.teamcode.mechanisms.DriveTrain;
 
 @TeleOp(name = "drivers, pick up your controllers")
 public class TeleOpFull extends OpMode {
+    //robot "subsystems"
     DriveTrain driveTrain = new DriveTrain();
     Slide slide = new Slide();
     Claw claw = new Claw();
 
+    //State machine booleans for the gamepad (see LearnJavaForFTC pdf chapter 12 for more info)
     boolean aAlreadyPressed;
     boolean wantToGrab;
     boolean downAlreadyPressed;
@@ -49,9 +51,11 @@ public class TeleOpFull extends OpMode {
     boolean isFirstTimeAfterTriggerRelease;
     boolean yAlreadyPressed;
 
+    //motor powers and modifiers
     double opmodeSlidePower;
     double drivePower;
 
+    //enumerated types for juntion and cone levels
     SlideLevels level;
     SlideLevels junctionLevel;
 
@@ -61,7 +65,8 @@ public class TeleOpFull extends OpMode {
         slide.init(hardwareMap);
         claw.init(hardwareMap);
 
-        wantToGrab = false;
+        //initializing variables
+        wantToGrab = true;
 
         aAlreadyPressed = false;
         downAlreadyPressed = false;
@@ -81,6 +86,7 @@ public class TeleOpFull extends OpMode {
         level = SlideLevels.GROUND;
         junctionLevel = SlideLevels.GROUND;
 
+        //reset hardware for operation
         slide.setSlidePosition(Constants.GROUND_POSITION);
         claw.release();
 
@@ -89,18 +95,20 @@ public class TeleOpFull extends OpMode {
 
     @Override
     public void start(){
+        //reset the gyro
         driveTrain.resetYaw();
         telemetry.addLine("Start-up complete, pick up your controllers");
     }
 
     @Override
     public void loop(){
+        //drive
         if (gamepad1.right_stick_button && !rightStickPressed){
             drivePower = Constants.SLOW_DRIVE_MODIFIER;
         } else {
             drivePower = Constants.DRIVE_POWER_MODIFIER;
         }
-        rightStickPressed = gamepad1.right_stick_button;
+        rightStickPressed = gamepad1.right_stick_button; // state machine for switching driving speed
 
         driveTrain.drive(
                 -gamepad1.right_stick_x,
@@ -108,27 +116,31 @@ public class TeleOpFull extends OpMode {
                 gamepad1.left_stick_y,
                 driveTrain.getHeadingDeg(),
                 drivePower
-        );
+        ); //drive
         
         if (gamepad1.y && !yAlreadyPressed){
             driveTrain.resetYaw();
         }
-        yAlreadyPressed = gamepad1.y;
+        yAlreadyPressed = gamepad1.y; //reset heading state machine
         
         telemetry.addData("Heading: ", driveTrain.getHeadingDeg());
         telemetry.addData("Drive power: ", drivePower);
 
+        //----------------------------------
+        //Claw
         if (gamepad1.a && !aAlreadyPressed){
-            wantToGrab = !wantToGrab;
             if (wantToGrab){
                 claw.grab();
+                wantToGrab = false;
             } else {
                 claw.release();
+                wantToGrab = true;
             }
         }
-        aAlreadyPressed = gamepad1.a;
+        aAlreadyPressed = gamepad1.a; //confused by this state machine? see the chapter 12 example in the LearnJavaForFTC pdf on state machines
 
-
+        //--------------------------------------------
+        //slide
         if (gamepad1.dpad_down && !downAlreadyPressed){
             slide.setSlidePosition(Constants.GROUND_POSITION);
             claw.release();
@@ -218,7 +230,7 @@ public class TeleOpFull extends OpMode {
                     level = SlideLevels.GROUND;
                     break;
             }
-        }
+        } //switch statement for LB and RB toggles
 
         leftBumperAlreadyPressed = gamepad1.left_bumper;
         rightBumperAlreadyPressed = gamepad1.right_bumper;
@@ -231,7 +243,7 @@ public class TeleOpFull extends OpMode {
 
         if (slide.getSlidePosition() < Constants.LINEAR_SLIDE_MINIMUM){
             slide.setSlidePosition(Constants.LINEAR_SLIDE_MINIMUM);
-        }
+        } //ensure slide in operable window of position
 
 
         if (gamepad1.b && !bAlreadyPressed){
@@ -240,7 +252,7 @@ public class TeleOpFull extends OpMode {
             }
             slide.rotateServo();
         }
-        bAlreadyPressed = gamepad1.b;
+        bAlreadyPressed = gamepad1.b; //rotation servo
     }
 
     @Override
