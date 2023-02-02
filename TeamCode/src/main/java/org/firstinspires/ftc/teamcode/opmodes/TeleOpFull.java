@@ -259,6 +259,7 @@ public class TeleOpFull extends OpMode {
         rightBumperAlreadyPressed = gamepad1.right_bumper;
         telemetry.addData("Cone level: ", level);
         telemetry.addData("Slide encoder ticks: ", slide.getSlidePosition());
+        telemetry.addData("Target position: ", slide.getTargetPos());
 
         if (slide.getSlidePosition() > (Constants.LINEAR_SLIDE_MAXIMUM + 3)){
             slide.setSlidePosition(Constants.LINEAR_SLIDE_MAXIMUM);
