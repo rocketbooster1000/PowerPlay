@@ -60,6 +60,7 @@ public class TeleOpFull extends OpMode {
     boolean rotationRequested;
     boolean canRotate;
     boolean redZoneFirstTime;
+    boolean wantSlowDrive;
 
     //motor powers and modifiers
     double opmodeSlidePower;
@@ -95,6 +96,7 @@ public class TeleOpFull extends OpMode {
         rotationRequested = false;
         canRotate = false;
         redZoneFirstTime = true;
+        wantSlowDrive = false;
 
         opmodeSlidePower = 0;
 
@@ -118,12 +120,10 @@ public class TeleOpFull extends OpMode {
     @Override
     public void loop(){
         //drive
-        if (gamepad1.right_stick_button && !rightStickPressed){
-            drivePower = Constants.SLOW_DRIVE_MODIFIER;
-        } else {
-            drivePower = Constants.DRIVE_POWER_MODIFIER;
+        if (gamepad1.left_bumper && !leftBumperAlreadyPressed){
+            wantSlowDrive = !wantSlowDrive;
+            drivePower = (wantSlowDrive) ? Constants.SLOW_DRIVE_MODIFIER : Constants.DRIVE_POWER_MODIFIER;
         }
-        rightStickPressed = gamepad1.right_stick_button; // state machine for switching driving speed
 
         driveTrain.drive(
                 -gamepad1.right_stick_x,
@@ -230,6 +230,7 @@ public class TeleOpFull extends OpMode {
             }
         }
 
+        /*
         if (gamepad1.left_bumper && !leftBumperAlreadyPressed) {
             switch (level) {
                 case GROUND:
@@ -254,6 +255,8 @@ public class TeleOpFull extends OpMode {
                     break;
             }
         } //switch statement for LB and RB toggles
+
+         */
 
         leftBumperAlreadyPressed = gamepad1.left_bumper;
         rightBumperAlreadyPressed = gamepad1.right_bumper;
@@ -289,19 +292,6 @@ public class TeleOpFull extends OpMode {
             redZoneFirstTime = true;
         }
 
-        if (gamepad1.b && !bAlreadyPressed){
-            if (slide.getSlidePosition() < Constants.RED_ZONE){
-                slide.setSlidePosition(Constants.RED_ZONE);
-                while (slide.getTargetPos() > slide.getSlidePos()){
-
-                }
-                slide.rotateServo();
-
-            }
-            else{
-                slide.rotateServo();
-            }
-        }
         bAlreadyPressed = gamepad1.b; //rotation servo
     }
 
