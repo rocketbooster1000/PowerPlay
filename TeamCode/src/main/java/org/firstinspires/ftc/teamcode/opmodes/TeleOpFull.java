@@ -57,6 +57,9 @@ public class TeleOpFull extends OpMode {
     boolean isFirstTimeAfterTriggerRelease;
     boolean yAlreadyPressed;
     boolean isFirstTimeAfterTriggerPress;
+    boolean rotationRequested;
+    boolean canRotate;
+    boolean redZoneFirstTime;
 
     //motor powers and modifiers
     double opmodeSlidePower;
@@ -89,6 +92,9 @@ public class TeleOpFull extends OpMode {
         isFirstTimeAfterTriggerRelease = false;
         yAlreadyPressed = false;
         isFirstTimeAfterTriggerPress = true;
+        rotationRequested = false;
+        canRotate = false;
+        redZoneFirstTime = true;
 
         opmodeSlidePower = 0;
 
@@ -254,14 +260,33 @@ public class TeleOpFull extends OpMode {
         telemetry.addData("Cone level: ", level);
         telemetry.addData("Slide encoder ticks: ", slide.getSlidePosition());
 
-        if (slide.getSlidePosition() > Constants.LINEAR_SLIDE_MAXIMUM){
+        if (slide.getSlidePosition() > (Constants.LINEAR_SLIDE_MAXIMUM + 3)){
             slide.setSlidePosition(Constants.LINEAR_SLIDE_MAXIMUM);
         }
 
-        if (slide.getSlidePosition() < Constants.LINEAR_SLIDE_MINIMUM){
+        if (slide.getSlidePosition() < (Constants.LINEAR_SLIDE_MINIMUM - 3)){
             slide.setSlidePosition(Constants.LINEAR_SLIDE_MINIMUM);
         } //ensure slide in operable window of position
 
+        if (gamepad1.b && !bAlreadyPressed) {
+            rotationRequested = true;
+        }
+
+        if (slide.getSlidePosition() < Constants.RED_ZONE){
+            if (redZoneFirstTime){
+                slide.setSlidePosition(Constants.RED_ZONE);
+                redZoneFirstTime = false;
+            }
+            canRotate = false;
+        } else {
+            canRotate = true;
+        }
+
+        if (rotationRequested && canRotate){
+            slide.rotateServo();
+            rotationRequested = false;
+            redZoneFirstTime = true;
+        }
 
         if (gamepad1.b && !bAlreadyPressed){
             if (slide.getSlidePosition() < Constants.RED_ZONE){
@@ -275,8 +300,6 @@ public class TeleOpFull extends OpMode {
             else{
                 slide.rotateServo();
             }
-
-
         }
         bAlreadyPressed = gamepad1.b; //rotation servo
     }
