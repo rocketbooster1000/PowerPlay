@@ -42,7 +42,6 @@ public class Slide {
 
     public void moveSlide(double speed){
         if (linearSlideMotor.getCurrentPosition() >= (Constants.LINEAR_SLIDE_MINIMUM - Constants.LINEAR_SLIDE_MARGIN_ERROR) && linearSlideMotor.getCurrentPosition() <= (Constants.LINEAR_SLIDE_MAXIMUM - Constants.LINEAR_SLIDE_MARGIN_ERROR)){
-            linearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             linearSlideMotor.setPower(speed * Constants.MOTOR_SLIDE_POWER);
         }
     }
