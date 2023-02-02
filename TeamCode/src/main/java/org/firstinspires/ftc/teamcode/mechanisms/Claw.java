@@ -18,11 +18,14 @@ public class Claw {
         clawServo.setPosition(1);
     }
 
-    public void release(){
+    /*public void release(){
         clawServo.setPosition(0);
-    }
-
+    }*/
+    public void release(){
+        clawServo.setPosition(0.58);
+    } //This will make it so when it releases it wont hit the slides of the robot
     public void setPosition(double position){
         clawServo.setPosition(position);
     }
 }
+

@@ -18,6 +18,12 @@
 * Before initializing please pull the linear slide all the way to the bottom
  */
 
+//Cone_one was weird
+//no claw.release ground
+//slide servo
+//claw.grab below red zone
+// Where slide is at the bottom on the slide we always do that is turning servo position 0.71
+// oppisiite side is 0.04 for dropping cones
 package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -62,6 +68,7 @@ public class TeleOpFull extends OpMode {
     @Override
     public void init(){
         driveTrain.init(hardwareMap);
+        //When the slide initializes the claw will go to the slide servo position 0.71
         slide.init(hardwareMap);
         claw.init(hardwareMap);
 
@@ -130,12 +137,17 @@ public class TeleOpFull extends OpMode {
         //Claw
         if (gamepad1.a && !aAlreadyPressed){
             if (wantToGrab){
-                claw.grab();
                 wantToGrab = false;
             } else {
                 claw.release();
                 wantToGrab = true;
             }
+        }
+
+        if (!wantToGrab){
+            claw.grab();
+        } else {
+            claw.release();
         }
         aAlreadyPressed = gamepad1.a; //confused by this state machine? see the chapter 12 example in the LearnJavaForFTC pdf on state machines
 
@@ -143,7 +155,6 @@ public class TeleOpFull extends OpMode {
         //slide
         if (gamepad1.dpad_down && !downAlreadyPressed){
             slide.setSlidePosition(Constants.GROUND_POSITION);
-            claw.release();
             junctionLevel = SlideLevels.GROUND;
         }
         downAlreadyPressed = gamepad1.dpad_down;
@@ -249,8 +260,17 @@ public class TeleOpFull extends OpMode {
         if (gamepad1.b && !bAlreadyPressed){
             if (slide.getSlidePosition() < Constants.RED_ZONE){
                 slide.setSlidePosition(Constants.RED_ZONE);
+                while (slide.getTargetPos() > slide.getSlidePos()){
+
+                }
+                slide.rotateServo();
+
             }
-            slide.rotateServo();
+            else{
+                slide.rotateServo();
+            }
+
+
         }
         bAlreadyPressed = gamepad1.b; //rotation servo
     }

@@ -35,7 +35,7 @@ public class TestAuto extends LinearOpMode{
         telemetry.update();
 
 
-        while (getRuntime() < Constants.Auto.QUARTER_ROTATION){
+        /*while (getRuntime() < Constants.Auto.QUARTER_ROTATION){
             autoDriveTrain.rotateClockWise();
         }
         telemetry.addData("Status: ", "Rotated");
@@ -43,7 +43,7 @@ public class TestAuto extends LinearOpMode{
         claw.release();
         telemetry.addData("Status: ", "Released cone");
 
-        resetRuntime();
+        resetRuntime();*/
 
         while (getRuntime() < Constants.Auto.ONE_TILE_FORWARD){
             autoDriveTrain.driveForward();

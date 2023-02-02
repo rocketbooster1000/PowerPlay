@@ -12,7 +12,7 @@ public class MotorDirection extends OpMode{
     double modifier;
     double power;
     @Override
-    public void init(){
+    public void init() {
         slideMotor = hardwareMap.get(DcMotorEx.class, "Slide_Motor");
         slideMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         slideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

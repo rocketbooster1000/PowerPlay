@@ -11,25 +11,25 @@ public class Constants {
     public static final double DRIVE_POWER_MODIFIER = 0.8; //how fast will the robot drive (as a percentage)
     public static final double SLOW_DRIVE_MODIFIER = 0.3; //a requested slower speed
     //Slide constants
-    public static final double MOTOR_SLIDE_POWER = 0.25; //how fast will the slide move (as a percentage)
+    public static final double MOTOR_SLIDE_POWER = 0.2; //how fast will the slide move (as a percentage)
     public static final int GROUND_POSITION = 0;//folowing variables are encoder tick values
-    public static final int LOW_POSITION = 1000; //low junction
-    public static final int MEDIUM_POSITION = 2500; //medium junction
-    public static final int HIGH_POSITION = 4400; //high junction
+    public static final int LOW_POSITION = 1900; //low junction
+    public static final int MEDIUM_POSITION = 3000; //medium junction
+    public static final int HIGH_POSITION = 4250; //high junction
     public static final int CONE_ONE = 100; //conestack 1
     public static final int CONE_TWO = 200; //coestack 2
     public static final int CONE_THREE = 300; //conestack 3
     public static final int CONE_FOUR = 400; //conestack 4
-    public static final int RED_ZONE = 10; //the height at which it is safe to rotate the claw
+    public static final int RED_ZONE = 1600; //the height at which it is safe to rotate the claw, this was initially 10
     public static final int LINEAR_SLIDE_MINIMUM = 0; //lowest point for linear slide
     public static final int LINEAR_SLIDE_MAXIMUM = 4650; //highest point for linear slide
     public static final int LINEAR_SLIDE_MARGIN_ERROR = 10; //a margin of error to account for PID
     //Rotation servo
-    public static final double SLIDE_SERVO_ZERO_POSITION = 0;
-    public static final double SLIDE_SERVO_ROTATED_POSITION = 0.65;
+    public static final double SLIDE_SERVO_ZERO_POSITION = 0.71;
+    public static final double SLIDE_SERVO_ROTATED_POSITION = 0.04; //should be 0.04 for testing its been changed
     //Claw constants
-    public static final double CLAW_MIN = 0; //release
-    public static final double CLAW_MAX = 1; //grab
+    public static final double CLAW_MIN = 0.01; //release
+    public static final double CLAW_MAX = 0.3; //grab
     //Auto Constants
     public static class Auto{
         public static final double ONE_TILE_STRAFE = 3000;
