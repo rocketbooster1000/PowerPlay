@@ -50,4 +50,14 @@ public class AutoDriveTrain {
                 Constants.DRIVE_POWER_MODIFIER
         );
     }
+
+    public void stopDriving(){
+        driveTrain.driveAuto(
+                0,
+                0,
+                0,
+                0,
+                0
+        );
+    }
 }

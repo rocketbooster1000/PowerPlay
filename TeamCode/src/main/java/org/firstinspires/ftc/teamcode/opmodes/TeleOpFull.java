@@ -99,6 +99,7 @@ public class TeleOpFull extends OpMode {
         wantSlowDrive = false;
 
         opmodeSlidePower = 0;
+        drivePower = Constants.DRIVE_POWER_MODIFIER;
 
         level = SlideLevels.GROUND;
         junctionLevel = SlideLevels.GROUND;

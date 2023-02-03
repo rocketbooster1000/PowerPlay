@@ -32,9 +32,9 @@ public class Constants {
     public static final double CLAW_MAX = 0.3; //grab
     //Auto Constants
     public static class Auto{
-        public static final double ONE_TILE_STRAFE = 3000;
-        public static final double ONE_TILE_FORWARD = 3000;
-        public static final double QUARTER_ROTATION = 1000;
+        public static final double ONE_TILE_STRAFE = 2;
+        public static final double ONE_TILE_FORWARD = 1;
+        public static final double QUARTER_ROTATION = 2;
     }
 
 
