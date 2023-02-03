@@ -105,6 +105,9 @@ public class TeleOpFull extends OpMode {
 
         //reset hardware for operation
         slide.setSlidePosition(Constants.GROUND_POSITION);
+        while (slide.getTargetPos() != slide.getSlidePosition()){
+            telemetry.addData("Status: ", "Going to ground");
+        }
         claw.release();
 
         telemetry.addData("Initiation", " Complete");
@@ -275,15 +278,15 @@ public class TeleOpFull extends OpMode {
         if (gamepad1.b && !bAlreadyPressed) {
             rotationRequested = true;
         }
+        bAlreadyPressed = gamepad1.b; //rotation servo
 
-        if (slide.getSlidePosition() < Constants.RED_ZONE){
+        canRotate = slide.getSlidePos() >= Constants.RED_ZONE;
+
+        if (!canRotate && rotationRequested){
             if (redZoneFirstTime){
-                slide.setSlidePosition(Constants.RED_ZONE);
+                slide.setSlidePosition(Constants.RED_ZONE + 10);
                 redZoneFirstTime = false;
             }
-            canRotate = false;
-        } else {
-            canRotate = true;
         }
 
         if (rotationRequested && canRotate){
@@ -292,12 +295,16 @@ public class TeleOpFull extends OpMode {
             redZoneFirstTime = true;
         }
 
-        bAlreadyPressed = gamepad1.b; //rotation servo
+        telemetry.addData("rotation requested: ", rotationRequested);
+        telemetry.addData("can rotate: ", canRotate);
+        telemetry.addData("redZoneFirstTime: ", redZoneFirstTime);
     }
 
     @Override
     public void stop(){
         slide.setSlidePosition(Constants.GROUND_POSITION);
-        claw.release();
+        while (slide.getTargetPos() != slide.getSlidePos()){
+            telemetry.addData("Status: ", "Going to ground");
+        }
     }
 }

@@ -12,7 +12,7 @@ public class Constants {
     public static final double SLOW_DRIVE_MODIFIER = 0.3; //a requested slower speed
     //Slide constants
     public static final double MOTOR_SLIDE_POWER = 0.2; //how fast will the slide move (as a percentage)
-    public static final int GROUND_POSITION = 0;//folowing variables are encoder tick values
+    public static final int GROUND_POSITION = 60;//folowing variables are encoder tick values
     public static final int LOW_POSITION = 1900; //low junction
     public static final int MEDIUM_POSITION = 3000; //medium junction
     public static final int HIGH_POSITION = 4250; //high junction
@@ -21,7 +21,7 @@ public class Constants {
     public static final int CONE_THREE = 300; //conestack 3
     public static final int CONE_FOUR = 400; //conestack 4
     public static final int RED_ZONE = 1600; //the height at which it is safe to rotate the claw, this was initially 10
-    public static final int LINEAR_SLIDE_MINIMUM = 0; //lowest point for linear slide
+    public static final int LINEAR_SLIDE_MINIMUM = 60; //lowest point for linear slide
     public static final int LINEAR_SLIDE_MAXIMUM = 4650; //highest point for linear slide
     public static final int LINEAR_SLIDE_MARGIN_ERROR = 10; //a margin of error to account for PID
     //Rotation servo
