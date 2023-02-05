@@ -78,7 +78,7 @@ public class TeleOpFull extends OpMode {
         claw.init(hardwareMap);
 
         //initializing variables
-        wantToGrab = true;
+        wantToGrab = false;
 
         aAlreadyPressed = false;
         downAlreadyPressed = false;
@@ -106,19 +106,21 @@ public class TeleOpFull extends OpMode {
 
         //reset hardware for operation
         slide.setSlidePosition(Constants.GROUND_POSITION);
+        telemetry.addData("Status: ", "Going to ground");
         while (slide.getTargetPos() != slide.getSlidePosition()){
-            telemetry.addData("Status: ", "Going to ground");
+
         }
-        claw.release();
+        claw.grab();
 
         telemetry.addData("Initiation", " Complete");
+        telemetry.addData("pick up", " your controllers");
     }
 
     @Override
     public void start(){
         //reset the gyro
         driveTrain.resetYaw();
-        telemetry.addLine("Start-up complete, pick up your controllers");
+
     }
 
     @Override
@@ -162,6 +164,7 @@ public class TeleOpFull extends OpMode {
             claw.release();
         }
         aAlreadyPressed = gamepad1.a; //confused by this state machine? see the chapter 12 example in the LearnJavaForFTC pdf on state machines
+        telemetry.addData("Claw ", (!wantToGrab) ? "Grab" : "Release");
 
         //--------------------------------------------
         //slide
@@ -304,8 +307,5 @@ public class TeleOpFull extends OpMode {
     @Override
     public void stop(){
         slide.setSlidePosition(Constants.GROUND_POSITION);
-        while (slide.getTargetPos() != slide.getSlidePos()){
-            telemetry.addData("Status: ", "Going to ground");
-        }
     }
 }

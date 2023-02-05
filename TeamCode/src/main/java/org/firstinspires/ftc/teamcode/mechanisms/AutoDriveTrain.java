@@ -21,10 +21,20 @@ public class AutoDriveTrain {
         );
     }
 
+    public void rotateCounterClockWise(){
+        driveTrain.driveAuto(
+                0,
+                0,
+                -1,
+                0,
+                Constants.DRIVE_POWER_MODIFIER
+        );
+    }
+
     public void strafeLeft(){
         driveTrain.driveAuto(
                 1,
-                90,
+                -90,
                 0,
                 0,
                 Constants.DRIVE_POWER_MODIFIER
@@ -34,7 +44,7 @@ public class AutoDriveTrain {
     public void strafeRight(){
         driveTrain.driveAuto(
                 1,
-                -90,
+                90,
                 0,
                 0,
                 Constants.DRIVE_POWER_MODIFIER

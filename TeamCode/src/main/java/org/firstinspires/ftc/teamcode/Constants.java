@@ -11,7 +11,7 @@ public class Constants {
     public static final double DRIVE_POWER_MODIFIER = 0.8; //how fast will the robot drive (as a percentage)
     public static final double SLOW_DRIVE_MODIFIER = 0.3; //a requested slower speed
     //Slide constants
-    public static final double MOTOR_SLIDE_POWER = 0.2; //how fast will the slide move (as a percentage)
+    public static final double MOTOR_SLIDE_POWER = 0.65; //how fast will the slide move (as a percentage)
     public static final int GROUND_POSITION = 60;//folowing variables are encoder tick values
     public static final int LOW_POSITION = 1900; //low junction
     public static final int MEDIUM_POSITION = 3000; //medium junction
@@ -26,15 +26,15 @@ public class Constants {
     public static final int LINEAR_SLIDE_MARGIN_ERROR = 10; //a margin of error to account for PID
     //Rotation servo
     public static final double SLIDE_SERVO_ZERO_POSITION = 0.71;
-    public static final double SLIDE_SERVO_ROTATED_POSITION = 0.04; //should be 0.04 for testing its been changed
+    public static final double SLIDE_SERVO_ROTATED_POSITION = 0.02; //should be 0.04 for testing its been changed
     //Claw constants
-    public static final double CLAW_MIN = 0.01; //release
+    public static final double CLAW_MIN = 0.001; //release
     public static final double CLAW_MAX = 0.3; //grab
     //Auto Constants
     public static class Auto{
-        public static final double ONE_TILE_STRAFE = 2;
-        public static final double ONE_TILE_FORWARD = 1;
-        public static final double QUARTER_ROTATION = 2;
+        public static final double ONE_TILE_STRAFE = 1.1;
+        public static final double ONE_TILE_FORWARD = 1.1;
+        public static final double QUARTER_ROTATION = 1.05;
         public static final double STAY_STILL_AND_RELEASE = 2;
     }
 

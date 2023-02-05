@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -9,11 +8,10 @@ import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.SignalZone;
 import org.firstinspires.ftc.teamcode.mechanisms.AutoDriveTrain;
 import org.firstinspires.ftc.teamcode.mechanisms.Claw;
-import org.firstinspires.ftc.teamcode.mechanisms.DriveTrain;
 import org.firstinspires.ftc.teamcode.mechanisms.beta.Camera;
 
 @Autonomous()
-public class TestAuto extends OpMode{
+public class TestAutoZoneTwo extends OpMode{
     private ElapsedTime runtime = new ElapsedTime();
 
     AutoDriveTrain autoDriveTrain = new AutoDriveTrain();
@@ -33,20 +31,9 @@ public class TestAuto extends OpMode{
 
     @Override
     public void start(){
-
+        signalZone = SignalZone.ZONE_TWO;
         //grab
         //vision code and getting signal zone
-        switch (camera.returnZoneEnumerated()){
-            case LEFT:
-                signalZone = SignalZone.ZONE_ONE;
-                break;
-            case CENTER:
-                signalZone = SignalZone.ZONE_TWO;
-                break;
-            case RIGHT:
-                signalZone = SignalZone.ZONE_THREE;
-                break;
-        }
         runtime.reset();
     }
 
@@ -78,7 +65,6 @@ public class TestAuto extends OpMode{
             }
         }
         telemetry.addData("Runtime: ", runtime.time());
-        telemetry.addData("Parking Zone: ", signalZone);
     }
 
 }
