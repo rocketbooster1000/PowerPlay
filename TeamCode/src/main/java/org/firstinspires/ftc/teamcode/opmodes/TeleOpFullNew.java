@@ -249,7 +249,6 @@ public class TeleOpFullNew extends OpMode {
 
         if (gamepad1.b && !xAlreadyPressed){
             cycleRequested = true;
-            rotationRequested = true;
             cycledHigh = !cycledHigh;
         }
 
@@ -260,27 +259,18 @@ public class TeleOpFullNew extends OpMode {
         canRotate = slide.getSlidePos() >= Constants.RED_ZONE;
 
         if (!canRotate && rotationRequested) {
-            if (!cycleRequested && redZoneFirstTime) {
+            if (redZoneFirstTime) {
                 slide.setSlidePosition(Constants.RED_ZONE);
                 redZoneFirstTime = false;
             }
         }
 
-        if (cycleRequested){
-            if (cycledHigh){
-                wantToGrab = false;
-                slide.setSlidePosition(Constants.HIGH_POSITION);
-            } else {
-                wantToGrab = true;
-                slide.setSlidePosition(Constants.GROUND_POSITION);
-            }
-        }
+     
 
         if (rotationRequested && canRotate){
             slide.rotateServo();
             rotationRequested = false;
             redZoneFirstTime = true;
-            cycleRequested = false;
         }
 
         telemetry.addData("rotation requested: ", rotationRequested);
