@@ -247,9 +247,17 @@ public class TeleOpFullNew extends OpMode {
             slide.setSlidePosition(Constants.LINEAR_SLIDE_MINIMUM);
         } //ensure slide in operable window of position
 
-        if (gamepad1.b && !xAlreadyPressed){
+        if (gamepad1.x && !xAlreadyPressed){
+            rotationRequested = false;
             cycleRequested = true;
             cycledHigh = !cycledHigh;
+            if (cycleHigh){
+                claw.grab();
+                wantToGrab = false;
+            } else {
+                claw.release();
+                wantToGrab = true;
+            }    
         }
 
         if (gamepad1.b && !bAlreadyPressed) {
@@ -264,6 +272,22 @@ public class TeleOpFullNew extends OpMode {
                 redZoneFirstTime = false;
             }
         }
+        
+        if (cycleRequested){
+            if (canRotate){
+                slide.rotateServo();
+                if (cycleHigh){
+                    slide.setSlidePosition(Constants.HIGH_POSITION);
+                } else {
+                    slide.setSlidePosition(Constants.GROUND_POSITION);
+                }    
+                cycleRequested = false;
+            } else {
+                if (!cycleHigh){
+                    slide.setSlidePosition(Constants.RED_ZONE);
+                }
+            }    
+        }    
 
      
 
