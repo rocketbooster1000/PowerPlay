@@ -7,52 +7,45 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.mechanisms.AutoDriveTrain;
 import org.firstinspires.ftc.teamcode.mechanisms.Claw;
-import org.firstinspires.ftc.teamcode.mechanisms.Slide;
 import org.firstinspires.ftc.teamcode.mechanisms.beta.Camera;
 
-@Autonomous(name = "Forward Test")
-public class ForwardTest extends OpMode{
+@Autonomous(name = "Quarter Rotation but gyro")
+public class QuarterRotationTestGyro extends OpMode{
     private ElapsedTime runtime = new ElapsedTime();
     double lastRunTime;
+    boolean firstTimeStatic;
     AutoDriveTrain autoDriveTrain = new AutoDriveTrain();
     Camera camera = new Camera();
     Claw claw = new Claw();
-    Slide slide = new Slide();
 
     @Override
     public void init(){
-        autoDriveTrain.init(hardwareMap);
-        claw.init(hardwareMap);
-        slide.init(hardwareMap);
-        claw.grab();
-    }
+        firstTimeStatic = true;
 
-    @Override
-    public void init_loop(){
-        claw.grab();
+        autoDriveTrain.init(hardwareMap);
+        telemetry.addData("Initialization ", "Complete");
+
     }
 
     @Override
     public void start(){
-        claw.grab();
+        autoDriveTrain.resetYaw();
         //grab
         //vision code and getting signal zone
-        slide.setSlidePosition(500);
         runtime.reset();
     }
 
     @Override
     public void loop(){
-
-        if (runtime.time() <= Constants.Auto.ONE_TILE_FORWARD){
-            autoDriveTrain.driveForward();
+        if (autoDriveTrain.getHeadingDeg() < -90){
+            autoDriveTrain.rotateCounterClockWise();
         } else {
-            autoDriveTrain.stopDriving();
-            slide.setSlidePosition(0);
-            telemetry.addLine("Stop and resetting slide");
+            if (firstTimeStatic){
+                lastRunTime = runtime.time();
+                firstTimeStatic = false;
+            }
+            telemetry.addData("Last run time: ", lastRunTime);
         }
-        claw.grab();
-        telemetry.addData("Runtime: ", runtime.time());
     }
 
 }

@@ -40,7 +40,7 @@ public class TestAutoZoneTwo extends OpMode{
     @Override
     public void loop(){
         if (runtime.time() <= Constants.Auto.QUARTER_ROTATION){
-            autoDriveTrain.rotateClockWise();
+            autoDriveTrain.rotateCounterClockWise();
         } else if (runtime.time() <= (Constants.Auto.QUARTER_ROTATION + Constants.Auto.ONE_TILE_FORWARD)){
             autoDriveTrain.driveForward();
         } else {
