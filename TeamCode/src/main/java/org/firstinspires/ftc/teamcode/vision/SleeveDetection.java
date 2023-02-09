@@ -18,22 +18,22 @@ public class SleeveDetection extends OpenCvPipeline {
     public enum ParkingPosition {
         LEFT,
         CENTER,
-        RIGHT
+        RIGHT,
+        NONE
     }
 
     // TOPLEFT anchor point for the bounding box
-    private static Point SLEEVE_TOPLEFT_ANCHOR_POINT = new Point(10, 10);
+    private static Point SLEEVE_TOPLEFT_ANCHOR_POINT = new Point(10, 115);
 
     // Width and height for the bounding box
-    public static int REGION_WIDTH = 200;
-    public static int REGION_HEIGHT = 300;
+    public static int REGION_WIDTH = 50; //200
+    public static int REGION_HEIGHT = 50; //300
 
     // Color definitions
     private final Scalar
-            YELLOW  = new Scalar(255, 255, 0),
-            CYAN    = new Scalar(0, 255, 255),
-            MAGENTA = new Scalar(255, 0, 255);
-
+            YELLOW  = new Scalar(255, 255, 0), //og one is 255, 255, 0 (other teams magenta,: 255, 64, 128)
+            CYAN    = new Scalar(0, 255, 255), //og 0, 255, 255 (other teams green: 89, 153, 13)
+            MAGENTA = new Scalar(255, 0, 255); // 255. 0. 255 (other teams orange: 255, 128, 51)
     // Anchor point definitions
     Point sleeve_pointA = new Point(
             SLEEVE_TOPLEFT_ANCHOR_POINT.x,
@@ -73,7 +73,7 @@ public class SleeveDetection extends OpenCvPipeline {
                     MAGENTA,
                     2
             );
-        } else {
+        } else if (sumColors.val[2] == minColor) {
             position = ParkingPosition.LEFT;
             Imgproc.rectangle(
                     input,
@@ -82,6 +82,8 @@ public class SleeveDetection extends OpenCvPipeline {
                     YELLOW,
                     2
             );
+        } else {
+            position = ParkingPosition.NONE;
         }
 
         // Release and return input
@@ -100,7 +102,11 @@ public class SleeveDetection extends OpenCvPipeline {
         else if (position == ParkingPosition.CENTER) {
             return 2;
         }
-        return 3;
-
+        else if(position == ParkingPosition.RIGHT) {
+            return 3;
+        }
+        else {
+            return 4;
+        }
     }
 }

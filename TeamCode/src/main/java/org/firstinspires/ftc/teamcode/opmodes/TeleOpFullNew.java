@@ -251,7 +251,7 @@ public class TeleOpFullNew extends OpMode {
             rotationRequested = false;
             cycleRequested = true;
             cycledHigh = !cycledHigh;
-            if (cycleHigh){
+            if (cycledHigh){
                 claw.grab();
                 wantToGrab = false;
             } else {
@@ -276,14 +276,14 @@ public class TeleOpFullNew extends OpMode {
         if (cycleRequested){
             if (canRotate){
                 slide.rotateServo();
-                if (cycleHigh){
+                if (cycledHigh){
                     slide.setSlidePosition(Constants.HIGH_POSITION);
                 } else {
                     slide.setSlidePosition(Constants.GROUND_POSITION);
                 }    
                 cycleRequested = false;
             } else {
-                if (!cycleHigh){
+                if (!cycledHigh){
                     slide.setSlidePosition(Constants.RED_ZONE);
                 }
             }    

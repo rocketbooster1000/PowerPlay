@@ -37,7 +37,7 @@ public class QuarterRotationTestGyro extends OpMode{
 
     @Override
     public void loop(){
-        if (autoDriveTrain.getHeadingDeg() < -90){
+        if (autoDriveTrain.getHeadingDeg() < 90){
             autoDriveTrain.rotateCounterClockWise();
         } else {
             if (firstTimeStatic){
