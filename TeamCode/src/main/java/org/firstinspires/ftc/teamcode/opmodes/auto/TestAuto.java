@@ -20,20 +20,35 @@ public class TestAuto extends OpMode{
     private ElapsedTime runtime = new ElapsedTime();
 
     AutoDriveTrain autoDriveTrain = new AutoDriveTrain();
-    //Camera camera = new Camera();
+    Camera camera = new Camera();
     Claw claw = new Claw();
-    SleeveDetection sleevedetection = new SleeveDetection();
     double lastRuntTime;
 
     SignalZone signalZone;
-    private OpenCvCamera camera;
 
     @Override
     public void init(){
         autoDriveTrain.init(hardwareMap);
+        camera.init(hardwareMap);
         telemetry.addData("Initialization ", "Complete");
         lastRuntTime = 0;
 
+    }
+
+    @Override
+    public void init_loop(){
+        switch (camera.returnZoneEnumerated()){
+            case LEFT:
+                signalZone = SignalZone.ZONE_ONE;
+                break;
+            case CENTER:
+                signalZone = SignalZone.ZONE_TWO;
+                break;
+            case RIGHT:
+                signalZone = SignalZone.ZONE_THREE;
+                break;
+        }
+        telemetry.addData("Signal zone: ", signalZone);
     }
 
     @Override
@@ -41,22 +56,7 @@ public class TestAuto extends OpMode{
 
         //grab
         //vision code and getting signal zone
-        //camera.returnZoneEnumerated() = SleeveDetection.ParkingPosition.LEFT;
-        //camera.startStreaming(700,700, OpenCvCameraRotation.SIDEWAYS_LEFT);
-        /*switch (sleevedetection.getPositionSane()){
-            case 1:
-                signalZone = SignalZone.ZONE_ONE;
-                break;
-            case 2:
-                signalZone = SignalZone.ZONE_TWO;
-                break;
-            case 3:
-                signalZone = SignalZone.ZONE_THREE;
-                break;
-            case 4:
-                break;
-        }*/
-        signalZone = SignalZone.ZONE_ONE;
+
         runtime.reset();
 
     }
@@ -64,7 +64,7 @@ public class TestAuto extends OpMode{
     @Override
     public void loop(){
         if (runtime.time() <= Constants.Auto.QUARTER_ROTATION){
-            //autoDriveTrain.rotateClockWise();
+            autoDriveTrain.rotateCounterClockWise();
         } else if (runtime.time() <= (Constants.Auto.QUARTER_ROTATION + Constants.Auto.ONE_TILE_FORWARD)){
             autoDriveTrain.driveForward();
         } else {
