@@ -53,7 +53,7 @@ public class OpTest extends OpMode {
                 board.setMotorSpeed(0); //wassup
             }
         }
-        bumperAlreadyPressed = gamepad1.left_bumper;
+        bumperAlreadyPressed = gamepad1.left_bumper; //nothin much what about u
         /*
          * The code bellow is commented out on purpose
          * It was a less efficient way to perform the same tasks
