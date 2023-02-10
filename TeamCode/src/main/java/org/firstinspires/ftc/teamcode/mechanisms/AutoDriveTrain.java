@@ -54,6 +54,16 @@ public class AutoDriveTrain extends DriveTrain{
         );
     }
 
+    public void driveBackward(){
+        driveAuto(
+                1,
+                0,
+                0,
+                0,
+                Constants.DRIVE_POWER_MODIFIER
+        );
+    }
+
     public void stopDriving(){
         driveAuto(
                 0,
