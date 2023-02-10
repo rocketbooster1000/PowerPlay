@@ -63,10 +63,10 @@ public class TestAuto extends OpMode{
 
     @Override
     public void loop(){
-        if (runtime.time() <= Constants.Auto.QUARTER_ROTATION){
-            //autoDriveTrain.rotateCounterClockWise();
-        } else if (runtime.time() <= (Constants.Auto.QUARTER_ROTATION + Constants.Auto.ONE_TILE_FORWARD)){
+        if (runtime.time() <= (2 * Constants.Auto.ONE_TILE_FORWARD)){
             autoDriveTrain.strafeLeft();
+        } else if (runtime.time() <= (3 * Constants.Auto.ONE_TILE_FORWARD)){
+            autoDriveTrain.strafeRight();
         } else {
             switch (signalZone){
                 case ZONE_ONE:

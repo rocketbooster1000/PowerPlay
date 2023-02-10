@@ -78,7 +78,7 @@ public class TeleOpFull extends OpMode {
         claw.init(hardwareMap);
 
         //initializing variables
-        wantToGrab = true;
+        wantToGrab = false;
 
         aAlreadyPressed = false;
         downAlreadyPressed = false;
@@ -109,7 +109,7 @@ public class TeleOpFull extends OpMode {
         while (slide.getTargetPos() != slide.getSlidePosition()){
             telemetry.addData("Status: ", "Going to ground");
         }
-        claw.release();
+        claw.grab();
 
         telemetry.addData("Initiation", " Complete");
     }
