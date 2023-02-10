@@ -302,6 +302,7 @@ public class TeleOpFull extends OpMode {
         telemetry.addData("rotation requested: ", rotationRequested);
         telemetry.addData("can rotate: ", canRotate);
         telemetry.addData("redZoneFirstTime: ", redZoneFirstTime);
+        telemetry.addData("Slide Servo Position: ", slide.getServoPosition());
     }
 
     @Override
