@@ -28,6 +28,7 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.SlideLevels;
@@ -41,6 +42,8 @@ public class TeleOpFullNew extends OpMode {
     DriveTrain driveTrain = new DriveTrain();
     Slide slide = new Slide();
     Claw claw = new Claw();
+
+    private ElapsedTime runtime = new ElapsedTime();
 
     //State machine booleans for the gamepad (see LearnJavaForFTC pdf chapter 12 for more info)
     boolean aAlreadyPressed;
@@ -64,10 +67,12 @@ public class TeleOpFullNew extends OpMode {
     boolean cycleRequested;
     boolean xAlreadyPressed;
     boolean cycledHigh;
+    boolean checkServoFistTime;
 
     //motor powers and modifiers
     double opmodeSlidePower;
     double drivePower;
+    double lastRunTime;
 
     //enumerated types for juntion and cone levels
     SlideLevels level;
@@ -103,6 +108,8 @@ public class TeleOpFullNew extends OpMode {
         wantSlowDrive = false;
         cycleRequested = false;
         cycledHigh = false;
+        checkServoFistTime = true;
+        lastRunTime = 0;
 
         opmodeSlidePower = 0;
         drivePower = Constants.DRIVE_POWER_MODIFIER;
@@ -126,7 +133,7 @@ public class TeleOpFullNew extends OpMode {
     public void start(){
         //reset the gyro
         driveTrain.resetYaw();
-
+        runtime.reset();
     }
 
     @Override
@@ -278,9 +285,16 @@ public class TeleOpFullNew extends OpMode {
             if (canRotate){
                 slide.rotateServo();
                 if (!cycledHigh) {
-                    slide.setSlidePosition(Constants.GROUND_POSITION);
+                    if (checkServoFistTime){
+                        lastRunTime = runtime.time();
+                        checkServoFistTime = false;
+                    }
+                    if ((runtime.time() - lastRunTime) >= 1){
+                        slide.setSlidePosition(Constants.GROUND_POSITION);
+                        checkServoFistTime = false;
+                        cycleRequested = false;
+                    }
                 }
-                cycleRequested = false;
             } else {
                 if (!cycledHigh){
                     slide.setSlidePosition(Constants.RED_ZONE);
@@ -299,6 +313,7 @@ public class TeleOpFullNew extends OpMode {
         telemetry.addData("rotation requested: ", rotationRequested);
         telemetry.addData("can rotate: ", canRotate);
         telemetry.addData("redZoneFirstTime: ", redZoneFirstTime);
+        telemetry.addData("User wants the cycle to go to high position: ", cycledHigh);
 
         if (!wantToGrab){
             claw.grab();
