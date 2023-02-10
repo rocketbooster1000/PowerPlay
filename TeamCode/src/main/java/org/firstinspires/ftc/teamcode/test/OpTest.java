@@ -50,7 +50,7 @@ public class OpTest extends OpMode {
             motorOn = !motorOn;
             telemetry.addData("Motor on", motorOn);
             if (motorOn){
-                board.setMotorSpeed(motorSpeed);
+                board.setMotorSpeed(motorSpeed); //somthing random
             } else {
                 board.setMotorSpeed(0);
             }
