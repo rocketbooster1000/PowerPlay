@@ -22,7 +22,7 @@ public class Constants {
     public static final int CONE_FOUR = 400; //conestack 4
     public static final int RED_ZONE = 1600; //the height at which it is safe to rotate the claw, this was initially 10
     public static final int LINEAR_SLIDE_MINIMUM = 60; //lowest point for linear slide
-    public static final int LINEAR_SLIDE_MAXIMUM = 4650; //highest point for linear slide
+    public static final int LINEAR_SLIDE_MAXIMUM = 4320; //highest point for linear slide
     public static final int LINEAR_SLIDE_MARGIN_ERROR = 10; //a margin of error to account for PID
     //Rotation servo
     public static final double SLIDE_SERVO_ZERO_POSITION = 0.71;
