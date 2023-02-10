@@ -50,7 +50,7 @@ public class OpTest extends OpMode {
             if (motorOn){
                 board.setMotorSpeed(motorSpeed); //somthing random
             } else {
-                board.setMotorSpeed(0);
+                board.setMotorSpeed(0); //wassup
             }
         }
         bumperAlreadyPressed = gamepad1.left_bumper;
