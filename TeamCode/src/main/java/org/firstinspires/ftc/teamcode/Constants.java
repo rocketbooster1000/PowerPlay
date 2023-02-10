@@ -15,7 +15,7 @@ public class Constants {
     public static final int GROUND_POSITION = 60;//folowing variables are encoder tick values
     public static final int LOW_POSITION = 1900; //low junction
     public static final int MEDIUM_POSITION = 3000; //medium junction
-    public static final int HIGH_POSITION = 4250; //high junction
+    public static final int HIGH_POSITION = 4550; //high junction
     public static final int CONE_ONE = 100; //conestack 1
     public static final int CONE_TWO = 200; //coestack 2
     public static final int CONE_THREE = 300; //conestack 3
