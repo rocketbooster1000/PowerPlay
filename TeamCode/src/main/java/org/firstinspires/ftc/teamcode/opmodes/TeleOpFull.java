@@ -1,21 +1,21 @@
 /*
-* This file contains the tele-op opmode for the robot
-* To drive, use the joysticks
-* To operate the lift either use:
-*   -Left and right bumpers for the cone stacks (It will toggle through)
-*   -D pad down, left, up, right for the ground, low, medium and high junctions respectively
-*   -or manually operate with the left and right triggers
-* To grab and/or release the claw, press A
-* To rotate the claw press B
-*
-* Important!:
-* There are implemented fail-safes in case gamepad inputs are conflicting
-* However there are still possible fail points
-*   -Please do not try to lift and rotate at the same time
-*   -Please do not try to manually operate the slide while pressing a preset position
-*   -Please do not hold down a button for an extended period of time
-*
-* Before initializing please pull the linear slide all the way to the bottom
+ * This file contains the tele-op opmode for the robot
+ * To drive, use the joysticks
+ * To operate the lift either use:
+ *   -Left and right bumpers for the cone stacks (It will toggle through)
+ *   -D pad down, left, up, right for the ground, low, medium and high junctions respectively
+ *   -or manually operate with the left and right triggers
+ * To grab and/or release the claw, press A
+ * To rotate the claw press B
+ *
+ * Important!:
+ * There are implemented fail-safes in case gamepad inputs are conflicting
+ * However there are still possible fail points
+ *   -Please do not try to lift and rotate at the same time
+ *   -Please do not try to manually operate the slide while pressing a preset position
+ *   -Please do not hold down a button for an extended period of time
+ *
+ * Before initializing please pull the linear slide all the way to the bottom
  */
 
 //Cone_one was weird
@@ -78,7 +78,7 @@ public class TeleOpFull extends OpMode {
         claw.init(hardwareMap);
 
         //initializing variables
-        wantToGrab = false;
+        wantToGrab = true;
 
         aAlreadyPressed = false;
         downAlreadyPressed = false;
@@ -106,21 +106,19 @@ public class TeleOpFull extends OpMode {
 
         //reset hardware for operation
         slide.setSlidePosition(Constants.GROUND_POSITION);
-        telemetry.addData("Status: ", "Going to ground");
         while (slide.getTargetPos() != slide.getSlidePosition()){
-
+            telemetry.addData("Status: ", "Going to ground");
         }
-        claw.grab();
+        claw.release();
 
         telemetry.addData("Initiation", " Complete");
-        telemetry.addData("pick up", " your controllers");
     }
 
     @Override
     public void start(){
         //reset the gyro
         driveTrain.resetYaw();
-
+        telemetry.addLine("Start-up complete, pick up your controllers");
     }
 
     @Override
@@ -138,12 +136,12 @@ public class TeleOpFull extends OpMode {
                 driveTrain.getHeadingDeg(),
                 drivePower
         ); //drive
-        
+
         if (gamepad1.y && !yAlreadyPressed){
             driveTrain.resetYaw();
         }
         yAlreadyPressed = gamepad1.y; //reset heading state machine
-        
+
         telemetry.addData("Heading: ", driveTrain.getHeadingDeg());
         telemetry.addData("Drive power: ", drivePower);
 
@@ -164,7 +162,6 @@ public class TeleOpFull extends OpMode {
             claw.release();
         }
         aAlreadyPressed = gamepad1.a; //confused by this state machine? see the chapter 12 example in the LearnJavaForFTC pdf on state machines
-        telemetry.addData("Claw ", (!wantToGrab) ? "Grab" : "Release");
 
         //--------------------------------------------
         //slide
@@ -262,7 +259,6 @@ public class TeleOpFull extends OpMode {
                     break;
             }
         } //switch statement for LB and RB toggles
-
          */
 
         leftBumperAlreadyPressed = gamepad1.left_bumper;
