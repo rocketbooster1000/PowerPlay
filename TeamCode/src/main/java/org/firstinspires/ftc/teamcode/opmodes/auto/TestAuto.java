@@ -62,34 +62,46 @@ public class TestAuto extends OpMode{
     }
 
     @Override
-    public void loop(){
-        if (runtime.time() <= (2 * Constants.Auto.ONE_TILE_FORWARD)){
+    public void loop() {
+        if (runtime.time() <= (1.75 * Constants.Auto.ONE_TILE_FORWARD)) {
             autoDriveTrain.strafeLeft();
-        } else if (runtime.time() <= (3 * Constants.Auto.ONE_TILE_FORWARD)){
+        } else if (runtime.time() <= (2.5 * Constants.Auto.ONE_TILE_FORWARD)) {
             autoDriveTrain.strafeRight();
+        } else if (runtime.time() < (2.76 * Constants.Auto.ONE_SECOND)) {
+                autoDriveTrain.stopDriving();
         } else {
-            switch (signalZone){
-                case ZONE_ONE:
-                    if (runtime.time() <= (Constants.Auto.QUARTER_ROTATION + Constants.Auto.ONE_TILE_FORWARD + Constants.Auto.ONE_TILE_STRAFE)){
-                        autoDriveTrain.driveBackward();
+            switch (signalZone) {
+                case ZONE_TWO:
+                    if (runtime.time() <= (3.65 * Constants.Auto.ONE_SECOND)) {
+                        autoDriveTrain.rotateCounterClockWise();
+                    } else if (runtime.time() < (3.9 * Constants.Auto.ONE_SECOND)){
+                        autoDriveTrain.strafeLeft();
                     } else {
                         autoDriveTrain.stopDriving();
                     }
                     break;
-                case ZONE_TWO:
-                    autoDriveTrain.stopDriving();
+                case ZONE_ONE:
+                    if (runtime.time() <= (3.55 * Constants.Auto.ONE_SECOND)) {
+                        autoDriveTrain.driveBackward();
+                    } else if (runtime.time() < (4.5 * Constants.Auto.ONE_SECOND)) {
+                        autoDriveTrain.rotateCounterClockWise();
+                    } else {
+                        autoDriveTrain.stopDriving();
+                    }
                     break;
                 case ZONE_THREE:
-                    if (runtime.time() <= (Constants.Auto.QUARTER_ROTATION + Constants.Auto.ONE_TILE_FORWARD + Constants.Auto.ONE_TILE_STRAFE)){
+                    if (runtime.time() <= (3.5 * Constants.Auto.ONE_SECOND)) {
                         autoDriveTrain.driveForward();
+                    } else if (runtime.time() < (4.5 * Constants.Auto.ONE_SECOND)) {
+                        autoDriveTrain.rotateCounterClockWise();
                     } else {
                         autoDriveTrain.stopDriving();
                     }
 
             }
-        }
-        telemetry.addData("Runtime: ", runtime.time());
-        telemetry.addData("Parking Zone: ", signalZone);
-    }
 
+            telemetry.addData("Runtime: ", runtime.time());
+            telemetry.addData("Parking Zone: ", signalZone);
+        }
+    }
 }

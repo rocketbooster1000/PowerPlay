@@ -36,6 +36,7 @@ public class Constants {
         public static final double ONE_TILE_FORWARD = 1.1;
         public static final double QUARTER_ROTATION = 1.05;
         public static final double STAY_STILL_AND_RELEASE = 2;
+        public static final double ONE_SECOND = 1;
     }
 
 
