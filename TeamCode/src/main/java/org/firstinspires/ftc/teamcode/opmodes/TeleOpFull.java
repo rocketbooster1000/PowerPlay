@@ -37,6 +37,10 @@ import org.firstinspires.ftc.teamcode.mechanisms.DriveTrain;
 
 @TeleOp(name = "drivers, pick up your controllers")
 public class TeleOpFull extends OpMode {
+
+
+
+
     //robot "subsystems"
     DriveTrain driveTrain = new DriveTrain();
     Slide slide = new Slide();
@@ -61,6 +65,8 @@ public class TeleOpFull extends OpMode {
     boolean canRotate;
     boolean redZoneFirstTime;
     boolean wantSlowDrive;
+    boolean resetSlideFirstTime;
+    boolean startLetGoFirstTime;
 
     //motor powers and modifiers
     double opmodeSlidePower;
@@ -97,6 +103,8 @@ public class TeleOpFull extends OpMode {
         canRotate = false;
         redZoneFirstTime = true;
         wantSlowDrive = false;
+        resetSlideFirstTime = true;
+        startLetGoFirstTime = false;
 
         opmodeSlidePower = 0;
         drivePower = Constants.DRIVE_POWER_MODIFIER;
@@ -162,6 +170,8 @@ public class TeleOpFull extends OpMode {
             claw.release();
         }
         aAlreadyPressed = gamepad1.a; //confused by this state machine? see the chapter 12 example in the LearnJavaForFTC pdf on state machines
+        telemetry.addData("Claw ", (!wantToGrab) ? "Grabbed" : "Released");
+
 
         //--------------------------------------------
         //slide

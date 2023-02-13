@@ -70,7 +70,7 @@ public class Slide {
         }
     }
 
-    public void setPowerNoLimitations(double power){
+    public void moveSlideNoLimitations(double power){
         linearSlideMotor.setPower(power * Constants.MOTOR_SLIDE_POWER);
     }
 
@@ -85,5 +85,7 @@ public class Slide {
         return slideServo.getPosition();
     }
 
-
+    public void stopAndReset(){
+        linearSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
 }

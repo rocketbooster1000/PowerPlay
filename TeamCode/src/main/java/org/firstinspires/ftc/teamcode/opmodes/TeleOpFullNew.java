@@ -38,12 +38,23 @@ import org.firstinspires.ftc.teamcode.mechanisms.Slide;
 
 @TeleOp(name = "drivers, pick up your controllers (new)")
 public class TeleOpFullNew extends OpMode {
+
+
+    enum SlideStates{
+        IN_RED_ZONE,
+        GOING_TO_SAFE,
+        IN_SAFE,
+        WAITING_FOR_CLAW_ROTATE,
+        GOING_TO_HIGH,
+        GOING_TO_GROUND
+    }
+
     //robot "subsystems"
     DriveTrain driveTrain = new DriveTrain();
     Slide slide = new Slide();
     Claw claw = new Claw();
 
-    private ElapsedTime runtime = new ElapsedTime();
+    private ElapsedTime slideTimer = new ElapsedTime();
 
     //State machine booleans for the gamepad (see LearnJavaForFTC pdf chapter 12 for more info)
     boolean aAlreadyPressed;
@@ -68,6 +79,8 @@ public class TeleOpFullNew extends OpMode {
     boolean xAlreadyPressed;
     boolean cycledHigh;
     boolean checkServoFistTime;
+    boolean resetSlideFirstTime;
+    boolean startLetGoFirstTime;
 
     //motor powers and modifiers
     double opmodeSlidePower;
@@ -77,6 +90,7 @@ public class TeleOpFullNew extends OpMode {
     //enumerated types for juntion and cone levels
     SlideLevels level;
     SlideLevels junctionLevel;
+    SlideStates slideState;
 
     @Override
     public void init(){
@@ -109,6 +123,8 @@ public class TeleOpFullNew extends OpMode {
         cycleRequested = false;
         cycledHigh = false;
         checkServoFistTime = true;
+        resetSlideFirstTime = true;
+        startLetGoFirstTime = false;
         lastRunTime = 0;
 
         opmodeSlidePower = 0;
@@ -133,7 +149,7 @@ public class TeleOpFullNew extends OpMode {
     public void start(){
         //reset the gyro
         driveTrain.resetYaw();
-        runtime.reset();
+        slideTimer.reset();
     }
 
     @Override
@@ -254,19 +270,7 @@ public class TeleOpFullNew extends OpMode {
             slide.setSlidePosition(Constants.LINEAR_SLIDE_MINIMUM);
         } //ensure slide in operable window of position
 
-        if (gamepad1.x && !xAlreadyPressed){
-            rotationRequested = false;
-            cycleRequested = true;
-            cycledHigh = !cycledHigh;
-            if (cycledHigh){
-                claw.grab();
-                wantToGrab = false;
-                slide.setSlidePosition(Constants.HIGH_POSITION);
-            } else {
-                claw.release();
-                wantToGrab = true;
-            }    
-        }
+
 
         if (gamepad1.b && !bAlreadyPressed) {
             rotationRequested = true;
@@ -280,34 +284,70 @@ public class TeleOpFullNew extends OpMode {
                 redZoneFirstTime = false;
             }
         }
-        
-        if (cycleRequested){
-            if (canRotate){
-                slide.rotateServo();
-                if (!cycledHigh) {
-                    if (checkServoFistTime){
-                        lastRunTime = runtime.time();
-                        checkServoFistTime = false;
-                    }
-                    if ((runtime.time() - lastRunTime) >= 1){
-                        slide.setSlidePosition(Constants.GROUND_POSITION);
-                        checkServoFistTime = false;
-                        cycleRequested = false;
-                    }
-                }
-            } else {
-                if (!cycledHigh){
-                    slide.setSlidePosition(Constants.RED_ZONE);
-                }
-            }    
-        }    
-
-     
 
         if (rotationRequested && canRotate){
             slide.rotateServo();
             rotationRequested = false;
             redZoneFirstTime = true;
+        }
+
+
+
+        if (gamepad1.x && !xAlreadyPressed){
+            rotationRequested = false;
+            cycleRequested = true;
+            cycledHigh = !cycledHigh;
+        }
+
+        if (!cycleRequested) {
+            if (canRotate) {
+                slideState = SlideStates.IN_SAFE;
+            } else {
+                slideState = SlideStates.IN_RED_ZONE;
+            }
+        }
+
+        if (cycleRequested) {
+            if (cycledHigh) {
+                if (slide.getTargetPos() != Constants.HIGH_POSITION){
+                    slide.setSlidePosition(Constants.HIGH_POSITION);
+                }
+
+                if (canRotate){
+                    slideState = SlideStates.IN_SAFE;
+                    slide.rotateServo();
+                    cycleRequested = false;
+                }
+            } else {
+                switch (slideState){
+                    case IN_SAFE:
+                        slide.rotateServo();
+                        slideTimer.reset();
+                        slideState = SlideStates.WAITING_FOR_CLAW_ROTATE;
+                        break;
+                    case WAITING_FOR_CLAW_ROTATE:
+                        if (slideTimer.time() > Constants.SERVO_ROTATE_TIME) {
+                            slide.setSlidePosition(Constants.GROUND_POSITION);
+                            slideState = SlideStates.GOING_TO_GROUND;
+                        }
+                        break;
+                    case GOING_TO_GROUND:
+                        if (slide.getSlidePos() <= (Constants.GROUND_POSITION + 3)) {
+                            cycleRequested = false;
+                        }
+                        break;
+                    case IN_RED_ZONE:
+                        if (slide.getTargetPos() != Constants.RED_ZONE){
+                            slide.setSlidePosition(Constants.RED_ZONE);
+                        }
+
+                        if (canRotate){
+                            slideState = SlideStates.IN_SAFE;
+                        }
+                        break;
+
+                }
+            }
         }
 
         telemetry.addData("rotation requested: ", rotationRequested);
@@ -321,6 +361,21 @@ public class TeleOpFullNew extends OpMode {
             claw.release();
         }
         telemetry.addData("Claw ", (!wantToGrab) ? "Grabbed" : "Released");
+
+        //slide reset stuff (in case of bad initialization)
+
+        if (gamepad1.start){
+            if (resetSlideFirstTime){
+                slide.setLinearSlideMotorRunMode();
+                resetSlideFirstTime = false;
+            }
+            startLetGoFirstTime = true;
+            slide.moveSlideNoLimitations(Constants.MOTOR_SLIDE_RESET_POWER);
+        } else if (startLetGoFirstTime){
+            slide.moveSlideNoLimitations(0);
+            slide.stopAndReset();
+            startLetGoFirstTime = false;
+        }
 
         aAlreadyPressed = gamepad1.a;
         bAlreadyPressed = gamepad1.b;

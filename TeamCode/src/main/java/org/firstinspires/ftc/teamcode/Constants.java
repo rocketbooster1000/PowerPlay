@@ -12,6 +12,7 @@ public class Constants {
     public static final double SLOW_DRIVE_MODIFIER = 0.3; //a requested slower speed
     //Slide constants
     public static final double MOTOR_SLIDE_POWER = 0.8; //how fast will the slide move (as a percentage)
+    public static final double MOTOR_SLIDE_RESET_POWER = -0.6; //how fast slide moves when resetting (as a percentage)
     public static final int GROUND_POSITION = 61;//folowing variables are encoder tick values
     public static final int LOW_POSITION = 1900; //low junction
     public static final int MEDIUM_POSITION = 3000; //medium junction
@@ -27,6 +28,7 @@ public class Constants {
     //Rotation servo
     public static final double SLIDE_SERVO_ZERO_POSITION = 0.71;
     public static final double SLIDE_SERVO_ROTATED_POSITION = 0.02; //should be 0.04 for testing its been changed
+    public static final double SERVO_ROTATE_TIME = 1;
     //Claw constants
     public static final double CLAW_MIN = 0.001; //release
     public static final double CLAW_MAX = 0.3; //grab
