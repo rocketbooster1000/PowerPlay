@@ -202,6 +202,7 @@ public class TeleOpFullNew extends OpMode {
             telemetry.addData("Slide Mode: ", "Manual");
             slide.moveSlide(opmodeSlidePower);
             isFirstTimeAfterTriggerRelease = true;
+            cycleRequested = false;
         } else {
             isFirstTimeAfterTriggerPress = true;
             if (isFirstTimeAfterTriggerRelease){
@@ -255,7 +256,57 @@ public class TeleOpFullNew extends OpMode {
         } //switch statement for LB and RB toggles
 
 
-
+        /*
+        if (gamepad1.right_bumper && !rightBumperAlreadyPressed) {
+            switch (level) {
+                case GROUND:
+                    slide.setSlidePosition(Constants.CONE_ONE);
+                    level = SlideLevels.CONE_ONE;
+                    break;
+                case CONE_ONE:
+                    slide.setSlidePosition(Constants.CONE_TWO);
+                    level = SlideLevels.CONE_TWO;
+                    break;
+                case CONE_TWO:
+                    slide.setSlidePosition(Constants.CONE_THREE);
+                    level = SlideLevels.CONE_THREE;
+                    break;
+                case CONE_THREE:
+                    slide.setSlidePosition(Constants.CONE_FOUR);
+                    level = SlideLevels.CONE_FOUR;
+                    break;
+                case CONE_FOUR:
+                    slide.setSlidePosition(Constants.GROUND_POSITION);
+                    level = SlideLevels.GROUND;
+                    break;
+            }
+        }
+        
+        if (gamepad1.left_bumper && !leftBumperAlreadyPressed) {
+            switch (level) {
+                case GROUND:
+                    slide.setSlidePosition(Constants.CONE_FOUR);
+                    level = SlideLevels.CONE_FOUR;
+                    break;
+                case CONE_FOUR:
+                    slide.setSlidePosition(Constants.CONE_THREE);
+                    level = SlideLevels.CONE_THREE;
+                    break;
+                case CONE_THREE:
+                    slide.setSlidePosition(Constants.CONE_TWO);
+                    level = SlideLevels.CONE_TWO;
+                    break;
+                case CONE_TWO:
+                    slide.setSlidePosition(Constants.CONE_ONE);
+                    level = SlideLevels.CONE_ONE;
+                    break;
+                case CONE_ONE:
+                    slide.setSlidePosition(Constants.GROUND_POSITION);
+                    level = SlideLevels.GROUND;
+                    break;
+            }
+        }
+        */
 
 
         telemetry.addData("Level: ", level);
@@ -371,10 +422,12 @@ public class TeleOpFullNew extends OpMode {
             }
             startLetGoFirstTime = true;
             slide.moveSlideNoLimitations(Constants.MOTOR_SLIDE_RESET_POWER);
+            telemetry.addData("Slide State: ", "Resetting");
         } else if (startLetGoFirstTime){
             slide.moveSlideNoLimitations(0);
             slide.stopAndReset();
             startLetGoFirstTime = false;
+            resetSlideFirstTime = true;
         }
 
         aAlreadyPressed = gamepad1.a;
