@@ -12,7 +12,7 @@ public class Constants {
     public static final double SLOW_DRIVE_MODIFIER = 0.3; //a requested slower speed
     //Slide constants
     public static final double MOTOR_SLIDE_POWER = 0.8; //how fast will the slide move (as a percentage)
-    public static final double MOTOR_SLIDE_RESET_POWER = -0.6; //how fast slide moves when resetting (as a percentage)
+    public static final double MOTOR_SLIDE_RESET_POWER = -0.3; //how fast slide moves when resetting (as a percentage) KEEP THIS VALUE NEGATIVE
     public static final int GROUND_POSITION = 61;//folowing variables are encoder tick values
     public static final int LOW_POSITION = 1900; //low junction
     public static final int MEDIUM_POSITION = 3000; //medium junction
