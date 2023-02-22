@@ -19,7 +19,6 @@ public class SleeveDetection extends OpenCvPipeline {
         LEFT,
         CENTER,
         RIGHT,
-        NONE
     }
 
     // TOPLEFT anchor point for the bounding box
@@ -32,7 +31,7 @@ public class SleeveDetection extends OpenCvPipeline {
     // Color definitions
     private final Scalar
             YELLOW  = new Scalar(255, 255, 0), //og one is 255, 255, 0 (other teams magenta,: 255, 64, 128)
-            CYAN    = new Scalar(82, 203, 217), //og 0, 255, 255 (other teams green: 89, 153, 13)
+            CYAN    = new Scalar(82, 223, 2), //og 0, 255, 255 (other teams green: 89, 153, 13)
             MAGENTA = new Scalar(255, 0, 255); // 255. 0. 255 (other teams orange: 255, 128, 51)
     // Anchor point definitions
     Point sleeve_pointA = new Point(
@@ -55,16 +54,7 @@ public class SleeveDetection extends OpenCvPipeline {
         double minColor = Math.min(sumColors.val[0], Math.min(sumColors.val[1], sumColors.val[2]));
 
         // Change the bounding box color based on the sleeve color
-        if (sumColors.val[0] == minColor) {
-            position = ParkingPosition.CENTER;
-            Imgproc.rectangle(
-                    input,
-                    sleeve_pointA,
-                    sleeve_pointB,
-                    CYAN,
-                    2
-            );
-        } else if (sumColors.val[1] == minColor) {
+         if (sumColors.val[1] == minColor) {
             position = ParkingPosition.RIGHT;
             Imgproc.rectangle(
                     input,
@@ -82,8 +72,15 @@ public class SleeveDetection extends OpenCvPipeline {
                     YELLOW,
                     2
             );
-        } else {
-            position = ParkingPosition.NONE;
+        } else  {
+            position = ParkingPosition.CENTER;
+            Imgproc.rectangle(
+                    input,
+                    sleeve_pointA,
+                    sleeve_pointB,
+                    CYAN,
+                    2
+            );
         }
 
         // Release and return input

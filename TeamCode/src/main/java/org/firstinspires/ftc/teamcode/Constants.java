@@ -26,12 +26,12 @@ public class Constants {
     public static final int LINEAR_SLIDE_MAXIMUM = 4320; //highest point for linear slide
     public static final int LINEAR_SLIDE_MARGIN_ERROR = 10; //a margin of error to account for PID
     //Rotation servo
-    public static final double SLIDE_SERVO_ZERO_POSITION = 0.71;
-    public static final double SLIDE_SERVO_ROTATED_POSITION = 0.02; //should be 0.04 for testing its been changed
+    public static final double SLIDE_SERVO_ZERO_POSITION = 0.73;
+    public static final double SLIDE_SERVO_ROTATED_POSITION = 0.04; //should be 0.04 for testing its been changed
     public static final double SERVO_ROTATE_TIME = 1;
     //Claw constants
-    public static final double CLAW_MIN = 0.001; //release
-    public static final double CLAW_MAX = 0.3; //grab
+    public static final double CLAW_MIN = 0.23; //release
+    public static final double CLAW_MAX = 0.31; //grab
     //Auto Constants
     public static class Auto{
         public static final double ONE_TILE_STRAFE = 1.1;

@@ -74,7 +74,7 @@ public class TestAuto extends OpMode{
                 case ZONE_TWO:
                     if (runtime.time() <= (3.65 * Constants.Auto.ONE_SECOND)) {
                         autoDriveTrain.rotateCounterClockWise();
-                    } else if (runtime.time() < (3.9 * Constants.Auto.ONE_SECOND)){
+                    } else if (runtime.time() < (3.755 * Constants.Auto.ONE_SECOND)){
                         autoDriveTrain.strafeLeft();
                     } else {
                         autoDriveTrain.stopDriving();
