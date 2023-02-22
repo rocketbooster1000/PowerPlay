@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.SignalZone;
 import org.firstinspires.ftc.teamcode.mechanisms.AutoDriveTrain;
 import org.firstinspires.ftc.teamcode.mechanisms.Claw;
 import org.firstinspires.ftc.teamcode.mechanisms.Slide;
-import org.firstinspires.ftc.teamcode.mechanisms.beta.Camera;
+import org.firstinspires.ftc.teamcode.mechanisms.Camera;
 
 @Autonomous()
 public class TestAutoZoneOne extends OpMode{

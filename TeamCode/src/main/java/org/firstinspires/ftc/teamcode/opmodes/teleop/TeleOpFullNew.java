@@ -24,7 +24,7 @@
 //claw.grab below red zone
 // Where slide is at the bottom on the slide we always do that is turning servo position 0.71
 // oppisiite side is 0.04 for dropping cones
-package org.firstinspires.ftc.teamcode.opmodes;
+package org.firstinspires.ftc.teamcode.opmodes.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;

@@ -4,10 +4,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.mechanisms.AutoDriveTrain;
 import org.firstinspires.ftc.teamcode.mechanisms.Claw;
-import org.firstinspires.ftc.teamcode.mechanisms.beta.Camera;
+import org.firstinspires.ftc.teamcode.mechanisms.Camera;
 
 @Autonomous(name = "Quarter Rotation but gyro")
 public class QuarterRotationTestGyro extends OpMode{

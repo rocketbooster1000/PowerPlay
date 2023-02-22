@@ -2,9 +2,8 @@ package org.firstinspires.ftc.teamcode.opmodes.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.mechanisms.beta.Camera;
+import org.firstinspires.ftc.teamcode.mechanisms.Camera;
 
 @Autonomous(name = "Signal Sleeve but external")
 public class VisionExternalOp extends OpMode {

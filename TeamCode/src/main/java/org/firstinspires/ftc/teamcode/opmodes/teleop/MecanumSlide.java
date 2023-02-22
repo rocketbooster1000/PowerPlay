@@ -3,7 +3,7 @@
 * This contains all logic to make a robot centric mecanum drive work
  */
 
-package org.firstinspires.ftc.teamcode.opmodes;
+package org.firstinspires.ftc.teamcode.opmodes.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -49,7 +49,7 @@ public class MecanumSlide extends OpMode {
 
         power = (gamepad1.right_trigger - gamepad1.left_trigger);
         telemetry.addData("Slide power: ", power);
-        slide.setPowerNoLimitations(power);
+        slide.moveSlideNoLimitations(power);
 
         if (gamepad1.a && !aAlreadyPressed){
             slide.rotateServo();

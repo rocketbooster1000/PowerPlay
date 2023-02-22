@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.mechanisms.AutoDriveTrain;
 import org.firstinspires.ftc.teamcode.mechanisms.Claw;
 import org.firstinspires.ftc.teamcode.mechanisms.Slide;
-import org.firstinspires.ftc.teamcode.mechanisms.beta.Camera;
+import org.firstinspires.ftc.teamcode.mechanisms.Camera;
 
 @Autonomous(name = "Forward Test")
 public class ForwardTest extends OpMode{
