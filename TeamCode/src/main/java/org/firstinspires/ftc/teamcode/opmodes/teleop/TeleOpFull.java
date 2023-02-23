@@ -157,6 +157,7 @@ public class TeleOpFull extends OpMode {
         //Claw
         if (gamepad1.a && !aAlreadyPressed){
             if (wantToGrab){
+                claw.grab();
                 wantToGrab = false;
             } else {
                 claw.release();

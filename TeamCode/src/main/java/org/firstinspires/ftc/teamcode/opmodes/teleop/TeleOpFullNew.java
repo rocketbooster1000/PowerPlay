@@ -317,7 +317,7 @@ public class TeleOpFullNew extends OpMode {
             slide.setSlidePosition(Constants.LINEAR_SLIDE_MAXIMUM);
         }
 
-        if (slide.getSlidePosition() < (Constants.LINEAR_SLIDE_MINIMUM - 3)){
+        if (slide.getSlidePosition() < (Constants.LINEAR_SLIDE_MINIMUM - 3) && !gamepad1.start){
             slide.setSlidePosition(Constants.LINEAR_SLIDE_MINIMUM);
         } //ensure slide in operable window of position
 

@@ -11,6 +11,7 @@ public class Claw {
     public void init(HardwareMap hwMap){
         clawServo = hwMap.get(Servo.class, "Claw_Servo");
         clawServo.setDirection(Servo.Direction.REVERSE);
+        //clawServo.scaleRange(Constants.CLAW_MIN, Constants.CLAW_MAX);
     }
 
     public void grab(){
