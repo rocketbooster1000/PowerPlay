@@ -17,10 +17,10 @@ public class Constants {
     public static final int LOW_POSITION = 1900; //low junction
     public static final int MEDIUM_POSITION = 3000; //medium junction
     public static final int HIGH_POSITION = 4300; //high junction
-    public static final int CONE_ONE = 100; //conestack 1
-    public static final int CONE_TWO = 200; //coestack 2
-    public static final int CONE_THREE = 300; //conestack 3
-    public static final int CONE_FOUR = 400; //conestack 4
+    public static final int CONE_ONE = 225; //conestack 1 225
+    public static final int CONE_TWO = 348; //coestack 2 348
+    public static final int CONE_THREE = 492; //conestack 3 492
+    public static final int CONE_FOUR = 653; //conestack 4 653
     public static final int RED_ZONE = 1600; //the height at which it is safe to rotate the claw, this was initially 10
     public static final int LINEAR_SLIDE_MINIMUM = 60; //lowest point for linear slide
     public static final int LINEAR_SLIDE_MAXIMUM = 4320; //highest point for linear slide
