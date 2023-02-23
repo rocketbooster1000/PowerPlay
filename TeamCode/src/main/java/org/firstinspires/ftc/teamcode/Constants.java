@@ -30,8 +30,8 @@ public class Constants {
     public static final double SLIDE_SERVO_ROTATED_POSITION = 0.04; //should be 0.04 for testing its been changed
     public static final double SERVO_ROTATE_TIME = 1;
     //Claw constants
-    public static final double CLAW_MIN = 0.23; //release
-    public static final double CLAW_MAX = 0.31; //grab
+    public static final double CLAW_MIN = 0.23; //grab
+    public static final double CLAW_MAX = 0.31; //release
     //Auto Constants
     public static class Auto{
         public static final double ONE_TILE_STRAFE = 1.1;

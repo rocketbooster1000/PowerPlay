@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes.auto;
+package org.firstinspires.ftc.teamcode.opmodes.auto.beta;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.vision.SleeveDetection;
 
 @Config
 @Autonomous()
-public class PreloadedAuto extends OpMode {
+public class AutoCycle extends OpMode {
 
     enum States{
         START,

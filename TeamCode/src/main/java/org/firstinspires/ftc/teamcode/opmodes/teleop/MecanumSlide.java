@@ -5,6 +5,7 @@
 
 package org.firstinspires.ftc.teamcode.opmodes.teleop;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -15,6 +16,7 @@ import org.firstinspires.ftc.teamcode.mechanisms.Slide;
 //This makes a new drivetrain
 
 @TeleOp(name = "Mecanum + Slide")
+@Disabled
 public class MecanumSlide extends OpMode {
     DriveTrain board = new DriveTrain();
     Slide slide = new Slide();

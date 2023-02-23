@@ -11,19 +11,30 @@ public class Claw {
     public void init(HardwareMap hwMap){
         clawServo = hwMap.get(Servo.class, "Claw_Servo");
         clawServo.setDirection(Servo.Direction.REVERSE);
-        clawServo.scaleRange(Constants.CLAW_MIN, Constants.CLAW_MAX);
     }
 
     public void grab(){
-        clawServo.setPosition(1);
+        clawServo.setPosition(Constants.CLAW_MIN);
     }
+
+    public void release(){
+        clawServo.setPosition(Constants.CLAW_MAX);
+    }
+
+    /*
+    public void grab(){
+        clawServo.setPosition(1);
+    } */
 
     /*public void release(){
         clawServo.setPosition(0);
     }*/
+    /*
     public void release(){
         clawServo.setPosition(0.58);
     } //This will make it so when it releases it wont hit the slides of the robot
+
+     */
     public void setPosition(double position){
         clawServo.setPosition(position);
     }
