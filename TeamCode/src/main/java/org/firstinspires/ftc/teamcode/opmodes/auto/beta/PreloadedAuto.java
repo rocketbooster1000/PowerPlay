@@ -31,7 +31,11 @@ public class PreloadedAuto extends OpMode {
     Camera camera = new Camera();
 
     TrajectorySequence startTraj;
-    TrajectorySequence junctionToStack;
+    TrajectorySequence untitled0 = drive.trajectorySequenceBuilder(new Pose2d(35.09, 0.33, Math.toRadians(-2.64)))
+            .lineTo(new Vector2d(34.59, -14.23))
+            .splineTo(new Vector2d(11.42, -13.74), Math.toRadians(-6.01))
+            .lineTo(new Vector2d(10.43, -37.57))
+            .build();
     TrajectorySequence stackToJunction;
 
     SleeveDetection.ParkingPosition signalZone;
