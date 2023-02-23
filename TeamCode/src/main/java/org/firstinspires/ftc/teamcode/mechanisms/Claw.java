@@ -38,5 +38,9 @@ public class Claw {
     public void setPosition(double position){
         clawServo.setPosition(position);
     }
+
+    public double getPosition(){
+        return clawServo.getPosition();
+    }
 }
 

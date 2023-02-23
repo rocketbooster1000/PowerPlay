@@ -171,6 +171,7 @@ public class TeleOpFull extends OpMode {
         }
         aAlreadyPressed = gamepad1.a; //confused by this state machine? see the chapter 12 example in the LearnJavaForFTC pdf on state machines
         telemetry.addData("Claw ", (!wantToGrab) ? "Grabbed" : "Released");
+        telemetry.addData("Claw position: ", claw.getPosition());
 
 
         //--------------------------------------------
