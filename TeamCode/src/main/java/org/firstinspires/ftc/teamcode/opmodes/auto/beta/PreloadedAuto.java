@@ -30,14 +30,16 @@ public class PreloadedAuto extends OpMode {
     Claw claw = new Claw();
     Camera camera = new Camera();
 
-    TrajectorySequence startTraj;
-    TrajectorySequence untitled0 = drive.trajectorySequenceBuilder(new Pose2d(35.09, 0.33, Math.toRadians(-2.64)))
+    TrajectorySequence startTraj = startTraj = drive.trajectorySequenceBuilder(new Pose2d(38.23, -64.72, Math.toRadians(0.00)))
+            .lineTo(new Vector2d(31.28, -0.33))
+            .build();
+    TrajectorySequence zoneOne = drive.trajectorySequenceBuilder(startTraj.end())
             .lineTo(new Vector2d(34.59, -14.23))
             .splineTo(new Vector2d(11.42, -13.74), Math.toRadians(-6.01))
             .lineTo(new Vector2d(10.43, -37.57))
             .build();
-    TrajectorySequence stackToJunction;
-
+    TrajectorySequence zoneTwo = drive.trajectorySequenceBuilder(startTraj.end())
+            .lineToLinearHeading(new Pose2d(36.00, -36.00, Math.toRadians(90))).build();
     SleeveDetection.ParkingPosition signalZone;
 
     RobotState robotState;
@@ -47,12 +49,12 @@ public class PreloadedAuto extends OpMode {
         slide.init(hardwareMap);
         claw.init(hardwareMap);
         camera.init(hardwareMap);
-        startTraj = drive.trajectorySequenceBuilder(new Pose2d(38.23, -64.72, Math.toRadians(0.00)))
-                .lineTo(new Vector2d(31.28, -0.33))
-                .build();
+
         drive.setPoseEstimate(startTraj.start());
 
+
     }
+
 
     @Override
     public void init_loop(){
@@ -68,6 +70,12 @@ public class PreloadedAuto extends OpMode {
 
     @Override
     public void loop(){
-        //help me i hate generating paths from rr
+        switch (robotState){
+            case HEADING_TO_JUNCTION:
+                if (!drive.isBusy()){
+
+                }
+        }
+        drive.update();
     }
 }
