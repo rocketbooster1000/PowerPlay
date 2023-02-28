@@ -55,14 +55,30 @@ public class MeepMeepTesting {
                                     .build()
                     );
 
+        RoadRunnerBotEntity fifthBot = new DefaultBotBuilder(meepMeep)
+                .setConstraints(30, 15, Math.toRadians(213), Math.toRadians(60), 13.75)
+                        .followTrajectorySequence(drive ->
+                                drive.trajectorySequenceBuilder(new Pose2d(-24, 0, Math.toRadians(90)))
+                                                .forward(12)
+                                        .strafeLeft(12)
+                                        .build()
+                        );
+
+        RoadRunnerBotEntity newPath = new DefaultBotBuilder(meepMeep)
+                .setConstraints(30, 15, Math.toRadians(213), Math.toRadians(60), 13.75)
+                .followTrajectorySequence(drive ->
+                                drive.trajectorySequenceBuilder(new Pose2d(38.23, -64.72, Math.toRadians(0.00)))
+                                                .turn(Math.toRadians(90))
+                                        .build()
+                );
+
+
+
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_POWERPLAY_OFFICIAL)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
-                .addEntity(myBot)
-                .addEntity(secondBot)
-                .addEntity(thirdBot)
-                .addEntity(fourthBot)
+                .addEntity(newPath)
                 .start();
     }
 }

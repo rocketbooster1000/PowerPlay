@@ -20,6 +20,7 @@ import org.firstinspires.ftc.teamcode.vision.SleeveDetection;
 public class PreloadedAuto extends OpMode {
 
     enum RobotState{
+        PUSHING_CONE,
         HEADING_TO_JUNCTION,
         SCORING,
         PARKING,
@@ -32,11 +33,25 @@ public class PreloadedAuto extends OpMode {
     Camera camera = new Camera();
     ElapsedTime slideTimer = new ElapsedTime();
 
-    TrajectorySequence startTraj;
+    public static double START_X = 36;
+    public static double START_Y = -60;
+
+    public static double PUSH_CONE_DISTANCE = 75;
+
+    public static double COME_BACK_Y = -12;
+
+    public static double SCORE_X = 24;
+    public static double SCORE_Y = -10;
+
+
+    TrajectorySequence pushCone;
 
     TrajectorySequence zoneOne;
     TrajectorySequence zoneTwo;
     TrajectorySequence zoneThree;
+
+    TrajectorySequence comeBack;
+    TrajectorySequence score;
 
     Pose2d junctionPose = new Pose2d(31, 0, Math.toRadians(0));
 
@@ -53,8 +68,18 @@ public class PreloadedAuto extends OpMode {
         claw.init(hardwareMap);
         camera.init(hardwareMap);
 
-        startTraj = drive.trajectorySequenceBuilder(new Pose2d(38.23, -64.72, Math.toRadians(0.00)))
-                .lineTo(new Vector2d(31, -0))
+        pushCone = drive.trajectorySequenceBuilder(new Pose2d(START_X, -START_Y, Math.toRadians(0.00)))
+                .lineTo(new Vector2d(START_X, PUSH_CONE_DISTANCE))
+                .build();
+
+        comeBack = drive.trajectorySequenceBuilder(pushCone.end())
+                .lineTo(new Vector2d(START_X, COME_BACK_Y))
+                .build();
+
+        score = drive.trajectorySequenceBuilder(comeBack.end())
+                .lineTo(new Vector2d(SCORE_X, COME_BACK_Y))
+                .turn(Math.toRadians(-90))
+                .lineTo(new Vector2d(SCORE_X, SCORE_Y))
                 .build();
 
         zoneOne = drive.trajectorySequenceBuilder(new Pose2d(31, 0, Math.toRadians(0)))
@@ -71,7 +96,7 @@ public class PreloadedAuto extends OpMode {
                 .build();
 
 
-        drive.setPoseEstimate(startTraj.start());
+        drive.setPoseEstimate(pushCone.start());
 
 
     }
@@ -98,12 +123,14 @@ public class PreloadedAuto extends OpMode {
     @Override
     public void start(){
         robotState = RobotState.HEADING_TO_JUNCTION;
-        drive.followTrajectorySequenceAsync(startTraj);
+        drive.followTrajectorySequenceAsync(pushCone);
     }
 
     @Override
     public void loop(){
         switch (robotState){
+            case PUSHING_CONE:
+
             case HEADING_TO_JUNCTION:
                 if (slide.getTargetPos() != Constants.HIGH_POSITION){
                     slide.setSlidePosition(Constants.HIGH_POSITION);
