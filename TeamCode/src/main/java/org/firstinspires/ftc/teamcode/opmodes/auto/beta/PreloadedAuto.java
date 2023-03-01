@@ -28,7 +28,7 @@ public class PreloadedAuto extends OpMode {
         STILL
     }
 
-    SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+    SampleMecanumDrive drive = null;
     Slide slide = new Slide();
     Claw claw = new Claw();
     Camera camera = new Camera();
@@ -70,6 +70,7 @@ public class PreloadedAuto extends OpMode {
 
     @Override
     public void init(){
+        drive = new SampleMecanumDrive(hardwareMap);
         slide.init(hardwareMap);
         claw.init(hardwareMap);
         camera.init(hardwareMap);
