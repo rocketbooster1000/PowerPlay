@@ -14,11 +14,11 @@ public class Claw {
         //clawServo.scaleRange(Constants.CLAW_MIN, Constants.CLAW_MAX);
     }
 
-    public void release(){
+    public void grab(){
         clawServo.setPosition(Constants.CLAW_MIN);
     }
 
-    public void grab(){
+    public void release(){
         clawServo.setPosition(Constants.CLAW_MAX);
     }
 

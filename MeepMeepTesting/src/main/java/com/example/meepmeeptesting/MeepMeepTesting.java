@@ -67,8 +67,8 @@ public class MeepMeepTesting {
         RoadRunnerBotEntity newPath = new DefaultBotBuilder(meepMeep)
                 .setConstraints(30, 15, Math.toRadians(213), Math.toRadians(60), 13.75)
                 .followTrajectorySequence(drive ->
-                                drive.trajectorySequenceBuilder(new Pose2d(38.23, -64.72, Math.toRadians(0.00)))
-                                                .turn(Math.toRadians(90))
+                                drive.trajectorySequenceBuilder(new Pose2d(24, -12, Math.toRadians(-90)))
+                                                .lineToLinearHeading(new Pose2d(12, -12, Math.toRadians(90)))
                                         .build()
                 );
 

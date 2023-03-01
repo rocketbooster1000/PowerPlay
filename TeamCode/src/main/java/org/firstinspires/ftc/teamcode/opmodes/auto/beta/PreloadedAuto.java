@@ -21,8 +21,9 @@ public class PreloadedAuto extends OpMode {
 
     enum RobotState{
         PUSHING_CONE,
-        HEADING_TO_JUNCTION,
-        SCORING,
+        COMING_BACK,
+        SCORE,
+        GETTING_READY_TO_PARK,
         PARKING,
         STILL
     }
@@ -43,6 +44,10 @@ public class PreloadedAuto extends OpMode {
     public static double SCORE_X = 24;
     public static double SCORE_Y = -10;
 
+    public static double ZONE_ONE_X = 12;
+    public static double ZONE_TWO_X = 36;
+    public static double ZONE_THREE_X = 60;
+
 
     TrajectorySequence pushCone;
 
@@ -52,8 +57,9 @@ public class PreloadedAuto extends OpMode {
 
     TrajectorySequence comeBack;
     TrajectorySequence score;
+    TrajectorySequence readyForPark;
 
-    Pose2d junctionPose = new Pose2d(31, 0, Math.toRadians(0));
+
 
 
     SleeveDetection.ParkingPosition signalZone;
@@ -82,18 +88,23 @@ public class PreloadedAuto extends OpMode {
                 .lineTo(new Vector2d(SCORE_X, SCORE_Y))
                 .build();
 
-        zoneOne = drive.trajectorySequenceBuilder(new Pose2d(31, 0, Math.toRadians(0)))
-                .strafeRight(12)
-                .lineToLinearHeading(new Pose2d(12, -12, Math.toRadians(90)))
+        readyForPark = drive.trajectorySequenceBuilder(score.end())
+                .lineTo(new Vector2d(SCORE_X, COME_BACK_Y))
                 .build();
 
-        zoneTwo = drive.trajectorySequenceBuilder(junctionPose)
-                .lineToLinearHeading(new Pose2d(36.00, -36.00, Math.toRadians(90))).build();
 
-        zoneThree = drive.trajectorySequenceBuilder(junctionPose)
-                .lineToLinearHeading(new Pose2d(36.00, -36.00, Math.toRadians(90)))
-                .strafeRight(24)
+
+        zoneOne = drive.trajectorySequenceBuilder(score.end())
+                .lineToLinearHeading(new Pose2d(ZONE_ONE_X, COME_BACK_Y, Math.toRadians(90)))
                 .build();
+
+        zoneTwo = drive.trajectorySequenceBuilder(score.end())
+                .lineToLinearHeading(new Pose2d(ZONE_TWO_X, COME_BACK_Y, Math.toRadians(90)))
+                .build();
+
+        zoneThree = drive.trajectorySequenceBuilder(score.end())
+                        .lineToLinearHeading(new Pose2d(ZONE_THREE_X, COME_BACK_Y, Math.toRadians(90)))
+                                .build();
 
 
         drive.setPoseEstimate(pushCone.start());
@@ -106,23 +117,12 @@ public class PreloadedAuto extends OpMode {
     public void init_loop(){
         signalZone = camera.returnZoneEnumerated();
         telemetry.addData("Zone: ", signalZone);
-        switch (signalZone){
-            case LEFT:
-                parking = zoneOne;
-                break;
-            case CENTER:
-                parking = zoneTwo;
-                break;
-            case RIGHT:
-                parking = zoneThree;
-                break;
-        }
         claw.grab();
     }
 
     @Override
     public void start(){
-        robotState = RobotState.HEADING_TO_JUNCTION;
+        robotState = RobotState.PUSHING_CONE;
         drive.followTrajectorySequenceAsync(pushCone);
     }
 
@@ -130,35 +130,54 @@ public class PreloadedAuto extends OpMode {
     public void loop(){
         switch (robotState){
             case PUSHING_CONE:
-
-            case HEADING_TO_JUNCTION:
+                claw.grab();
                 if (slide.getTargetPos() != Constants.HIGH_POSITION){
                     slide.setSlidePosition(Constants.HIGH_POSITION);
                 }
-
+                if (!drive.isBusy()){
+                    drive.followTrajectorySequenceAsync(comeBack);
+                    robotState = RobotState.COMING_BACK;
+                }
+                break;
+            case COMING_BACK:
                 claw.grab();
 
                 if (!drive.isBusy()){
+                    drive.followTrajectorySequenceAsync(score);
+                    robotState = RobotState.SCORE;
+                }
+                break;
+            case SCORE:
+                claw.grab();
+                if (!drive.isBusy() && (Math.abs(slide.getSlidePos() - Constants.HIGH_POSITION) <= 5)){
                     claw.release();
-                    robotState = RobotState.SCORING;
-                    slide.rotateServo();
-                    slideTimer.reset();
-                    drive.followTrajectorySequenceAsync(parking);
+                    drive.followTrajectorySequenceAsync(readyForPark);
+                    robotState = RobotState.GETTING_READY_TO_PARK;
+                }
+                break;
+            case GETTING_READY_TO_PARK:
+                if (!drive.isBusy()){
+                    slide.setSlidePosition(0);
+                    if (signalZone == SleeveDetection.ParkingPosition.LEFT){
+                        drive.followTrajectorySequenceAsync(zoneOne);
+                    } else if (signalZone == SleeveDetection.ParkingPosition.CENTER){
+                        drive.followTrajectorySequenceAsync(zoneTwo);
+                    } else if (signalZone == SleeveDetection.ParkingPosition.RIGHT){
+                        drive.followTrajectorySequenceAsync(zoneThree);
+                    }
+                    robotState = RobotState.PARKING;
                 }
                 break;
             case PARKING:
-                if (slideTimer.time() >= Constants.SERVO_ROTATE_TIME && slide.getTargetPos() != 0){
-                    slide.setSlidePosition(0);
-                }
-
-                if (!drive.isBusy()) {
+                if (!drive.isBusy()){
                     robotState = RobotState.STILL;
                 }
                 break;
             case STILL:
-                telemetry.addData("Auto: ", "Finished");
-                break;
+                telemetry.addData("Status: ", "done");
+
         }
+        telemetry.addData("Robot state: ", robotState);
         drive.update();
     }
 }
