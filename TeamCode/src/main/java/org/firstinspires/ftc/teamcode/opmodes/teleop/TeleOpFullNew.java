@@ -70,6 +70,7 @@ public class TeleOpFullNew extends OpMode {
     boolean rightStickPressed;
     boolean isFirstTimeAfterTriggerRelease;
     boolean yAlreadyPressed;
+    boolean backAlreadyPressed;
     boolean isFirstTimeAfterTriggerPress;
     boolean rotationRequested;
     boolean canRotate;
@@ -115,6 +116,7 @@ public class TeleOpFullNew extends OpMode {
         rightStickPressed = false;
         isFirstTimeAfterTriggerRelease = false;
         yAlreadyPressed = false;
+        backAlreadyPressed = false;
         isFirstTimeAfterTriggerPress = true;
         rotationRequested = false;
         canRotate = false;
@@ -155,7 +157,7 @@ public class TeleOpFullNew extends OpMode {
     @Override
     public void loop(){
         //drive
-        if (gamepad1.left_bumper && !leftJoystickPressed){
+        if (gamepad1.back && !leftJoystickPressed){
             wantSlowDrive = !wantSlowDrive;
             drivePower = (wantSlowDrive) ? Constants.SLOW_DRIVE_MODIFIER : Constants.DRIVE_POWER_MODIFIER;
         }
@@ -212,6 +214,7 @@ public class TeleOpFullNew extends OpMode {
             telemetry.addData("Slide Mode: ", "Run to position");
         }
 
+        /*
         if (gamepad1.right_bumper && !rightBumperAlreadyPressed) {
             switch (level) {
                 case GROUND:
@@ -254,9 +257,9 @@ public class TeleOpFullNew extends OpMode {
                     break;
             }
         } //switch statement for LB and RB toggles
+        */
 
 
-        /*
         if (gamepad1.right_bumper && !rightBumperAlreadyPressed) {
             switch (level) {
                 case GROUND:
@@ -306,7 +309,7 @@ public class TeleOpFullNew extends OpMode {
                     break;
             }
         }
-        */
+
 
 
         telemetry.addData("Level: ", level);
@@ -434,6 +437,7 @@ public class TeleOpFullNew extends OpMode {
         bAlreadyPressed = gamepad1.b;
         xAlreadyPressed = gamepad1.x;
         yAlreadyPressed = gamepad1.y;
+        backAlreadyPressed = gamepad1.back;
         downAlreadyPressed = gamepad1.dpad_down;
         leftAlreadyPressed = gamepad1.dpad_left;
         upAlreadyPressed = gamepad1.dpad_up;
