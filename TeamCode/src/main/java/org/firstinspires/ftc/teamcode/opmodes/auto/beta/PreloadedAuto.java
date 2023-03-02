@@ -35,14 +35,14 @@ public class PreloadedAuto extends OpMode {
     ElapsedTime slideTimer = new ElapsedTime();
 
     public static double START_X = 36;
-    public static double START_Y = -60;
+    public static double START_Y = 60;
 
-    public static double PUSH_CONE_DISTANCE = 75;
+    public static double PUSH_CONE_DISTANCE = 5;
 
-    public static double COME_BACK_Y = -12;
+    public static double COME_BACK_Y = .01;
 
-    public static double SCORE_X = 24;
-    public static double SCORE_Y = -10;
+    public static double SCORE_X = 25.5;
+    public static double SCORE_Y = 4.5;
 
     public static double ZONE_ONE_X = 12;
     public static double ZONE_TWO_X = 36;
