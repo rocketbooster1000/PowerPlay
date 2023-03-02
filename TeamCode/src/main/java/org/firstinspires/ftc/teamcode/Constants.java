@@ -80,8 +80,10 @@ public class Constants {
     public static double[] returnMecanumValues(double rotation, double strafe, double forward, double heading, double scalePower){
         double angle = inputAngle(strafe, forward) + 45 - heading;
         double power = inputMagnitude(strafe, forward);
-        double xPower = power * Math.cos(Math.toRadians(angle));
-        double yPower = power * Math.sin(Math.toRadians(angle));
+        //double max = 1;
+        double max = Math.max(Math.abs(Math.cos(Math.toRadians(angle))), Math.abs(Math.sin(Math.toRadians(angle))));
+        double xPower = power * Math.cos(Math.toRadians(angle)) / max;
+        double yPower = power * Math.sin(Math.toRadians(angle)) / max;
         double frontLeft = xPower;
         double frontRight = yPower;
         double backLeft = yPower;
@@ -90,6 +92,14 @@ public class Constants {
         backLeft += (rotation * ROTATION_CONSTANT);
         frontLeft += (rotation * ROTATION_CONSTANT);
         backRight -= (rotation * ROTATION_CONSTANT);
+
+        if ((power + Math.abs(rotation)) > 1){
+            frontLeft /= power + rotation;
+            frontRight /= power + rotation;
+            backLeft /= power + rotation;
+            backRight /= power + rotation;
+        }
+
         frontLeft *= scalePower;
         frontRight *= scalePower;
         backLeft *= scalePower;
