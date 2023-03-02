@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -12,6 +13,7 @@ import org.firstinspires.ftc.teamcode.mechanisms.Slide;
 import org.firstinspires.ftc.teamcode.mechanisms.Camera;
 
 @Autonomous()
+@Disabled
 public class TestAutoZoneOne extends OpMode{
     private ElapsedTime runtime = new ElapsedTime();
 

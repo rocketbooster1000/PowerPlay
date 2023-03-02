@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes.auto.beta;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.mechanisms.Camera;
@@ -11,6 +12,7 @@ import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 
 @Config
 @Autonomous()
+@Disabled
 public class PreloadedLinear extends LinearOpMode {
     Claw claw;
     Slide slide;

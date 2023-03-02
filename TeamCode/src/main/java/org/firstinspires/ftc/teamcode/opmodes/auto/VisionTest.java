@@ -3,6 +3,7 @@
 package org.firstinspires.ftc.teamcode.opmodes.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -13,6 +14,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 
 @Autonomous(name = "Signal Sleeve Test")
+@Disabled
 public class VisionTest extends LinearOpMode {
     SleeveDetection sleeveDetection = new SleeveDetection();
     //private SleeveDetection sleeveDetection;

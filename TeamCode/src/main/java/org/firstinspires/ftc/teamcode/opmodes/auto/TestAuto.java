@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.mechanisms.AutoDriveTrain;
 import org.firstinspires.ftc.teamcode.mechanisms.Claw;
 import org.firstinspires.ftc.teamcode.mechanisms.Camera;
 
-@Autonomous()
+@Autonomous(name = "Time based parking")
 public class TestAuto extends OpMode{
     private ElapsedTime runtime = new ElapsedTime();
 

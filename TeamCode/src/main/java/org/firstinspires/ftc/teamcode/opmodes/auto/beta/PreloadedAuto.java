@@ -32,10 +32,9 @@ public class PreloadedAuto extends OpMode {
     Slide slide = new Slide();
     Claw claw = new Claw();
     Camera camera = new Camera();
-    ElapsedTime slideTimer = new ElapsedTime();
 
     public static double START_X = 36;
-    public static double START_Y = 60;
+    public static double START_Y = -60;
 
     public static double PUSH_CONE_DISTANCE = 5;
 
@@ -66,7 +65,7 @@ public class PreloadedAuto extends OpMode {
 
     RobotState robotState;
 
-    TrajectorySequence parking;
+
 
     @Override
     public void init(){
@@ -75,7 +74,7 @@ public class PreloadedAuto extends OpMode {
         claw.init(hardwareMap);
         camera.init(hardwareMap);
 
-        pushCone = drive.trajectorySequenceBuilder(new Pose2d(START_X, -START_Y, Math.toRadians(0.00)))
+        pushCone = drive.trajectorySequenceBuilder(new Pose2d(START_X, START_Y, Math.toRadians(0.00)))
                 .lineTo(new Vector2d(START_X, PUSH_CONE_DISTANCE))
                 .build();
 
@@ -95,15 +94,15 @@ public class PreloadedAuto extends OpMode {
 
 
 
-        zoneOne = drive.trajectorySequenceBuilder(score.end())
+        zoneOne = drive.trajectorySequenceBuilder(readyForPark.end())
                 .lineToLinearHeading(new Pose2d(ZONE_ONE_X, COME_BACK_Y, Math.toRadians(90)))
                 .build();
 
-        zoneTwo = drive.trajectorySequenceBuilder(score.end())
+        zoneTwo = drive.trajectorySequenceBuilder(readyForPark.end())
                 .lineToLinearHeading(new Pose2d(ZONE_TWO_X, COME_BACK_Y, Math.toRadians(90)))
                 .build();
 
-        zoneThree = drive.trajectorySequenceBuilder(score.end())
+        zoneThree = drive.trajectorySequenceBuilder(readyForPark.end())
                         .lineToLinearHeading(new Pose2d(ZONE_THREE_X, COME_BACK_Y, Math.toRadians(90)))
                                 .build();
 

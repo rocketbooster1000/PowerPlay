@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.mechanisms.Claw;
 import org.firstinspires.ftc.teamcode.mechanisms.Slide;
 import org.firstinspires.ftc.teamcode.mechanisms.Camera;
 
-@Autonomous(name = "Forward Test")
+@Autonomous(name = "show the field inspection guy our robot moves in auto")
 public class ForwardTest extends OpMode{
     private ElapsedTime runtime = new ElapsedTime();
     double lastRunTime;
