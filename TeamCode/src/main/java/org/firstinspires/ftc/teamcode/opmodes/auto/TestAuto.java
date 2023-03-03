@@ -25,6 +25,7 @@ public class TestAuto extends OpMode{
     public void init(){
         autoDriveTrain.init(hardwareMap);
         camera.init(hardwareMap);
+        claw.init(hardwareMap);
         telemetry.addData("Initialization ", "Complete");
         lastRuntTime = 0;
         claw.grab();
@@ -61,8 +62,8 @@ public class TestAuto extends OpMode{
     public void loop() {
         if (runtime.time() <= (1.75 * Constants.Auto.ONE_TILE_FORWARD)) {
             autoDriveTrain.strafeLeft();
-        } else if (runtime.time() <= (2.5 * Constants.Auto.ONE_TILE_FORWARD)) {
-            autoDriveTrain.strafeRight();
+        } else if (runtime.time() <= (2.45  * Constants.Auto.ONE_TILE_FORWARD)) {
+            autoDriveTrain.strafeRight();;;
         } else if (runtime.time() < (2.76 * Constants.Auto.ONE_SECOND)) {
                 autoDriveTrain.stopDriving();
         } else {
@@ -77,18 +78,18 @@ public class TestAuto extends OpMode{
                     }
                     break;
                 case ZONE_ONE:
-                    if (runtime.time() <= (3.55 * Constants.Auto.ONE_SECOND)) {
+                    if (runtime.time() <= (3.65 * Constants.Auto.ONE_SECOND)) {
                         autoDriveTrain.driveBackward();
-                    } else if (runtime.time() < (4.5 * Constants.Auto.ONE_SECOND)) {
+                    } else if (runtime.time() < (4.5  * Constants.Auto.ONE_SECOND)) {
                         autoDriveTrain.rotateCounterClockWise();
                     } else {
                         autoDriveTrain.stopDriving();
                     }
                     break;
                 case ZONE_THREE:
-                    if (runtime.time() <= (3.5 * Constants.Auto.ONE_SECOND)) {
+                    if (runtime.time() <= (3.65 * Constants.Auto.ONE_SECOND)) {
                         autoDriveTrain.driveForward();
-                    } else if (runtime.time() < (4.5 * Constants.Auto.ONE_SECOND)) {
+                    } else if (runtime.time() < (4.6 * Constants.Auto.ONE_SECOND)) {
                         autoDriveTrain.rotateCounterClockWise();
                     } else {
                         autoDriveTrain.stopDriving();
