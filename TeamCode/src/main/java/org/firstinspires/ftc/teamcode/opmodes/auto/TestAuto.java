@@ -27,6 +27,7 @@ public class TestAuto extends OpMode{
         camera.init(hardwareMap);
         telemetry.addData("Initialization ", "Complete");
         lastRuntTime = 0;
+        claw.grab();
 
     }
 
