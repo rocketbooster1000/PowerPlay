@@ -6,6 +6,7 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.util.Constants;
 import org.firstinspires.ftc.teamcode.mechanisms.Claw;
@@ -21,11 +22,12 @@ import org.firstinspires.ftc.teamcode.vision.SleeveDetection;
 public class AutoCycle extends OpMode {
 
     enum States{
-        START,
-        HEADING_TO_CONES
+        HEADING_TO_CONES,
+        HEADING_TO_JUNCTION,
+        PARKING
     }
 
-    SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+    SampleMecanumDrive drive = null;
     Slide slide = new Slide();
     Claw claw = new Claw();
     Camera camera = new Camera();
@@ -33,20 +35,34 @@ public class AutoCycle extends OpMode {
     TrajectorySequence startTraj;
     TrajectorySequence junctionToStack;
     TrajectorySequence stackToJunction;
+    TrajectorySequence left;
+    TrajectorySequence center;
+    TrajectorySequence right;
 
     States autoState;
     SleeveDetection.ParkingPosition signalZone;
 
+    static int[] coneStackEncoderPositions;
+    int coneIndex;
+
+    public static double timeToCycle = 25;
+
+    ElapsedTime runtime = new ElapsedTime();
+
     @Override
     public void init(){
+        drive = new SampleMecanumDrive(hardwareMap);
         slide.init(hardwareMap);
         claw.init(hardwareMap);
         camera.init(hardwareMap);
-        autoState = States.START;
+        autoState = States.HEADING_TO_JUNCTION;
+        coneStackEncoderPositions = new int[]{Constants.CONE_FOUR, Constants.CONE_THREE, Constants.CONE_TWO, Constants.CONE_ONE, Constants.GROUND_POSITION};
+        coneIndex = 0;
     }
 
     @Override
     public void init_loop(){
+        claw.grab();
         signalZone = camera.returnZoneEnumerated();
         telemetry.addData("Zone: ", signalZone);
     }
@@ -70,26 +86,46 @@ public class AutoCycle extends OpMode {
 
         drive.followTrajectorySequenceAsync(startTraj);
         slide.setSlidePosition(Constants.HIGH_POSITION);
+        runtime.reset();
     }
 
     @Override
     public void loop(){
         switch (autoState){
-            case START:
-
+            case HEADING_TO_JUNCTION:
+                claw.grab();
                 if (!drive.isBusy()){
                     claw.release();
                     slide.rotateServo();
-                    slide.setSlidePosition(Constants.CONE_FOUR);
+                    if (runtime.time() > timeToCycle){
+                        slide.setSlidePosition(0);
+                        if (signalZone == SleeveDetection.ParkingPosition.LEFT){
+                            drive.followTrajectorySequenceAsync(left);
+                        } else if (signalZone == SleeveDetection.ParkingPosition.CENTER){
+                            drive.followTrajectorySequenceAsync(center);
+                        } else {
+                            drive.followTrajectorySequenceAsync(right);
+                        }
+                        autoState = States.PARKING;
+                        break;
+                    }
+                    slide.setSlidePosition(coneStackEncoderPositions[coneIndex]);
+                    coneIndex++;
                     drive.followTrajectorySequenceAsync(junctionToStack);
                     autoState = States.HEADING_TO_CONES;
                 }
+                break;
             case HEADING_TO_CONES:
 
                 if (!drive.isBusy()){
-                    claw.grab();
-
+                    if (Math.abs(slide.getSlidePos() - slide.getTargetPos()) < 5){
+                        claw.grab();
+                        slide.setSlidePosition(Constants.HIGH_POSITION);
+                        drive.followTrajectorySequenceAsync(junctionToStack);
+                        autoState = States.HEADING_TO_JUNCTION;
+                    }
                 }
+                break;
         }
         drive.update();
     }
