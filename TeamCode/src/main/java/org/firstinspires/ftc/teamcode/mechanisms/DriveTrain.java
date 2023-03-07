@@ -5,6 +5,13 @@
 */
 package org.firstinspires.ftc.teamcode.mechanisms;
 
+import static org.firstinspires.ftc.teamcode.util.Algorithms.returnMecanumValues;
+import static org.firstinspires.ftc.teamcode.util.Algorithms.returnMecanumValuesAuto;
+import static org.firstinspires.ftc.teamcode.util.Constants.MECANUM_BACK_LEFT_MOTOR;
+import static org.firstinspires.ftc.teamcode.util.Constants.MECANUM_BACK_RIGHT_MOTOR;
+import static org.firstinspires.ftc.teamcode.util.Constants.MECANUM_FRONT_LEFT_MOTOR;
+import static org.firstinspires.ftc.teamcode.util.Constants.MECANUM_FRONT_RIGHT_MOTOR;
+
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -14,7 +21,6 @@ import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
-import org.firstinspires.ftc.teamcode.Constants;
 
 //This makes the drivetrain class
 public class DriveTrain {
@@ -68,12 +74,12 @@ public class DriveTrain {
 
     //This tells the motors how fast to go
     public void drive(double rotation, double strafe, double forwardPower, double heading, double scalar){
-        double [] motorArraySpeeds = Constants.returnMecanumValues(rotation, strafe, forwardPower, heading, scalar);
+        double [] motorArraySpeeds = returnMecanumValues(rotation, strafe, forwardPower, heading, scalar);
 
-        frontLeftMotor.setPower(motorArraySpeeds[Constants.MECANUM_FRONT_LEFT_MOTOR]);
-        frontRightMotor.setPower(motorArraySpeeds[Constants.MECANUM_FRONT_RIGHT_MOTOR]);
-        backLeftMotor.setPower(motorArraySpeeds[Constants.MECANUM_BACK_LEFT_MOTOR]);
-        backRightMotor.setPower(motorArraySpeeds[Constants.MECANUM_BACK_RIGHT_MOTOR]);
+        frontLeftMotor.setPower(motorArraySpeeds[MECANUM_FRONT_LEFT_MOTOR]);
+        frontRightMotor.setPower(motorArraySpeeds[MECANUM_FRONT_RIGHT_MOTOR]);
+        backLeftMotor.setPower(motorArraySpeeds[MECANUM_BACK_LEFT_MOTOR]);
+        backRightMotor.setPower(motorArraySpeeds[MECANUM_BACK_RIGHT_MOTOR]);
     }
     //This gets the heading by reading the gyro
     public double getHeadingDeg(){
@@ -82,12 +88,12 @@ public class DriveTrain {
     }
 
     public void driveAuto(double magnitude, double angle, double rotation, double heading, double scalePower){
-        double[] motorArraySpeeds = Constants.returnMecanumValuesAuto(magnitude, angle, rotation, heading, scalePower);
+        double[] motorArraySpeeds = returnMecanumValuesAuto(magnitude, angle, rotation, heading, scalePower);
 
-        frontLeftMotor.setPower(motorArraySpeeds[Constants.MECANUM_FRONT_LEFT_MOTOR]);
-        frontRightMotor.setPower(motorArraySpeeds[Constants.MECANUM_FRONT_RIGHT_MOTOR]);
-        backLeftMotor.setPower(motorArraySpeeds[Constants.MECANUM_BACK_LEFT_MOTOR]);
-        backRightMotor.setPower(motorArraySpeeds[Constants.MECANUM_BACK_RIGHT_MOTOR]);
+        frontLeftMotor.setPower(motorArraySpeeds[MECANUM_FRONT_LEFT_MOTOR]);
+        frontRightMotor.setPower(motorArraySpeeds[MECANUM_FRONT_RIGHT_MOTOR]);
+        backLeftMotor.setPower(motorArraySpeeds[MECANUM_BACK_LEFT_MOTOR]);
+        backRightMotor.setPower(motorArraySpeeds[MECANUM_BACK_RIGHT_MOTOR]);
     }
     //This resets the gyro
     public void resetYaw(){

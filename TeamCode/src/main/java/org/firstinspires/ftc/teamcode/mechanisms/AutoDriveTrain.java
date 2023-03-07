@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.mechanisms;
 
-import org.firstinspires.ftc.teamcode.Constants;
+import org.firstinspires.ftc.teamcode.util.Constants;
 
 public class AutoDriveTrain extends DriveTrain{
 
