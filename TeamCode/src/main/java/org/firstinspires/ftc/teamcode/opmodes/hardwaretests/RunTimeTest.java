@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.opmodes.hardwaretests;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name = "runtime test")
+@Disabled
 public class RunTimeTest extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     double lastRunTIme;

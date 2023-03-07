@@ -15,8 +15,8 @@ import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySe
 import org.firstinspires.ftc.teamcode.vision.SleeveDetection;
 
 @Config
-@Autonomous(name = "Left auto preloaded")
-public class PreloadedAutoleft extends OpMode {
+@Autonomous(name = "Right auto preloaded")
+public class PreloadedRightNew extends OpMode {
 
     enum RobotState{
         PUSHING_CONE,
@@ -39,8 +39,8 @@ public class PreloadedAutoleft extends OpMode {
 
     public static double COME_BACK_Y = .01;
 
-    public static double SCORE_X = 50;
-    public static double SCORE_Y = 5;
+    public static double SCORE_X = 27;
+    public static double SCORE_Y = 4.5;
 
     public static double ZONE_ONE_X = 12;
     public static double ZONE_TWO_X = 36;
@@ -73,7 +73,7 @@ public class PreloadedAutoleft extends OpMode {
         claw.init(hardwareMap);
         camera.init(hardwareMap);
 
-        pushCone = drive.trajectorySequenceBuilder(new Pose2d(START_X, START_Y, Math.toRadians(0.00)))
+        pushCone = drive.trajectorySequenceBuilder(new Pose2d(START_X, START_Y, Math.toRadians(90)))
                 .lineTo(new Vector2d(START_X, PUSH_CONE_DISTANCE))
                 .build();
 

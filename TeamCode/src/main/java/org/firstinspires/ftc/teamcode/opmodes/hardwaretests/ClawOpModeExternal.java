@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.opmodes.hardwaretests;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.mechanisms.Claw;
 
 @TeleOp(group = "Hardware tests")
+@Disabled
 public class ClawOpModeExternal extends OpMode{
     Claw claw = new Claw();
 

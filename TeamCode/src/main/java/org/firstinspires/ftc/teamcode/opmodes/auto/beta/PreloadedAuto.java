@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySe
 import org.firstinspires.ftc.teamcode.vision.SleeveDetection;
 
 @Config
-@Autonomous()
+@Autonomous(name = "Right auto preloaded")
 public class PreloadedAuto extends OpMode {
 
     enum RobotState{
@@ -36,12 +36,12 @@ public class PreloadedAuto extends OpMode {
     public static double START_X = 36;
     public static double START_Y = -60;
 
-    public static double PUSH_CONE_DISTANCE = 9;
+    public static double PUSH_CONE_DISTANCE = 5;
 
     public static double COME_BACK_Y = .01;
 
-    public static double SCORE_X = 26.5;
-    public static double SCORE_Y = 6;
+    public static double SCORE_X = 27;
+    public static double SCORE_Y = 4.5;
 
     public static double ZONE_ONE_X = 12;
     public static double ZONE_TWO_X = 36;

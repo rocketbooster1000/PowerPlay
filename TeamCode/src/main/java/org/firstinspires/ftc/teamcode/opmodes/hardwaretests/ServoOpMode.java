@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(group = "Hardware tests")
+@TeleOp(group = "Hardware tests", name = "Slide servo")
 public class ServoOpMode extends OpMode{
     Servo servo;
     double servoPosition;

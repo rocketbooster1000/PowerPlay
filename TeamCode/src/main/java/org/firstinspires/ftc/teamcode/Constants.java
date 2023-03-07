@@ -1,17 +1,20 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.dashboard.config.Config;
+
+@Config
 public class Constants {
     //Drive constants
-    public static final double ROTATION_CONSTANT = 0.6;//how fast will the robot turn (as a percentage)
+    public static double ROTATION_CONSTANT = 0.6;//how fast will the robot turn (as a percentage)
     public static final int MECANUM_MOTOR_NUMBER = 4; //unused, was intended for ftclib
     public static final int MECANUM_FRONT_LEFT_MOTOR = 0; //the following four variables are for arrays
     public static final int MECANUM_FRONT_RIGHT_MOTOR = 1;
     public static final int MECANUM_BACK_LEFT_MOTOR = 2;
     public static final int MECANUM_BACK_RIGHT_MOTOR = 3;
-    public static final double DRIVE_POWER_MODIFIER = 0.8; //how fast will the robot drive (as a percentage)
-    public static final double SLOW_DRIVE_MODIFIER = 0.3; //a requested slower speed
+    public static double DRIVE_POWER_MODIFIER = 0.8; //how fast will the robot drive (as a percentage)
+    public static double SLOW_DRIVE_MODIFIER = 0.3; //a requested slower speed
     //Slide constants
-    public static final double MOTOR_SLIDE_POWER = 0.8; //how fast will the slide move (as a percentage)
+    public static double MOTOR_SLIDE_POWER = 0.95; //how fast will the slide move (as a percentage)
     public static final double MOTOR_SLIDE_RESET_POWER = -0.3; //how fast slide moves when resetting (as a percentage) KEEP THIS VALUE NEGATIVE
     public static final int GROUND_POSITION = 61;//folowing variables are encoder tick values
     public static final int LOW_POSITION = 1900; //low junction
@@ -80,8 +83,17 @@ public class Constants {
     public static double[] returnMecanumValues(double rotation, double strafe, double forward, double heading, double scalePower){
         double angle = inputAngle(strafe, forward) + 45 - heading;
         double power = inputMagnitude(strafe, forward);
-        double xPower = power * Math.cos(Math.toRadians(angle));
-        double yPower = power * Math.sin(Math.toRadians(angle));
+        double sin = Math.sin(Math.toRadians(angle));
+        double cos = Math.cos(Math.toRadians(angle));
+        double maxTrig = Math.max(Math.abs(sin), Math.abs(Math.cos(angle)));
+        double xPower = power * cos;
+        double yPower = power * sin;
+
+        if (maxTrig != 0){
+            xPower /= maxTrig;
+            yPower /= maxTrig;
+        }
+
         double frontLeft = xPower;
         double frontRight = yPower;
         double backLeft = yPower;
@@ -90,6 +102,15 @@ public class Constants {
         backLeft += (rotation * ROTATION_CONSTANT);
         frontLeft += (rotation * ROTATION_CONSTANT);
         backRight -= (rotation * ROTATION_CONSTANT);
+        double maxPower = Math.max(Math.max(Math.abs(frontLeft), Math.abs(frontRight)), Math.max(Math.abs(backLeft), Math.abs(backRight)));
+
+        if (maxPower > 1){
+            frontLeft /= maxPower;
+            frontRight /= maxPower;
+            backLeft /= maxPower;
+            backRight /= maxPower;
+        }
+
         frontLeft *= scalePower;
         frontRight *= scalePower;
         backLeft *= scalePower;
