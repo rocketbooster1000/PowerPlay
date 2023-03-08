@@ -23,6 +23,7 @@ public class AutoCycle extends OpMode {
 
     enum States{
         HEADING_TO_CONES,
+        GRABBING,
         HEADING_TO_JUNCTION,
         PARKING
     }
@@ -47,6 +48,24 @@ public class AutoCycle extends OpMode {
 
     public static double timeToCycle = 25;
 
+    public static double startX = -36;
+    public static double startY = -60;
+    public static double changeX = -36;
+    public static double changeY = -15;
+    public static double scoreX = -28;
+    public static double scoreY = -18;
+    public static double scoreHeading = -42;
+    public static double tangentX ;
+    public static double tangentY;
+    public static double coneX;
+    public static double coneY;
+    public static double readyParkX;
+    public static double readyParky;
+    public static double zoneOneX;
+    public static double zoneTwoX;
+    public static double zoneThreeX;
+
+
     ElapsedTime runtime = new ElapsedTime();
 
     @Override
@@ -69,21 +88,30 @@ public class AutoCycle extends OpMode {
 
     @Override
     public void start(){
-        startTraj = drive.trajectorySequenceBuilder(new Pose2d(-36.00, 60.00, Math.toRadians(180.00)))
-                .lineTo(new Vector2d(-36.00, -0.00))
-                .lineTo(new Vector2d(-30.00, -0.00))
+        startTraj = drive.trajectorySequenceBuilder(new Pose2d(-36, -60, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(-36, -15, Math.toRadians(-42)))
+                .lineToConstantHeading(new Vector2d(-28, -18))
                 .build();
+
+
+        junctionToStack = drive.trajectorySequenceBuilder(new Pose2d(-28, -18, Math.toRadians(-42)))
+                .setReversed(true)
+                .splineTo(new Vector2d(-44, -12), Math.toRadians(180))
+                .splineTo(new Vector2d(-60, -12), Math.toRadians(180))
+                .build();
+
+        stackToJunction = drive.trajectorySequenceBuilder(new Pose2d(-60, -12, Math.toRadians(0)))
+                .setReversed(false)
+                .splineTo(new Vector2d(-44, -12), Math.toRadians(0))
+                .splineTo(new Vector2d(-28, -18), Math.toRadians(-42))
+                .build();
+
+        left = drive.trajectorySequenceBuilder(stackToJunction.end())
+                .lineToConstantHeading(new Vector2d(-36, -12))
+                .lineToLinearHeading(new Pose2d(-60, -12, Math.toRadians(90)))
+                .build();
+
         drive.setPoseEstimate(startTraj.start());
-        junctionToStack = drive.trajectorySequenceBuilder(new Pose2d(-30.00, -0.00, Math.toRadians(180.00)))
-                .splineTo(new Vector2d(-38.94, 11.25), Math.toRadians(159.62))
-                .splineTo(new Vector2d(-60.00, 12.00), Math.toRadians(180.00))
-                .build();
-
-        stackToJunction = drive.trajectorySequenceBuilder(junctionToStack.end())
-                .splineTo(new Vector2d(-38.94, 12.75), Math.toRadians(200.38))
-                .splineTo(new Vector2d(-30.00, -0.00), Math.toRadians(180.00))
-                .build();
-
         drive.followTrajectorySequenceAsync(startTraj);
         slide.setSlidePosition(Constants.HIGH_POSITION);
         runtime.reset();
@@ -120,13 +148,20 @@ public class AutoCycle extends OpMode {
                 if (!drive.isBusy()){
                     if (Math.abs(slide.getSlidePos() - slide.getTargetPos()) < 5){
                         claw.grab();
-                        slide.setSlidePosition(Constants.HIGH_POSITION);
-                        drive.followTrajectorySequenceAsync(junctionToStack);
-                        autoState = States.HEADING_TO_JUNCTION;
+                        slide.setSlidePosition(Constants.RED_ZONE);
+                        autoState = States.GRABBING;
                     }
                 }
                 break;
+            case GRABBING:
+                if (Math.abs(slide.getSlidePos() - slide.getTargetPos()) < 5){
+                    slide.setSlidePosition(Constants.HIGH_POSITION);
+                    slide.rotateServo();
+                    drive.followTrajectorySequenceAsync(junctionToStack);
+                    autoState = States.HEADING_TO_JUNCTION;
+                }
         }
+
         drive.update();
     }
 }

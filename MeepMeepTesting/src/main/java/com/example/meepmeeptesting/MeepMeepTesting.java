@@ -72,13 +72,63 @@ public class MeepMeepTesting {
                                         .build()
                 );
 
+        RoadRunnerBotEntity anotherPath = new DefaultBotBuilder(meepMeep)
+                .setConstraints(30, 15, Math.toRadians(213), Math.toRadians(60), 13.75)
+                        .followTrajectorySequence(drive ->
+                                drive.trajectorySequenceBuilder(new Pose2d(-36, -60, Math.toRadians(90)))
+                                        .setReversed(false)
+                                .splineTo(new Vector2d(-36, -23.12), Math.toRadians(90.00))
+                                .splineTo(new Vector2d(-28.78, -6.51), Math.toRadians(45.00))
+                                .build()
+                        );
+
+        RoadRunnerBotEntity start = new DefaultBotBuilder(meepMeep)
+                .setConstraints(30, 15, Math.toRadians(213), Math.toRadians(60), 13.75)
+                        .followTrajectorySequence(drive  ->
+                                drive.trajectorySequenceBuilder(new Pose2d(-36, -60, Math.toRadians(90)))
+                                                .lineToLinearHeading(new Pose2d(-36, -15, Math.toRadians(-42)))
+                                .lineToConstantHeading(new Vector2d(-28, -18))
+                                        .setReversed(true)
+                                .splineTo(new Vector2d(-44, -12), Math.toRadians(180))
+                                .splineTo(new Vector2d(-60, -12), Math.toRadians(180))
+                                        .waitSeconds(1)
+                                        .setReversed(false)
+                                        .splineTo(new Vector2d(-44, -12), Math.toRadians(0))
+                                        .splineTo(new Vector2d(-28, -18), Math.toRadians(-42))
+                                .build()
+
+                        );
+
+        RoadRunnerBotEntity stackToJunction = new DefaultBotBuilder(meepMeep)
+                .setColorScheme(new ColorSchemeBlueDark())
+                .setConstraints(30, 15, Math.toRadians(213), Math.toRadians(60), 13.75)
+                        .followTrajectorySequence(drive ->
+                                drive.trajectorySequenceBuilder(new Pose2d(-60, -12, Math.toRadians(0)))
+                                        .setReversed(false)
+                                .splineTo(new Vector2d(-44, -12), Math.toRadians(0))
+                                .splineTo(new Vector2d(-28, -18), Math.toRadians(-42))
+                                .build()
 
 
+                        );
+
+        RoadRunnerBotEntity junctionToZStack = new DefaultBotBuilder(meepMeep)
+                .setColorScheme(new ColorSchemeRedLight())
+                .setConstraints(30, 15, Math.toRadians(213), Math.toRadians(60), 13.75)
+                        .followTrajectorySequence(drive ->
+                                drive.trajectorySequenceBuilder(new Pose2d(-28, -18, Math.toRadians(-42)))
+                                        .setReversed(true)
+                                        .splineTo(new Vector2d(-44, -12), Math.toRadians(180))
+                                        .splineTo(new Vector2d(-60, -12), Math.toRadians(180))
+                                        .build()
+                        );
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_POWERPLAY_OFFICIAL)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
-                .addEntity(newPath)
+                .addEntity(stackToJunction)
+                .addEntity(junctionToZStack)
+                .addEntity(start)
                 .start();
     }
 }
