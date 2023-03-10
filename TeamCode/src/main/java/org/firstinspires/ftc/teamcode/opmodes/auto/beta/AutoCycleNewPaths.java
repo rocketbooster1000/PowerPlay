@@ -98,8 +98,7 @@ public class AutoCycleNewPaths extends OpMode {
 
         double turn = -90 + scoreHeading;
         startTraj = drive.trajectorySequenceBuilder(new Pose2d(startX, startY, Math.toRadians(90)))
-                .lineTo(new Vector2d(changeX, changeY))
-                .turn(Math.toRadians(turn))
+                .lineToLinearHeading(new Pose2d(changeX, changeY, Math.toRadians(scoreHeading)))
                 .lineToConstantHeading(new Vector2d(scoreX, scoreY))
                 .build();
 
