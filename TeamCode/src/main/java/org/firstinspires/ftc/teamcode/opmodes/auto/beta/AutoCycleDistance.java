@@ -4,28 +4,26 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.util.Constants;
+import org.firstinspires.ftc.teamcode.mechanisms.Camera;
 import org.firstinspires.ftc.teamcode.mechanisms.Claw;
 import org.firstinspires.ftc.teamcode.mechanisms.Slide;
-import org.firstinspires.ftc.teamcode.mechanisms.Camera;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.util.Constants;
 import org.firstinspires.ftc.teamcode.vision.SleeveDetection;
 
 @Config
-@Autonomous()
-public class AutoCycle extends OpMode {
+@Autonomous(name = "Distance left")
+public class AutoCycleDistance extends OpMode {
 
     enum States{
         START,
         HEADING_TO_CONES_1,
         HEADING_TO_CONES_2,
-        GRABBING_1,
-        GRABBING_2,
+        GRABBING,
         HEADING_TO_JUNCTION,
         PARKING
     }
@@ -63,9 +61,9 @@ public class AutoCycle extends OpMode {
     public static double scoreY = -18;
     public static double scoreHeading = -42;
     public static double tangentX = -44;
-    public static double tangentY = -10;
-    public static double coneX = -63;
-    public static double coneY = -10;
+    public static double tangentY = -12;
+    public static double coneX = -60;
+    public static double coneY = -12;
     public static double readyParkX = -36;
     public static double readyParky = -12;
     public static double zoneOneX = -60;
@@ -135,12 +133,12 @@ public class AutoCycle extends OpMode {
                 .lineToLinearHeading(new Pose2d(zoneThreeX, readyParky, Math.toRadians(90)))
                 .build();
 
-        centerAlt = drive.trajectorySequenceBuilder(new Pose2d(coneX, coneY, Math.toRadians(0)))
+        centerAlt = drive.trajectorySequenceBuilder(junctionToStack.end())
                 .lineTo(new Vector2d(zoneTwoX, coneY))
                 .turn(Math.toRadians(90))
                 .build();
 
-        rightAlt = drive.trajectorySequenceBuilder(new Pose2d(coneX, coneY, Math.toRadians(0)))
+        rightAlt = drive.trajectorySequenceBuilder(junctionToStack.end())
                 .lineTo(new Vector2d(zoneThreeX, coneY))
                 .turn(Math.toRadians(90))
                 .build();
@@ -212,7 +210,7 @@ public class AutoCycle extends OpMode {
                 }
                 break;
             case HEADING_TO_CONES_1:
-                if  (clawTimer.time() > 0.6){
+                if  (clawTimer.time() > 0.3){
                     slide.rotateServo();
                     autoState = States.HEADING_TO_CONES_2;
                 }
@@ -227,19 +225,12 @@ public class AutoCycle extends OpMode {
                 if (!drive.isBusy()){
                     if (Math.abs(slide.getSlidePos() - slide.getTargetPos()) < 5){
                         claw.grab();
-                        clawTimer.reset();
-                        autoState = States.GRABBING_1;
+                        slide.setSlidePosition(Constants.RED_ZONE);
+                        autoState = States.GRABBING;
                     }
                 }
                 break;
-            case GRABBING_1:
-                if (clawTimer.time() > 0.6){
-                    slide.setSlidePosition(Constants.RED_ZONE);
-                    autoState = States.GRABBING_2;
-
-                }
-                break;
-            case GRABBING_2:
+            case GRABBING:
                 if (Math.abs(slide.getSlidePos() - slide.getTargetPos()) < 5){
                     if (runtime.time() > 25){
                         if (signalZone == SleeveDetection.ParkingPosition.LEFT){
@@ -261,13 +252,12 @@ public class AutoCycle extends OpMode {
                 }
                 break;
             case PARKING:
-                if (slide.getTargetPos() != 0 && signalZone != SleeveDetection.ParkingPosition.LEFT){
+                if (slide.getTargetPos() != 0){
                     slide.setSlidePosition(0);
                 }
                 break;
         }
         telemetry.addData("Cone indes: ", coneIndex);
-        telemetry.addData("State: ", autoState);
         drive.update();
     }
 }
