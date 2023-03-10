@@ -26,7 +26,10 @@ public class AutoCycleNewPaths extends OpMode {
         GRABBING_1,
         GRABBING_2,
         HEADING_TO_JUNCTION,
-        PARKING
+        PARKING,
+        STILL_1,
+        STILL_2,
+        STILL_3
     }
 
     SampleMecanumDrive drive = null;
@@ -44,6 +47,7 @@ public class AutoCycleNewPaths extends OpMode {
     TrajectorySequence left;
     TrajectorySequence center;
     TrajectorySequence right;
+    TrajectorySequence leftAlt;
     TrajectorySequence centerAlt;
     TrajectorySequence rightAlt;
 
@@ -91,17 +95,7 @@ public class AutoCycleNewPaths extends OpMode {
         firstTimeCone = true;
         start = true;
         clawFirstTime = true;
-    }
 
-    @Override
-    public void init_loop(){
-        claw.grab();
-        signalZone = camera.returnZoneEnumerated();
-        telemetry.addData("Zone: ", signalZone);
-    }
-
-    @Override
-    public void start(){
         double turn = -90 + scoreHeading;
         startTraj = drive.trajectorySequenceBuilder(new Pose2d(startX, startY, Math.toRadians(90)))
                 .lineTo(new Vector2d(changeX, changeY))
@@ -141,6 +135,11 @@ public class AutoCycleNewPaths extends OpMode {
                 .lineToLinearHeading(new Pose2d(zoneThreeX, readyParky, Math.toRadians(90)))
                 .build();
 
+        leftAlt = drive.trajectorySequenceBuilder(new Pose2d(coneX, coneY, Math.toRadians(0)))
+                .lineTo(new Vector2d(zoneOneX, coneY))
+                .turn(Math.toRadians(90))
+                .build();
+
         centerAlt = drive.trajectorySequenceBuilder(new Pose2d(coneX, coneY, Math.toRadians(0)))
                 .lineTo(new Vector2d(zoneTwoX, coneY))
                 .turn(Math.toRadians(90))
@@ -150,6 +149,17 @@ public class AutoCycleNewPaths extends OpMode {
                 .lineTo(new Vector2d(zoneThreeX, coneY))
                 .turn(Math.toRadians(90))
                 .build();
+    }
+
+    @Override
+    public void init_loop(){
+        claw.grab();
+        signalZone = camera.returnZoneEnumerated();
+        telemetry.addData("Zone: ", signalZone);
+    }
+
+    @Override
+    public void start(){
 
 
 
@@ -250,6 +260,7 @@ public class AutoCycleNewPaths extends OpMode {
                     if (runtime.time() > 25){
                         if (signalZone == SleeveDetection.ParkingPosition.LEFT){
                             autoState = States.PARKING;
+                            drive.followTrajectorySequenceAsync(leftAlt);
 
                         } else if (signalZone == SleeveDetection.ParkingPosition.CENTER){
                             autoState = States.PARKING;
@@ -267,8 +278,16 @@ public class AutoCycleNewPaths extends OpMode {
                 }
                 break;
             case PARKING:
-                if (slide.getTargetPos() != 0 && signalZone != SleeveDetection.ParkingPosition.LEFT){
+                if (!drive.isBusy()){
+                    slide.setSlidePosition(Constants.GROUND_POSITION);
+                    autoState = States.STILL_1;
+                }
+                break;
+            case STILL_1:
+                if (Math.abs(slide.getSlidePos() - slide.getTargetPos()) < 5){
+                    claw.release();
                     slide.setSlidePosition(0);
+                    autoState = States.STILL_3;
                 }
                 break;
         }
