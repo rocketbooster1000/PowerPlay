@@ -7,9 +7,11 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.mechanisms.Camera;
 import org.firstinspires.ftc.teamcode.mechanisms.Claw;
 import org.firstinspires.ftc.teamcode.mechanisms.Slide;
+import org.firstinspires.ftc.teamcode.mechanisms.beta.DistanceSensorLeft;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.util.Constants;
@@ -32,6 +34,7 @@ public class AutoCycleDistance extends OpMode {
     Slide slide = new Slide();
     Claw claw = new Claw();
     Camera camera = new Camera();
+    DistanceSensorLeft leftSensor = new DistanceSensorLeft();
 
     ElapsedTime slideTimer = new ElapsedTime();
     ElapsedTime clawTimer = new ElapsedTime();
@@ -84,6 +87,7 @@ public class AutoCycleDistance extends OpMode {
         slide.init(hardwareMap);
         claw.init(hardwareMap);
         camera.init(hardwareMap);
+        leftSensor.init(hardwareMap);
         autoState = States.START;
         firstTimeCheckForRotation = true;
         firstTimeCone = true;
@@ -96,6 +100,7 @@ public class AutoCycleDistance extends OpMode {
         claw.grab();
         signalZone = camera.returnZoneEnumerated();
         telemetry.addData("Zone: ", signalZone);
+        telemetry.addData("DIstance from wall: ", leftSensor.returnDistance(DistanceUnit.INCH));
     }
 
     @Override
