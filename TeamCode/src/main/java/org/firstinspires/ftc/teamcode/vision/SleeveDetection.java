@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.vision;
 
+import com.acmerobotics.dashboard.config.Config;
+
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
@@ -8,6 +10,7 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
+@Config
 public class SleeveDetection extends OpenCvPipeline {
     /*
     YELLOW  = Parking Left
@@ -22,7 +25,7 @@ public class SleeveDetection extends OpenCvPipeline {
     }
 
     // TOPLEFT anchor point for the bounding box
-    private static Point SLEEVE_TOPLEFT_ANCHOR_POINT = new Point(10, 115);
+    public static Point SLEEVE_TOPLEFT_ANCHOR_POINT = new Point(15, 170);
 
     // Width and height for the bounding box
     public static int REGION_WIDTH = 50; //200
