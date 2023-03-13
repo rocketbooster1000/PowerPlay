@@ -26,6 +26,7 @@
 // oppisiite side is 0.04 for dropping cones
 package org.firstinspires.ftc.teamcode.opmodes.teleop;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -36,6 +37,7 @@ import org.firstinspires.ftc.teamcode.mechanisms.Claw;
 import org.firstinspires.ftc.teamcode.mechanisms.DriveTrain;
 
 @TeleOp(name = "drivers, pick up your controllers")
+@Disabled
 public class TeleOpFull extends OpMode {
 
 

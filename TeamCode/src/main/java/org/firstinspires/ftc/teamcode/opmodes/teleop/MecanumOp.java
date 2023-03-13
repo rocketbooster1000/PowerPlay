@@ -36,6 +36,7 @@ public class MecanumOp extends OpMode {
         if (gamepad1.y && !yAlreadyPressed){
             board.resetYaw();
         }
+        yAlreadyPressed = gamepad1.y;
 
     }
 }

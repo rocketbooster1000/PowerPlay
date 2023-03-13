@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySe
 import org.firstinspires.ftc.teamcode.vision.SleeveDetection;
 
 @Config
-@Autonomous()
+@Autonomous(name = "Signal park")
 public class RRParking extends OpMode {
     SampleMecanumDrive drive = null;
     Camera camera = new Camera();

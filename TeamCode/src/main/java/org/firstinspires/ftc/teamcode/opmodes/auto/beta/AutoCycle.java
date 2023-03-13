@@ -18,6 +18,7 @@ import org.firstinspires.ftc.teamcode.vision.SleeveDetection;
 
 @Config
 @Autonomous()
+@Disabled
 public class AutoCycle extends OpMode {
 
     enum States{

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes.auto.beta;
+package org.firstinspires.ftc.teamcode.opmodes.auto;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -11,15 +11,15 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.mechanisms.Camera;
 import org.firstinspires.ftc.teamcode.mechanisms.Claw;
 import org.firstinspires.ftc.teamcode.mechanisms.Slide;
-import org.firstinspires.ftc.teamcode.mechanisms.beta.DistanceSensorLeft;
+import org.firstinspires.ftc.teamcode.mechanisms.beta.DistanceSensorRight;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.util.Constants;
 import org.firstinspires.ftc.teamcode.vision.SleeveDetection;
 
 @Config
-@Autonomous()
-public class AutoCycleNewPaths extends OpMode {
+@Autonomous(name = "Right 1 + 1")
+public class AutoCycleNewPathsRight extends OpMode {
 
     enum States{
         START,
@@ -39,7 +39,7 @@ public class AutoCycleNewPaths extends OpMode {
     Slide slide = new Slide();
     Claw claw = new Claw();
     Camera camera = new Camera();
-    DistanceSensorLeft sensor = new DistanceSensorLeft();
+    DistanceSensorRight sensor = new DistanceSensorRight();
 
     ElapsedTime slideTimer = new ElapsedTime();
     ElapsedTime clawTimer = new ElapsedTime();
@@ -54,8 +54,6 @@ public class AutoCycleNewPaths extends OpMode {
     TrajectorySequence leftAlt;
     TrajectorySequence centerAlt;
     TrajectorySequence rightAlt;
-    TrajectorySequence stackToJunctionAlt;
-    TrajectorySequence rightScore;
 
     States autoState;
     SleeveDetection.ParkingPosition signalZone;
@@ -63,28 +61,24 @@ public class AutoCycleNewPaths extends OpMode {
 
     int coneIndex;
 
-    public static double timeToCycle = 24;
+    public static double timeToCycle = 16;
 
-    public static double startX = -36;
+    public static double startX = 36;
     public static double startY = -63;
-    public static double changeX = -36;
+    public static double changeX = 36;
     public static double changeY = -13;
-    public static double scoreX = -28;
-    public static double scoreY = -18.5;
-    public static double scoreHeading = -42;
-    public static double tangentX = -44;
-    public static double tangentY = -11;
-    public static double coneX = -63;
-    public static double coneY = -11;
-    public static double readyParkX = -36;
-    public static double readyParky = -11;
-    public static double zoneOneX = -60;
-    public static double zoneTwoX = -36;
-    public static double zoneThreeX = -12;
-    public static double altY = 0.5;
-    public static double zoneThreeScore = -24;
-    public static double zoneThreeScoreX = -20;
-    public static double zoneThreeScoreY = -18;
+    public static double scoreX = 28;
+    public static double scoreY = -18;
+    public static double scoreHeading = 222;
+    public static double tangentX = 44;
+    public static double tangentY = -10;
+    public static double coneX = 63.6;
+    public static double coneY = -10;
+    public static double readyParkX = 36;
+    public static double readyParky = -12;
+    public static double zoneOneX = 60;
+    public static double zoneTwoX = 36;
+    public static double zoneThreeX = 12;
 
     boolean firstTimeCheckForRotation;
     boolean firstTimeCone;
@@ -92,7 +86,6 @@ public class AutoCycleNewPaths extends OpMode {
     boolean clawFirstTime;
     boolean wantRotate;
     boolean amParking;
-    boolean headingToJunctionRotate;
 
     ElapsedTime runtime = new ElapsedTime();
 
@@ -110,8 +103,6 @@ public class AutoCycleNewPaths extends OpMode {
         clawFirstTime = true;
         wantRotate = false;
         amParking = false;
-        headingToJunctionRotate = true;
-        coneIndex = -0;
 
 
     }
@@ -123,7 +114,6 @@ public class AutoCycleNewPaths extends OpMode {
         telemetry.addData("Zone: ", signalZone);
         telemetry.addData("Distance from wall: ", sensor.returnDistance(DistanceUnit.INCH));
     }
-
 
     @Override
     public void start(){
@@ -137,22 +127,38 @@ public class AutoCycleNewPaths extends OpMode {
 
         junctionToStack = drive.trajectorySequenceBuilder(startTraj.end())
                 .setReversed(true)
-                .splineTo(new Vector2d(tangentX, tangentY), Math.toRadians(180))
-                .splineTo(new Vector2d(coneX, coneY), Math.toRadians(180))
+                .splineTo(new Vector2d(tangentX, tangentY), Math.toRadians(0))
+                .splineTo(new Vector2d(coneX, coneY), Math.toRadians(0))
                 .build();
 
 
 
-        stackToJunction = drive.trajectorySequenceBuilder(new Pose2d(coneX, coneY, Math.toRadians(0)))
-                .splineTo(new Vector2d(tangentX, tangentY), Math.toRadians(0))
+        stackToJunction = drive.trajectorySequenceBuilder(new Pose2d(coneX, coneY, Math.toRadians(180)))
+                .splineTo(new Vector2d(tangentX, tangentY), Math.toRadians(180))
                 .splineTo(new Vector2d(scoreX, scoreY), Math.toRadians(scoreHeading))
                 .build();
 
+        right = drive.trajectorySequenceBuilder(stackToJunction.end())
+                .lineTo(new Vector2d(readyParkX, readyParky))
+                .turn(Math.toRadians(-turn))
+                .lineTo(new Vector2d(25, readyParky))
+                .lineTo(new Vector2d(zoneOneX, readyParky))
+                .build();
 
+        center = drive.trajectorySequenceBuilder(stackToJunction.end())
+                .lineTo(new Vector2d(readyParkX, readyParky))
+                .turn(Math.toRadians(-turn))
+                .lineTo(new Vector2d(25, readyParky))
+                .lineTo(new Vector2d(readyParkX, readyParky))
+                .build();
 
+        left = drive.trajectorySequenceBuilder(stackToJunction.end())
+                .lineTo(new Vector2d(readyParkX, readyParky))
+                .turn(Math.toRadians(-turn))
+                .lineTo(new Vector2d(zoneThreeX, readyParky))
+                .build();
 
-
-        leftAlt = drive.trajectorySequenceBuilder(new Pose2d(coneX, coneY, Math.toRadians(0)))
+        rightAlt = drive.trajectorySequenceBuilder(new Pose2d(coneX, coneY, Math.toRadians(0)))
                 .lineTo(new Vector2d(zoneOneX, coneY))
                 .turn(Math.toRadians(90))
                 .build();
@@ -162,44 +168,16 @@ public class AutoCycleNewPaths extends OpMode {
                 .turn(Math.toRadians(90))
                 .build();
 
-        rightAlt = drive.trajectorySequenceBuilder(new Pose2d(coneX, coneY, Math.toRadians(0)))
+        leftAlt = drive.trajectorySequenceBuilder(new Pose2d(coneX, coneY, Math.toRadians(0)))
                 .lineTo(new Vector2d(zoneThreeX, coneY))
                 .turn(Math.toRadians(90))
                 .build();
 
         junctionToStackAlt = drive.trajectorySequenceBuilder(stackToJunction.end())
                 .setReversed(true)
-                .splineTo(new Vector2d(tangentX, tangentY), Math.toRadians(180))
-                .splineTo(new Vector2d(coneX, coneY), Math.toRadians(180))
-                .build();
-
-        stackToJunctionAlt = drive.trajectorySequenceBuilder(new Pose2d(coneX, coneY, Math.toRadians(0)))
                 .splineTo(new Vector2d(tangentX, tangentY), Math.toRadians(0))
-                .splineTo(new Vector2d(scoreX, scoreY - altY), Math.toRadians(scoreHeading))
+                .splineTo(new Vector2d(coneX, coneY), Math.toRadians(0))
                 .build();
-
-        left = drive.trajectorySequenceBuilder(stackToJunction.end())
-                .lineToLinearHeading(new Pose2d(readyParkX, readyParky, Math.toRadians(90)))
-                .lineTo(new Vector2d(zoneOneX, readyParky))
-                .build();
-
-        center = drive.trajectorySequenceBuilder(stackToJunctionAlt.end())
-                .lineTo(new Vector2d(readyParkX, readyParky))
-                .turn(Math.toRadians(-turn))
-                .build();
-
-        rightScore = drive.trajectorySequenceBuilder(new Pose2d(coneX,coneY,Math.toRadians(0)))
-                .lineTo(new Vector2d(zoneThreeScore, coneY))
-                .lineToLinearHeading(new Pose2d(zoneThreeX, coneY, Math.toRadians(-scoreHeading)))
-                .lineToConstantHeading(new Vector2d(zoneThreeScoreX, zoneThreeScoreY))
-                .build();
-
-        right = drive.trajectorySequenceBuilder(rightScore.end())
-                .lineTo(new Vector2d(zoneThreeX, coneY))
-                .turn(Math.toRadians(90 - scoreHeading))
-                .build();
-
-
 
 
         drive.setPoseEstimate(new Pose2d(startX, startY, Math.toRadians(90)));
@@ -252,14 +230,12 @@ public class AutoCycleNewPaths extends OpMode {
                     clawFirstTime = true;
                     if (runtime.time() > timeToCycle){
                         if (signalZone == SleeveDetection.ParkingPosition.LEFT){
-                            drive.followTrajectorySequenceAsync(junctionToStack);
-
+                            drive.followTrajectorySequenceAsync(left);
                         } else if (signalZone == SleeveDetection.ParkingPosition.CENTER){
                             drive.followTrajectorySequenceAsync(center);
                         } else {
                             drive.followTrajectorySequenceAsync(right);
                         }
-                        clawTimer.reset();
                         autoState = States.PARKING;
                         amParking = true;
                         wantRotate = true;
@@ -303,7 +279,7 @@ public class AutoCycleNewPaths extends OpMode {
                 break;
             case GRABBING_2:
                 if (Math.abs(slide.getSlidePos() - slide.getTargetPos()) < 5){
-                    if (runtime.time() > 25){
+                    if (runtime.time() > timeToCycle){
                         if (signalZone == SleeveDetection.ParkingPosition.LEFT){
                             autoState = States.PARKING;
                             drive.followTrajectorySequenceAsync(leftAlt);
@@ -319,28 +295,16 @@ public class AutoCycleNewPaths extends OpMode {
                         break;
                     }
                     if (!amParking) {
-
                         slide.setSlidePosition(Constants.MEDIUM_POSITION);
-
-                        if (coneIndex < 0){
-                            drive.followTrajectorySequenceAsync(stackToJunction);
-                        } else if (coneIndex == 1 && signalZone == SleeveDetection.ParkingPosition.RIGHT){
-                            drive.followTrajectorySequenceAsync(rightScore);
-                            headingToJunctionRotate = false;
-                        } else {
-                            drive.followTrajectorySequenceAsync(stackToJunctionAlt);
-                        }
-
-                        if (headingToJunctionRotate){
-                            slide.rotateServo();
-                        }
+                        slide.rotateServo();
+                        drive.followTrajectorySequenceAsync(stackToJunction);
                         autoState = States.HEADING_TO_JUNCTION;
                     }
                 }
                 break;
             case PARKING:
-                if (clawTimer.time() > 1.2){
-                    if (wantRotate && !(signalZone == SleeveDetection.ParkingPosition.RIGHT)){
+                if (clawTimer.time() > 0.6){
+                    if (wantRotate){
                         claw.release();
                         slide.rotateServo();
                         slide.setSlidePosition(0);
@@ -375,7 +339,6 @@ public class AutoCycleNewPaths extends OpMode {
         }
         telemetry.addData("Cone indes: ", coneIndex);
         telemetry.addData("State: ", autoState);
-        telemetry.addData("Slidetarget:", slide.getTargetPos());
         drive.update();
     }
 }
