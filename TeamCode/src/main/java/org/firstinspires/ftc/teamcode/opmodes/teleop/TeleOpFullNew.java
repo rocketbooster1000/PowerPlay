@@ -194,6 +194,22 @@ public class TeleOpFullNew extends OpMode {
         //--------------------------------------------
         //slide
 
+        if (gamepad1.dpad_down && !downAlreadyPressed){
+            slide.setSlidePosition(Constants.GROUND_POSITION);
+        }
+
+        if (gamepad1.dpad_left && !leftAlreadyPressed){
+            slide.setSlidePosition(Constants.LOW_POSITION);
+        }
+
+        if (gamepad1.dpad_up && !upAlreadyPressed){
+            slide.setSlidePosition(Constants.MEDIUM_POSITION);
+        }
+
+        if (gamepad1.dpad_right && !rightAlreadyPressed){
+            slide.setSlidePosition(Constants.HIGH_POSITION);
+        }
+
 
         if ((gamepad1.left_trigger != 0) || (gamepad1.right_trigger !=0)){
             opmodeSlidePower = gamepad1.right_trigger - gamepad1.left_trigger;
