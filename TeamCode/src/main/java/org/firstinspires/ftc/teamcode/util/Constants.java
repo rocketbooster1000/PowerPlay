@@ -17,16 +17,16 @@ public class Constants {
     public static double MOTOR_SLIDE_POWER = 0.95; //how fast will the slide move (as a percentage)
     public static final double MOTOR_SLIDE_RESET_POWER = -0.3; //how fast slide moves when resetting (as a percentage) KEEP THIS VALUE NEGATIVE
     public static int GROUND_POSITION = 60;//folowing variables are encoder tick values
-    public static int LOW_POSITION = 1900; //low junction
-    public static int MEDIUM_POSITION = 3000; //medium junction
-    public static int HIGH_POSITION = 4300; //high junction
-    public static int CONE_ONE = 225; //conestack 1 225
-    public static int CONE_TWO = 348; //coestack 2 348
-    public static int CONE_THREE = 492; //conestack 3 492
-    public static int CONE_FOUR = 653; //conestack 4 653
-    public static int RED_ZONE = 1600; //the height at which it is safe to rotate the claw, this was initially 10
+    public static int LOW_POSITION = 520; //low junction
+    public static int MEDIUM_POSITION = 870; //medium junction
+    public static int HIGH_POSITION = 1200; //high junction
+    public static int CONE_ONE = 190; //conestack 1 225
+    public static int CONE_TWO = 240; //coestack 2 348
+    public static int CONE_THREE = 270; //conestack 3 492
+    public static int CONE_FOUR = 320; //conestack 4 653
+    public static int RED_ZONE = 525; //the height at which it is safe to rotate the claw, this was initially 10
     public static int LINEAR_SLIDE_MINIMUM = 60; //lowest point for linear slide
-    public static int LINEAR_SLIDE_MAXIMUM = 4320; //highest point for linear slide
+    public static int LINEAR_SLIDE_MAXIMUM = 1220; //highest point for linear slide
     public static final int LINEAR_SLIDE_MARGIN_ERROR = 10; //a margin of error to account for PID
     //Rotation servo
     public static final double SLIDE_SERVO_ZERO_POSITION = 0.73;
