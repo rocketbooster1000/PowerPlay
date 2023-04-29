@@ -19,14 +19,14 @@ public class Constants {
     public static int GROUND_POSITION = 60;//folowing variables are encoder tick values
     public static int LOW_POSITION = 520; //low junction
     public static int MEDIUM_POSITION = 870; //medium junction
-    public static int HIGH_POSITION = 1200; //high junction
+    public static int HIGH_POSITION = 1220; //high junction
     public static int CONE_ONE = 190; //conestack 1 225
     public static int CONE_TWO = 240; //coestack 2 348
     public static int CONE_THREE = 270; //conestack 3 492
     public static int CONE_FOUR = 320; //conestack 4 653
     public static int RED_ZONE = 525; //the height at which it is safe to rotate the claw, this was initially 10
     public static int LINEAR_SLIDE_MINIMUM = 60; //lowest point for linear slide
-    public static int LINEAR_SLIDE_MAXIMUM = 1220; //highest point for linear slide
+    public static int LINEAR_SLIDE_MAXIMUM = 1280; //highest point for linear slide
     public static final int LINEAR_SLIDE_MARGIN_ERROR = 10; //a margin of error to account for PID
     //Rotation servo
     public static final double SLIDE_SERVO_ZERO_POSITION = 0.73;
